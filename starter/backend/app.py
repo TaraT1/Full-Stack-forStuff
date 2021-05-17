@@ -39,7 +39,7 @@ def create_book():
   try:
     book = Book(title=new_title, author=new_author, location=new_location)
     book.insert
-    return json
+    return json[{
       'success': True,
       'created': book.id,
       'total_books': len(Book.query.all())
@@ -47,7 +47,9 @@ def create_book():
 
     except:
       abort(422)
-      
+
+  
+
 
 
 return app
