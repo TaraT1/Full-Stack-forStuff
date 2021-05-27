@@ -36,10 +36,20 @@ class Book(db.Model):
     description = Column(String)
     notes = Column(String)
     form = Column(String)
-    location = Column(String)
+    location = db.relationship('Location', backref='Book', lazy=True)
     #future: Zotero integration
     #future: read - date last read
 
+class Location(db.Model): #foreign_id in other models
+    __tablename__ = 'Location'
+
+    id = Column(Integer, primary_key = True)
+    name = Column(String)
+    type = Column(String)
+    description = Column(String)
+    referenceid = Column(String)
+
+'''
 class Video(db.Model):
     __tablename__ = 'Video'
 
@@ -64,15 +74,6 @@ class Audio(db.Model):
     form = Column(String)
     location = Column(String)
 
-class Location(db.Model):
-    __tablename__ = 'Location'
-
-    id = Column(Integer, primary_key = True)
-    name = Column(String)
-    type = Column(String)
-    description = Column(String)
-    referenceid = Column(String)
-
 class Object(db.Model):
     __tablename__ = 'Object'
 
@@ -82,6 +83,9 @@ class Object(db.Model):
     notes = Column(String)
     form = Column(String)
     location = Column(Integer)
+'''
+
+
 
 
 

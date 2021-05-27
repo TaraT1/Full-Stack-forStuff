@@ -28,7 +28,7 @@ def after_request(response):
   return response
 
 #Controllers
-@app.route('/books', methods='[POST]')
+@app.route('/books/create', methods=['POST'])
 def create_book():
   body = request.get_json()
 
@@ -48,7 +48,57 @@ def create_book():
     except:
       abort(422)
 
-  
+@app.route('/books', methods = ['GET'])
+def get_books():
+
+  try:
+    books = Book.query.order_by(Book.id).all()
+    return jsonify({
+      'success': True,
+      'books': books,
+      'total_books': len(Book.query.all())
+    })
+
+    except:
+      abort(422)
+
+@app.route('books/<int:book_id>', methods=['PATCH'])
+def update_book(book_id):
+  try:
+    book = Book.query.filter(Book.id==book_id).one_or_none()
+    #TODO need form for updates
+
+    if book is None:
+      abort(404)
+
+      book.update()
+
+      return jsonify({
+        'success': True,
+      })
+
+    except:
+      abort(400)
+
+@app.route('/books/<int:book_id>, methods=['DELETE'])
+def delete_book(book_id):
+  try:
+    book = Book.query.filter(Book.id==book_id).one_or_none()
+
+    if book is None:
+      abort(404)
+
+    book.delete()
+
+    return jsonify({
+      'success': True,
+    })
+
+  except:
+    abort(404)
+
+
+
 
 
 
