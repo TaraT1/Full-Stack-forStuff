@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, abort, jsonify
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -11,7 +11,6 @@ def create_app(test_config=None):
   app = Flask(__name__)
   setup_db(app)
   CORS(app)
-
 
 '''
 APP = create_app()
@@ -34,10 +33,11 @@ def create_book():
 
   new_title = body.get('title', None)
   new_author = body.get('author', None)
+  new_form = body.get('form', None)
   new_location = body.get('location', None)
 
   try:
-    book = Book(title=new_title, author=new_author, location=new_location)
+    book = Book(title=new_title, author=new_author, form=new_form, location=new_location)
     book.insert
     return json[{
       'success': True,
@@ -45,8 +45,8 @@ def create_book():
       'total_books': len(Book.query.all())
     }]
 
-    except:
-      abort(422)
+  except:
+    abort(422)
 
 @app.route('/books', methods = ['GET'])
 def get_books():
@@ -59,8 +59,8 @@ def get_books():
       'total_books': len(Book.query.all())
     })
 
-    except:
-      abort(422)
+  except:
+    abort(422)
 
 @app.route('books/<int:book_id>', methods=['PATCH'])
 def update_book(book_id):
@@ -71,14 +71,14 @@ def update_book(book_id):
     if book is None:
       abort(404)
 
-      book.update()
+    book.update()
 
-      return jsonify({
-        'success': True,
-      })
+    return jsonify({
+      'success': True,
+    })
 
-    except:
-      abort(400)
+  except:
+    abort(400)
 
 @app.route('/books/<int:book_id>, methods=['DELETE'])
 def delete_book(book_id):

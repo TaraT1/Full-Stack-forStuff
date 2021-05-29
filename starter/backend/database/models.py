@@ -4,19 +4,9 @@ from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-#TODO  Referencing bkshlf
-database_name = "stuff"
-database_path = "postgres://{}:{}@{}/{}".format('student', 'student','localhost:5432', database_name)
-
-db = SQLAlchemy()
-
-def setup_db(app, database_path=database_path):
-    # binds flask app and SQLAlchemy service
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    db.app = app
-    db.init_app(app)
-    db.create_all()
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
+db = SQLAlchemy(app)
 
 '''
 def db_drop_and_create_all():
@@ -28,26 +18,34 @@ def db_drop_and_create_all():
 class Book(db.Model):
     __tablename__ = 'Book'
 
-    id = Column(Integer, primary_key=True)
-    title = Column(String)
-    author = Column(String)
-    subject = Column(String)
-    genre = Column(String)
-    description = Column(String)
-    notes = Column(String)
-    form = Column(String)
-    location = db.relationship('Location', backref='Book', lazy=True)
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    author = db.Column(db.String)
+    #subject = db.Column(db.String)
+    #genre = db.Column(db.String)
+    #description = db.Column(db.String)
+    #notes = db.Column(db.String)
+    form = db.Column(db.String)
+    location_id = db.relationship('Location', backref='Book', lazy=True)
     #future: Zotero integration
     #future: read - date last read
+
+    def __repr__(self):
+        return f'<Book ID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
 
 class Location(db.Model): #foreign_id in other models
     __tablename__ = 'Location'
 
-    id = Column(Integer, primary_key = True)
-    name = Column(String)
-    type = Column(String)
-    description = Column(String)
-    referenceid = Column(String)
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String)
+    type = db.Column(db.String)
+    #description = db.Column(db.String)
+    #referenceid = db.Column(db.String)
+    book_id = db.Column(db.Integer. db.ForeignKey('Book.id'))
+
+    def __repr__(self):
+        return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
+
 
 '''
 class Video(db.Model):
