@@ -4,28 +4,69 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
 
-from models import setup_db
+#from models import setup_db - Integrating models.py in app.py
 
+app = Flask(__name__)
+CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
+db = SQLAlchemy(app)
+
+migrate = Migrate(app, db)
+
+
+''' Not sure how this should fit in
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
   setup_db(app)
   CORS(app)
 
-'''
 APP = create_app()
 
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', port=8080, debug=True)
 '''
 
+class Book(db.Model):
+    __tablename__ = 'Book'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    author = db.Column(db.String)
+    #subject = db.Column(db.String)
+    #genre = db.Column(db.String)
+    #description = db.Column(db.String)
+    #notes = db.Column(db.String)
+    form = db.Column(db.String)
+    location_id = db.relationship('Location', backref='Book', lazy=True)
+    #future: Zotero integration
+    #future: read - date last read
+
+    def __repr__(self):
+        return f'<Book ID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
+
+class Location(db.Model): #foreign_id in other models
+    __tablename__ = 'Location'
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String)
+    type = db.Column(db.String)
+    #description = db.Column(db.String)
+    #referenceid = db.Column(db.String)
+    book_id = db.Column(db.Integer, db.ForeignKey('Book.id'))
+
+    def __repr__(self):
+        return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
+
+#db.create_all() - using migrate to sync 
+'''
 #CORS headers
-@app.after_request(response)
+@app.after_request()
 def after_request(response):
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   return response
-
+'''
 #Controllers
 @app.route('/books/create', methods=['POST'])
 def create_book():
@@ -62,7 +103,7 @@ def get_books():
   except:
     abort(422)
 
-@app.route('books/<int:book_id>', methods=['PATCH'])
+@app.route('/books/<int:book_id>', methods=['PATCH'])
 def update_book(book_id):
   try:
     book = Book.query.filter(Book.id==book_id).one_or_none()
@@ -80,7 +121,7 @@ def update_book(book_id):
   except:
     abort(400)
 
-@app.route('/books/<int:book_id>, methods=['DELETE'])
+@app.route('/books/<int:book_id>', methods=['DELETE'])
 def delete_book(book_id):
   try:
     book = Book.query.filter(Book.id==book_id).one_or_none()
@@ -97,9 +138,18 @@ def delete_book(book_id):
   except:
     abort(404)
 
+#----------------------------------------------------------------------------#
+# Launch.
+#----------------------------------------------------------------------------#
 
+# Default port:
+if __name__ == '__main__':
+    app.run()
 
-
-
-
-return app
+# Or specify port manually:
+'''
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+'''
+#return app

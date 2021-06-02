@@ -1,4 +1,4 @@
-#ref trivia. 
+#ref trivia. Integrated models into app.py
 import os
 from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
@@ -46,7 +46,7 @@ class Location(db.Model): #foreign_id in other models
     def __repr__(self):
         return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
 
-
+#db.create_all() - using migrate to sync db
 '''
 class Video(db.Model):
     __tablename__ = 'Video'
