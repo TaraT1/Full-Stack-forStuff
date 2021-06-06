@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 #from models import setup_db - Integrating models.py in app.py
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
 db = SQLAlchemy(app)
 
@@ -58,17 +58,17 @@ class Location(db.Model): #foreign_id in other models
     def __repr__(self):
         return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
 
-#db.create_all() - using migrate to sync 
-'''
+#db.create_all() - using migrate to sync, so no db.create_all() 
+
 #CORS headers
-@app.after_request()
+@app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization, true')
+  response.headers.add('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
   return response
-'''
+
 #Controllers
-@app.route('/books/create', methods=['POST'])
+@app.route('/books/create', methods=['POST', 'GET'])
 def create_book():
   body = request.get_json()
 
@@ -79,12 +79,12 @@ def create_book():
 
   try:
     book = Book(title=new_title, author=new_author, form=new_form, location=new_location)
-    book.insert
-    return json[{
+    book.insert()
+    return jsonify({
       'success': True,
       'created': book.id,
       'total_books': len(Book.query.all())
-    }]
+    })
 
   except:
     abort(422)
@@ -151,5 +151,5 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-'''
 #return app
+'''
