@@ -4,20 +4,18 @@ A place to hold where stuff is
 ### Installation of Development Environment
 python 3.7
 
+* `python3 -m venv env` set the virtual environment for Pyhton 
+* `source venv/bin/activate` activate the virtual environment
+* `python -m pip install -r requirements.txt` to install dependencies. All required packages are included in the requirements file. 
+* `deactivate` - de-activates the virtual environment
+
 
 ### API documentation
 
 #### Backend
 
-From the backend folder run `pip install requirements.txt`. All required packages are included in the requirements file. 
 
 
-Invoke app from CLI:
-```python 
-export FLASK_APP=app.py
-export FLASK_DEBUG=true
-flask run
-```
 	
 #### Connect Postgres Database
 After your first install, and each time you restart your machine you will have to also restart the postgres service, or else you will get an operational error. (Is the server running?)
@@ -33,6 +31,17 @@ When this is successful you will see the command line change to look like this p
 \l - lists tables
 \dt - list of relations
 \d <table/relation_name> - lists columns
+
+Stop the PostgreSQL server:
+```sudo service postgresql stop```
+
+
+#### Invoke app from CLI:
+```python 
+export FLASK_APP=app.py
+export FLASK_DEBUG=true
+flask run
+```
 
 README from todoapp-crud-lists-soln
 # SAMPLE VERSION OF TODO APP
@@ -61,9 +70,11 @@ You can insert a few rows in both the tables. Insert first in the `todolists` re
 
 ## C. Steps to Run the App: 
 * `python3 -m venv env` set the virtual environment for Pyhton 
-* `source env/bin/activate` activate the venv
+* `source venv/bin/activate` activate the venv
 * `python -m pip install -r requirements.txt` to install dependencies. For Mac users, if you face difficulty in installing the `psycopg2`, you may consider intalling the `sudo brew install libpq` before running the `requirement.txt`. 
 * `python3 app.py` to run the app (http://127.0.0.1:5000/ or http://localhost:5000)
 * `deactivate` - de-activates the virtual environment
+
+
 
 
