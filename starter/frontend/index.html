@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Stuff</title>
+    </head>
+    <body>
+       <form id="form" method="POST" action="/books/create">
+            <input type="text" id="title" name="title" />
+            <input type="text" id="author" name="author" />
+            <input type="text" id="form" name="form" />
+            <input type="text" id="location" name="location" />
+            <input type="submit" value="Create" />
+        </form>
+        
+        <!--Add new locations form
+        <form id="form" method="POST" action="/locations/create" >
+            <input type="text" id="name" name="name" />
+            <input type="text" id="type" name="type" />
+            <input type="submit" value="Create" />
+        </form>
+        -->
+        <ul id="books">
+            {% for d in data %}
+            <li> {{ d.books }} </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

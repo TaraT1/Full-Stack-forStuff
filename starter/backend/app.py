@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-''' Not sure how this should fit in
+''' Not sure how this should fit in (from bookshelf)
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
@@ -31,13 +31,13 @@ class Book(db.Model):
     __tablename__ = 'Book'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String)
-    author = db.Column(db.String)
-    #subject = db.Column(db.String)
-    #genre = db.Column(db.String)
-    #description = db.Column(db.String)
-    #notes = db.Column(db.String)
-    form = db.Column(db.String)
+    title = db.Column(db.String())
+    author = db.Column(db.String())
+    #subject = db.Column(db.String())
+    #genre = db.Column(db.String())
+    #description = db.Column(db.String())
+    #notes = db.Column(db.String())
+    form = db.Column(db.String())
     location_id = db.relationship('Location', backref='Book', lazy=True)
     #future: Zotero integration
     #future: read - date last read
@@ -49,10 +49,10 @@ class Location(db.Model): #foreign_id in other models
     __tablename__ = 'Location'
 
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String)
-    type = db.Column(db.String)
-    #description = db.Column(db.String)
-    #referenceid = db.Column(db.String)
+    name = db.Column(db.String())
+    type = db.Column(db.String())
+    #description = db.Column(db.String())
+    #referenceid = db.Column(db.String())
     book_id = db.Column(db.Integer, db.ForeignKey('Book.id'))
 
     def __repr__(self):
@@ -63,28 +63,32 @@ class Location(db.Model): #foreign_id in other models
 #CORS headers
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization, true')
-  response.headers.add('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET, PATCH, POST, DELETE')
   return response
 
 #Controllers
-@app.route('/books/create', methods=['POST', 'GET'])
+@app.route('/books/add', methods=['POST'])
 def create_book():
-  body = request.get_json()
-
-  new_title = body.get('title', None)
-  new_author = body.get('author', None)
-  new_form = body.get('form', None)
-  new_location = body.get('location', None)
+  new_title = request.form.get('title', '')
+  new_author = request.form.get('author', '')
+  new_form = request.form.get('form', '')
+  new_location = request.form.get('location', '')
 
   try:
     book = Book(title=new_title, author=new_author, form=new_form, location=new_location)
-    book.insert()
+    #book.insert()
+    db.session.add(book)
+    db.session.commit()
+    return redirect(url_for('index.html')) #not sure of format for redirect
+    
+    '''
     return jsonify({
       'success': True,
       'created': book.id,
       'total_books': len(Book.query.all())
     })
+    '''
 
   except:
     abort(422)
@@ -144,7 +148,7 @@ def delete_book(book_id):
 
 # Default port:
 if __name__ == '__main__':
-    app.run()
+  app.run()
 
 # Or specify port manually:
 '''
