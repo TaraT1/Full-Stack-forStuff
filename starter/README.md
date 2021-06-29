@@ -27,6 +27,10 @@ You should get a prompt asking for your password. If this doesn't work, then you
 	2. Type psql.
 When this is successful you will see the command line change to look like this postgres=#
 
+Connect to stuff database with
+``` \c stuff ```
+
+Other postgres commands are: 
 \c <db_name> - connects to <db_name>
 \l - lists tables
 \dt - list of relations
