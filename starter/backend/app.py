@@ -1,4 +1,4 @@
-import os
+import json
 from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -8,11 +8,11 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 cors = CORS(app)
+#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
-
 
 ''' Not sure how this should fit in (from bookshelf)
 def create_app(test_config=None):
@@ -70,25 +70,38 @@ def after_request(response):
 #Controllers
 @app.route('/books/add', methods=['POST'])
 def create_book():
-  new_title = request.form.get('title', '')
-  new_author = request.form.get('author', '')
-  new_form = request.form.get('form', '')
-  new_location = request.form.get('location', '')
+  ''' Form
+  new_title=request.form.get('title', '')
+  new_author=request.form.get('author', '')
+  new_form=request.form.get('form', '')
+  new_location=request.form.get('location', '')
+  '''
+  #json
+  data=request.get_json()
+
+  new_title=data.get('title')
+  new_author=data.get('author')
+  new_form=data.get('form')
+  new_location=data.get('form')
 
   try:
-    book = Book(title=new_title, author=new_author, form=new_form, location=new_location)
-    #book.insert()
-    db.session.add(book)
-    db.session.commit()
-    return redirect(url_for('index.html')) #not sure of format for redirect
+    book = Book(
+      title=new_title, 
+      author=new_author, 
+      form=new_form, 
+      location=new_location
+      )
     
-    '''
+    book.insert()
+    #db.session.add(book)
+    #db.session.commit()
+    #return redirect(url_for('index.html')) #not sure of format for redirect
+    
     return jsonify({
       'success': True,
       'created': book.id,
       'total_books': len(Book.query.all())
     })
-    '''
 
   except:
     abort(422)
