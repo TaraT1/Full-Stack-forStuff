@@ -14,7 +14,10 @@ python 3.7
 
 #### Backend
 
-
+#### Reconnecting to app
+* Connect to postgres database
+* activate virtual environment
+* invoke flask app
 
 	
 #### Connect Postgres Database
