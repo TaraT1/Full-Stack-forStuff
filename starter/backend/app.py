@@ -38,7 +38,7 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
-    location_id = db.relationship('Location', backref='Book', lazy=True)
+    location = db.relationship('Location', backref='Book', lazy=True)
     #future: Zotero integration
     #future: read - date last read
 
@@ -53,7 +53,8 @@ class Location(db.Model): #foreign_id in other models
     type = db.Column(db.String())
     #description = db.Column(db.String())
     #referenceid = db.Column(db.String())
-    book_id = db.Column(db.Integer, db.ForeignKey('Book.id'))
+    #book_id = db.Column(db.Integer, db.ForeignKey('Book.id'))
+    book = db.relationship('Book', backref='Location', lazy=True)
 
     def __repr__(self):
         return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
