@@ -38,15 +38,15 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
-    location = db.relationship('Location', backref='Book', lazy=True)
-    #location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
+    #location = db.relationship('Location', backref='Book', lazy=True)
+    location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
     #future: Zotero integration
     #future: read - date last read
 
     def __repr__(self):
         return f'<Book ID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
 
-class Location(db.Model): #foreign_id in other models
+class Location(db.Model): 
     __tablename__ = 'Location'
 
     id = db.Column(db.Integer, primary_key = True)
