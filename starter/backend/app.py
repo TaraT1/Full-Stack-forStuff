@@ -39,6 +39,7 @@ class Book(db.Model):
     #notes = db.Column(db.String())
     form = db.Column(db.String())
     location = db.relationship('Location', backref='Book', lazy=True)
+    #location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
     #future: Zotero integration
     #future: read - date last read
 
