@@ -105,7 +105,8 @@ def create_book():
       'total_books': len(Book.query.all())
     })
 
-  except:
+  except Exception as e:
+    print(e)
     abort(422)
 
 @app.route('/books', methods = ['GET'])
@@ -119,7 +120,8 @@ def get_books():
       'total_books': len(Book.query.all())
     })
 
-  except:
+  except Exception as e:
+    print(e)
     abort(422)
 
 @app.route('/books/<int:book_id>', methods=['PATCH'])
@@ -137,8 +139,9 @@ def update_book(book_id):
       'success': True,
     })
 
-  except:
-    abort(400)
+  except Exception as e:
+    print (e)
+    abort(404)
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
 def delete_book(book_id):
@@ -154,11 +157,26 @@ def delete_book(book_id):
       'success': True,
     })
 
-  except:
+  except Exception as e:
+    print(e)
     abort(404)
 
+# Error Handlers for expected errors 
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+    "success": False,
+    "error": 404,
+    "message": "resource not found"
+  }), 404
 
-
+@app.errorhandler(422)
+def unprocessable(error):
+  return jsonify({
+    "success": False,
+    "error": 422,
+    "message": unprocessable
+  }), 422
 
 #----------------------------------------------------------------------------#
 # Launch.
