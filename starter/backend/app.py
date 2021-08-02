@@ -87,7 +87,7 @@ def create_locations():
     return jsonify({
       'success': True,
       'created': location.id,
-      'total_locations': len(Locations.query.all())
+      'total_locations': len(Location.query.all())
     })
 
   except Exception as e:
@@ -96,11 +96,10 @@ def create_locations():
 
 @app.route('/locations', methods=['GET'])
 def get_locations():
-  data=request.get_json()
 
   try:
-    locations=Locations.query.all()
-    get_locations  = [location.format() for location in locations]
+    locations=Location.query.all()
+    get_locations = [location.format() for location in locations]
 
     return jsonify({
       'success': True,
@@ -109,7 +108,7 @@ def get_locations():
 
   except Exception as e:
     print('GetLoc Exception >> ', e)
-    abort(422)
+    abort(404)
 
 ##LOCATIONS - Patch, delete
 
