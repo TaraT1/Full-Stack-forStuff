@@ -69,6 +69,50 @@ def after_request(response):
   return response
 
 #Controllers
+@app.route('/locations/add', methods=['POST'])
+def create_locations():
+  data=request.get_json()
+
+  new_name=data.get('name')
+  new_type=data.get('type')
+
+  try:
+    location = Location(
+      name=new_name,
+      type=new_type
+    )
+
+    book.insert()
+
+    return jsonify({
+      'success': True,
+      'created': location.id,
+      'total_locations': len(Locations.query.all())
+    })
+
+  except Exception as e:
+    print("Add LocAdd Exception >> ", e)
+    abort(422)
+
+@app.route('/locations', methods=['GET'])
+def get_locations():
+  data=request.get_json()
+
+  try:
+    locations=Locations.query.all()
+    get_locations  = [location.format() for location in locations]
+
+    return jsonify({
+      'success': True,
+      'number of locations': len(locations)
+    })
+
+  except Exception as e:
+    print('GetLoc Exception >> ', e)
+    abort(422)
+
+##LOCATIONS - Patch, delete
+
 @app.route('/books/add', methods=['POST'])
 def create_book():
   ''' Form
