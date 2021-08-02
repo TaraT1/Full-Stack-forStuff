@@ -3,6 +3,8 @@ A place to record the location of stuff
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
+Where the other projects had starter code with specific aspects of development to address, this project is self-generated.
+
 ### Backend
 * Connect to postgres database
 * activate virtual environment
