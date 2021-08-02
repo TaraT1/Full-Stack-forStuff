@@ -26,6 +26,19 @@ APP = create_app()
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', port=8080, debug=True)
 '''
+class Location(db.Model): 
+    __tablename__ = 'Location'
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String())
+    type = db.Column(db.String())
+    #description = db.Column(db.String())
+    #referenceid = db.Column(db.String())
+    book = db.relationship('Book', backref='Location', lazy=True)
+
+    def __repr__(self):
+        return f'<LocationID: {self.id}, name: {self.name}, type: {self.type}>'
+
 
 class Book(db.Model):
     __tablename__ = 'Book'
@@ -38,35 +51,21 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
-    #location = db.relationship('Location', backref='Book', lazy=True)
     location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
     #future: Zotero integration
     #future: read - date last read
 
     def __repr__(self):
-        return f'<Book ID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
-
-class Location(db.Model): 
-    __tablename__ = 'Location'
-
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String())
-    type = db.Column(db.String())
-    #description = db.Column(db.String())
-    #referenceid = db.Column(db.String())
-    #book_id = db.Column(db.Integer, db.ForeignKey('Book.id'))
-    book = db.relationship('Book', backref='Location', lazy=True)
-
-    def __repr__(self):
-        return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
+        return f'<BookID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
 
 #db.create_all() - using migrate to sync, so no db.create_all() 
 
 #CORS headers
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET, PATCH, POST, DELETE')
+  #response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE')
   return response
 
 #Controllers
@@ -84,7 +83,7 @@ def create_book():
   new_title=data.get('title')
   new_author=data.get('author')
   new_form=data.get('form')
-  new_location=data.get('form')
+  new_location=data.get('location')
 
   try:
     book = Book(
@@ -106,22 +105,25 @@ def create_book():
     })
 
   except Exception as e:
-    print(e)
+    print("Add Exception >> ", e)
     abort(422)
 
 @app.route('/books', methods = ['GET'])
 def get_books():
 
   try:
-    books = Book.query.order_by(Book.id).all()
+    get_books = Book.query.all()
+    books = [book.format() for book in get_books] 
+    #books = list(map(Book.format(), Book.query.all()))
+
     return jsonify({
       'success': True,
-      'books': books,
-      'total_books': len(Book.query.all())
+      'books': books, #422 serializing issues or InstrumentedAttribute object not callable
+      'total_books': len(get_books)
     })
 
   except Exception as e:
-    print(e)
+    print("Get Exception >> ", e)
     abort(422)
 
 @app.route('/books/<int:book_id>', methods=['PATCH'])
@@ -140,7 +142,7 @@ def update_book(book_id):
     })
 
   except Exception as e:
-    print (e)
+    print ("Patch Exception >> ", e)
     abort(404)
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
@@ -158,7 +160,7 @@ def delete_book(book_id):
     })
 
   except Exception as e:
-    print(e)
+    print("Delete Exception >> ", e)
     abort(404)
 
 # Error Handlers for expected errors 
@@ -175,7 +177,7 @@ def unprocessable(error):
   return jsonify({
     "success": False,
     "error": 422,
-    "message": unprocessable
+    "message": "unprocessable"
   }), 422
 
 #----------------------------------------------------------------------------#
