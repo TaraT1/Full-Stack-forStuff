@@ -1,6 +1,6 @@
 import json
-from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, Response, redirect, url_for, abort, jsonify
+from flask_sqlalchemy import SQLAlchemy, exc
 from flask_cors import CORS
 from flask_migrate import Migrate
 
@@ -69,6 +69,7 @@ def after_request(response):
   return response
 
 #Controllers
+#Locations
 @app.route('/locations/add', methods=['POST'])
 def create_locations():
   data=request.get_json()
@@ -82,7 +83,7 @@ def create_locations():
       type=new_type
     )
 
-    book.insert()
+    location.insert()
 
     return jsonify({
       'success': True,
