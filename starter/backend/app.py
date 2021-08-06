@@ -1,31 +1,31 @@
 import json
 from flask import Flask, render_template, request, Response, redirect, url_for, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy, exc
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import exc
 from flask_cors import CORS
 from flask_migrate import Migrate
 
 #from models import setup_db - Integrating models.py in app.py
 
 app = Flask(__name__)
-cors = CORS(app)
-#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+#cors = CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
-''' Not sure how this should fit in (from bookshelf)
-def create_app(test_config=None):
-  # create and configure the app
-  app = Flask(__name__)
-  setup_db(app)
-  CORS(app)
+#db.create_all() - using migrate to sync, so no db.create_all() 
 
-APP = create_app()
-
-if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=True)
-'''
+#Access-Control-Allow
+@app.after_request
+def after_request(response):
+  #response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE')
+  return response
+  
+#Models
 class Location(db.Model): 
     __tablename__ = 'Location'
 
@@ -58,15 +58,6 @@ class Book(db.Model):
     def __repr__(self):
         return f'<BookID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
 
-#db.create_all() - using migrate to sync, so no db.create_all() 
-
-#CORS headers
-@app.after_request
-def after_request(response):
-  #response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE')
-  return response
 
 #Controllers
 #Locations
@@ -117,7 +108,7 @@ def get_locations():
 def create_book():
   ''' Form
   new_title=request.form.get('title', '')
-  new_author=request.form.get('author', '')
+
   new_form=request.form.get('form', '')
   new_location=request.form.get('location', '')
   '''
