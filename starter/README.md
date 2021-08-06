@@ -49,4 +49,15 @@ flask run
 ```
 
 ### API documentation
+#### CURL 
+##### Retrieve
+curl -X GET 'http://127.0.0.1:5000/locations'
 
+##### Create
+curl -d '{
+	"name": "curltst1n",
+	"type": "curltst1t",
+	"book": "curltstb"
+}'-H "Content-Type: application/json" 
+-X POST http://127.0.0.1:5000/locations/add
+b4 -X: -H "Content-Type: application/json"
