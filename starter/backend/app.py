@@ -91,10 +91,16 @@ def get_locations():
 
   try:
     locations=Location.query.all()
-    get_locations = [location.format() for location in locations]
+    #get_locations = [location.format() for location in locations]
+    for location in locations:
+      location.name = Location.name
+      location.type = Location.type
+
+
 
     return jsonify({
       'success': True,
+      'name': location.name,
       'number of locations': len(locations)
     })
 
