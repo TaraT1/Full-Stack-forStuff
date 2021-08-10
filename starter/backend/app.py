@@ -93,14 +93,21 @@ def get_locations():
     locations=Location.query.all()
     #get_locations = [location.format() for location in locations]
     for location in locations:
+      location.id = Location.id
       location.name = Location.name
       location.type = Location.type
 
-
+      '''
+      location_detail = {
+        "location_id": location.id,
+        "location_name": location.name,
+        "location_type": location.type
+      }
+      #get_locations = data.append(location_detail)
+      '''
 
     return jsonify({
       'success': True,
-      'name': location.name,
       'number of locations': len(locations)
     })
 
@@ -154,12 +161,12 @@ def get_books():
 
   try:
     get_books = Book.query.all()
-    books = [book.format() for book in get_books] 
-    #books = list(map(Book.format(), Book.query.all()))
+    for book in get_books:
+      book.id = Book.id 
+      book.title = Book.title
 
     return jsonify({
       'success': True,
-      'books': books, #422 serializing issues or InstrumentedAttribute object not callable
       'total_books': len(get_books)
     })
 
