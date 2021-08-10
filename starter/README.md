@@ -44,7 +44,7 @@ python 3.7
 #### Invoke app from CLI:
 ```python 
 export FLASK_APP=app.py
-export FLASK_DEBUG=true
+export FLASK_ENV=development
 flask run
 ```
 
