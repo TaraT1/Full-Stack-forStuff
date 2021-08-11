@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_cors import CORS
 from flask_migrate import Migrate
+from sqlalchemy.ext.declarative.api import declarative_base
 
 #from models import setup_db - Integrating models.py in app.py
 
@@ -36,9 +37,28 @@ class Location(db.Model):
     #referenceid = db.Column(db.String())
     book = db.relationship('Book', backref='Location', lazy=True)
 
-    def __repr__(self):
-        return f'<LocationID: {self.id}, name: {self.name}, type: {self.type}>'
+    def __init__(self, id, name, type):
+        self.id = id
+        self.name = name
+        self.type = type
 
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+          'id': self.id,
+          'name': self.name,
+          'type': self.type
+        }
 
 class Book(db.Model):
     __tablename__ = 'Book'
@@ -55,9 +75,30 @@ class Book(db.Model):
     #future: Zotero integration
     #future: read - date last read
 
-    def __repr__(self):
-        return f'<BookID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
+    def __init__(self, id, title, author, form):
+        self.id = id
+        self.title = title
+        self.author = author
+        self.form = form
 
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+          'id': self.id,
+          'title': self.title,
+          'author': self.author,
+          'form': self.form
+        }
 
 #Controllers
 #Locations
@@ -91,23 +132,10 @@ def get_locations():
 
   try:
     locations=Location.query.all()
-    #get_locations = [location.format() for location in locations]
-    for location in locations:
-      location.id = Location.id
-      location.name = Location.name
-      location.type = Location.type
-
-      '''
-      location_detail = {
-        "location_id": location.id,
-        "location_name": location.name,
-        "location_type": location.type
-      }
-      #get_locations = data.append(location_detail)
-      '''
-
+    get_locations = [location.format() for location in locations]
     return jsonify({
       'success': True,
+      'locations': get_locations,
       'number of locations': len(locations)
     })
 
@@ -160,12 +188,10 @@ def create_book():
 def get_books():
 
   try:
-    get_books = Book.query.all()
-    for book in get_books:
-      book.id = Book.id 
-      book.title = Book.title
-
+    books = Book.query.all()
+    get_books = [book.format() for book in books]
     return jsonify({
+      'books': get_books,
       'success': True,
       'total_books': len(get_books)
     })
