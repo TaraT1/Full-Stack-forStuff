@@ -57,7 +57,8 @@ class Location(db.Model):
         return {
           'id': self.id,
           'name': self.name,
-          'type': self.type
+          'type': self.type,
+          'book': self.book
         }
 
 class Book(db.Model):
@@ -96,7 +97,8 @@ class Book(db.Model):
           'id': self.id,
           'title': self.title,
           'author': self.author,
-          'form': self.form
+          'form': self.form,
+          'location_id': self.location_id
         }
 
 #Controllers
@@ -147,13 +149,14 @@ def get_locations():
 
 ##LOCATIONS - Patch, delete
 
+# BOOKS
 @app.route('/books/add', methods=['POST'])
 def create_book():
   ''' Form
   new_title=request.form.get('title', '')
 
   new_form=request.form.get('form', '')
-  new_location=request.form.get('location', '')
+  new_location=request.form.get('location_id', '')
   '''
   #json
   data=request.get_json()
@@ -161,14 +164,14 @@ def create_book():
   new_title=data.get('title')
   new_author=data.get('author')
   new_form=data.get('form')
-  new_location=data.get('location')
+  new_location=data.get('location_id')
 
   try:
     book = Book(
       title=new_title, 
       author=new_author, 
       form=new_form, 
-      location=new_location
+      #location=new_location
       )
     
     book.insert()
