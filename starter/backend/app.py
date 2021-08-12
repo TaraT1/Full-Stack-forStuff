@@ -75,8 +75,7 @@ class Book(db.Model):
     #future: Zotero integration
     #future: read - date last read
 
-    def __init__(self, id, title, author, form):
-        self.id = id
+    def __init__(self, title, author, form):
         self.title = title
         self.author = author
         self.form = form
