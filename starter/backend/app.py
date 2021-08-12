@@ -1,3 +1,4 @@
+import os
 import json
 from flask import Flask, render_template, request, Response, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -37,8 +38,7 @@ class Location(db.Model):
     #referenceid = db.Column(db.String())
     book = db.relationship('Book', backref='Location', lazy=True)
 
-    def __init__(self, id, name, type):
-        self.id = id
+    def __init__(self, name, type):
         self.name = name
         self.type = type
 
