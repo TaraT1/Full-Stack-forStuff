@@ -106,8 +106,9 @@ class Book(db.Model):
 def create_locations():
   data=request.get_json()
 
-  new_name=data.get('name')
-  new_type=data.get('type')
+  new_name=data.get('name', None)
+  new_type=data.get('type', None)
+
 
   try:
     location = Location(
@@ -117,10 +118,12 @@ def create_locations():
 
     location.insert()
 
+    locations = Location.query.all()
+
     return jsonify({
       'success': True,
       'created': location.id,
-      'total_locations': len(Location.query.all())
+      'total_locations': len(locations)
     })
 
   except Exception as e:
