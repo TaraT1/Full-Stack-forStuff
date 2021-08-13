@@ -73,3 +73,12 @@ curl -d '{
 	-X POST http://127.0.0.1:5000/books/add
 
 ```
+##### Patch
+curl http://127.0.0.1:5000/books/1 -X PATCH -H "Content-Type: application/json" -d '{"title": "PC2title"}' 
+
+
+##### Delete
+```curl
+curl -X DELETE http://127.0.0.1:5000/books/5
+-H "Accept: aplication/json"
+```

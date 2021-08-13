@@ -1,0 +1,5 @@
+References
+
+https://dev.to/brandonwallace/one-to-many-relationships-complete-how-to-2nbi
+Curl delete request
+https://reqbin.com/req/c-1dw4uds4/curl-delete-request-example
