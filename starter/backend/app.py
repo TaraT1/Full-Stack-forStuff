@@ -207,21 +207,30 @@ def get_books():
 
 @app.route('/books/<int:book_id>', methods=['PATCH'])
 def update_book(book_id):
+  
+  data = request.get_json()
+
   try:
     book = Book.query.filter(Book.id==book_id).one_or_none()
-    #TODO need form for updates
-
+    
     if book is None:
       abort(404)
-
+    
+    #*** Updates all fields*** 
+    book.title = data.get('title', None)
+    book.author = data.get('author', None)
+    book.form = data.get('form', None)
+    book.location = data.get('location', None)
+    
     book.update()
 
     return jsonify({
       'success': True,
+      'book.id': book_id
     })
 
   except Exception as e:
-    print ("Patch Exception >> ", e)
+    print ("Patch Book Exception >> ", e)
     abort(404)
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
@@ -239,7 +248,7 @@ def delete_book(book_id):
     })
 
   except Exception as e:
-    print("Delete Exception >> ", e)
+    print("Delete Book Exception >> ", e)
     abort(404)
 
 # Error Handlers for expected errors 
