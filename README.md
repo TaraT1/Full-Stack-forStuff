@@ -3,8 +3,6 @@ A place to record the location of stuff
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
-Where the other projects had starter code with specific aspects of development to address, this project is self-generated.
-
 ### Backend
 * Connect to postgres database
 * activate virtual environment
@@ -47,6 +45,19 @@ export FLASK_APP=app.py
 export FLASK_ENV=development
 flask run
 ```
+
+### Identity Access Management
+#### Roles
+- Admin/Owner
+	- full privileges
+	- creates new categories of things
+	- assigns privileges
+- User
+	- books
+	- locations
+	- add, change, delete  records
+- Helper 
+	- change location
 
 ### API documentation
 #### CURL 
