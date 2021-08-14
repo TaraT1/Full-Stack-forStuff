@@ -7,7 +7,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
-from .auth.auth import AuthError, requires_auth
+from .auth.auth import AuthError, requires_auth #from coffee
 
 #from models import setup_db - Integrating models.py in app.py
 
