@@ -50,12 +50,15 @@ flask run
 #### Roles
 - Admin/Owner
 	- full privileges
-	- creates new categories of things
-	- assigns privileges
+	- **future feature: can create new categories of things
+	- assigns users and privileges
+	- can create new locations
 - User
 	- books
+		- add, change, delete  records for books
 	- locations
-	- add, change, delete  records
+		- can read locations, can't add locations
+	
 - Helper 
 	- change location
 
