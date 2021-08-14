@@ -6,6 +6,7 @@ from sqlalchemy import exc
 from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy.ext.declarative.api import declarative_base
+from werkzeug.exceptions import Unauthorized
 from .auth.auth import AuthError, requires_auth
 
 #from models import setup_db - Integrating models.py in app.py
@@ -286,6 +287,22 @@ def unprocessable(error):
     "error": 422,
     "message": "unprocessable"
   }), 422
+
+# Error handlers for auth errors
+@app.errorhandler(403)
+def forbidden(error):
+  return jsonify({
+    "success": False,
+    "error": "Access is forbidden"
+    }), 403
+
+@app.errorhandler(401)
+def unauthorized(error):
+  return jsonify({
+    "success": False,
+    "error": 401,
+    "message": Unauthorized
+  }), 401
 
 #----------------------------------------------------------------------------#
 # Launch.
