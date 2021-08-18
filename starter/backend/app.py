@@ -7,7 +7,8 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
-from .auth.auth import AuthError, requires_auth #from coffee
+from jose import jwt
+from .auth import AuthError, requires_auth #from coffee
 
 #from models import setup_db - Integrating models.py in app.py
 
@@ -221,7 +222,7 @@ def get_books(payload):
     abort(422)
 
 @app.route('/books/<int:book_id>', methods=['PATCH'])
-@requires_auth(patch:drinks)
+@requires_auth('patch:drinks')
 def update_book(payload, book_id):
   
   data = request.get_json()
