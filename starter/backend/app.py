@@ -198,7 +198,7 @@ def create_book(payload):
   except Exception as e:
     print("Add Exception >> ", e)
     abort(422)
-(
+
 @app.route('/books', methods = ['GET'])
 @requires_auth('get:books')
 def get_books(payload):
@@ -214,7 +214,7 @@ def get_books(payload):
       'books': get_books,
       'success': True,
       'total_books': len(get_books)
-    }), 200
+    }, 200)
 
   except Exception as e:
     print("Get Exception >> ", e)
