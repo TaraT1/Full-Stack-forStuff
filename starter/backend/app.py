@@ -7,7 +7,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
-#from jose import jwt
+from jose import jwt
 from auth import AuthError, requires_auth 
 
 #from models import setup_db - Integrating models.py in app.py
@@ -60,8 +60,7 @@ class Location(db.Model):
         return {
           'id': self.id,
           'name': self.name,
-          'type': self.type,
-          'book': self.book
+          'type': self.type
         }
 
 class Book(db.Model):
