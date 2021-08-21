@@ -52,12 +52,13 @@ flask run
 	- full privileges
 	- **future feature: can create new categories of things
 	- assigns users and privileges
-	- can create new locations
+	- can get, create, patch, delete locations
+	- can get, create, patch, delete books
 - User
 	- books
-		- add, change, delete  records for books
+		- get books
 	- locations
-		- can read locations, can't add locations
+		- can get locations
 	
 - Helper 
 	- change location

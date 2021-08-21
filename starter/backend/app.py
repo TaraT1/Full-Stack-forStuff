@@ -7,8 +7,8 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
-from jose import jwt
-from .auth import AuthError, requires_auth #from coffee
+#from jose import jwt
+from auth import AuthError, requires_auth 
 
 #from models import setup_db - Integrating models.py in app.py
 
@@ -138,8 +138,7 @@ def create_locations(payload):
     abort(422)
 
 @app.route('/locations', methods=['GET'])
-@requires_auth('get:locations')
-def get_locations(payload):
+def get_locations():
 
   try:
     locations=Location.query.all()
@@ -182,7 +181,7 @@ def create_book(payload):
       title=new_title, 
       author=new_author, 
       form=new_form, 
-      #location=new_location
+      location_id=new_location
       )
     
     book.insert()
@@ -201,8 +200,8 @@ def create_book(payload):
     abort(422)
 
 @app.route('/books', methods = ['GET'])
-@requires_auth('get:books')
-def get_books(payload):
+# @requires_auth('get:books')
+def get_books():
 
   try:
     books = Book.query.all()
