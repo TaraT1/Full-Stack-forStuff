@@ -3,11 +3,6 @@ A place to record the location of stuff
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
-### Backend
-* Connect to postgres database
-* activate virtual environment
-* invoke flask app
-
 #### Connect Postgres Database
 After the first install and each time you restart your machine you will have to also restart the postgres service, or else you will get an operational error. (Is the server running?)
 	1. To start the service, type ```sudo service postgresql start```
@@ -62,6 +57,10 @@ flask run
 	
 - Helper 
 	- change location
+
+### Getting Setup (from Coffee FE Readme)
+
+> _tip_: this frontend is designed to work with [Flask-based Backend](../backend). It is recommended you stand up the backend first, test using Postman, and then the frontend should integrate smoothly.
 
 ### API documentation
 #### CURL 
