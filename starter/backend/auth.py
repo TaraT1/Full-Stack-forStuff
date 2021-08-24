@@ -4,9 +4,11 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-AUTH0_DOMAIN = '***TODO***'
+AUTH0_DOMAIN = 'fs-cap.us.auth0.com'  
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'http://localhost:5000'
+API_AUDIENCE = 'stuff'
+#API_AUDIENCE = 'http://localhost:5000'
+
 
 ## AuthError Exception
 # Standardized method to communicate failure modes
