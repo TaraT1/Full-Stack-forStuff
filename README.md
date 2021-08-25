@@ -43,7 +43,7 @@ flask run
 
 ### Identity Access Management
 #### Roles
-- Admin/Owner
+- Admin/Owner *** Separate Admin and Owner roles. Admin only creates users.
 	- full privileges
 	- **future feature: can create new categories of things
 	- assigns users and privileges
