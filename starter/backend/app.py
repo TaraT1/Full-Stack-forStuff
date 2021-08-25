@@ -137,6 +137,7 @@ def create_locations(payload):
     abort(422)
 
 @app.route('/locations', methods=['GET'])
+@requires_auth('get:locations')
 def get_locations():
 
   try:
@@ -156,7 +157,7 @@ def get_locations():
 
 # BOOKS
 @app.route('/books/add', methods=['POST'])
-@requires_auth('post:books/add') #check if / is prob
+@requires_auth('post:book') 
 def create_book(payload):
   ''' Form
   new_title=request.form.get('title', '')
@@ -220,7 +221,7 @@ def get_books():
     abort(422)
 
 @app.route('/books/<int:book_id>', methods=['PATCH'])
-@requires_auth('patch:drinks')
+@requires_auth('patch:book')
 def update_book(payload, book_id):
   
   data = request.get_json()
@@ -252,7 +253,7 @@ def update_book(payload, book_id):
     abort(404)
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
-@requires_auth('delete:books')
+@requires_auth('delete:book')
 def delete_book(payload, book_id):
   try:
     book = Book.query.filter(Book.id==book_id).one_or_none()
