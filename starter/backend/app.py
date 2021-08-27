@@ -104,14 +104,15 @@ class Book(db.Model):
         }
 
 #Controllers
-#Locations
+#LOCATIONS
 @app.route('/locations/add', methods=['POST'])
-@requires_auth('post:locations/add')
+@requires_auth('post:locations')
 def create_locations(payload):
+  #json
   data=request.get_json()
 
-  new_name=data.get('name', None)
-  new_type=data.get('type', None)
+  new_name=data.get('name')
+  new_type=data.get('type')
 
   if data is None:
     abort(404)
@@ -153,7 +154,58 @@ def get_locations():
     print('GetLoc Exception >> ', e)
     abort(404)
 
-##LOCATIONS - Patch, delete
+##Update specific location
+@app.route('/locations/<int:location_id>', methods=['PATCH'])
+@requires_auth('patch:location')
+def update_location(payload, location_id):
+
+  data = request.get_json()
+
+  if data is None:
+    abort(404)
+
+  try:
+    location = Location.query.filter(Location.id==location_id).one_or_none()
+
+    if location is None:
+      abort(404)
+
+    # update fields
+    location.name = data.get('name', None)
+    location.type = data.get('type', None)
+
+    location.update()
+
+    return jsonify({
+      'success': True,
+      'location.id': location_id
+    }), 200
+
+  except Exception as e:
+    print ("Patch Location Exception >> ", e)
+    abort(404)
+
+#Delete location
+@app.route('locations/<int:location_id', methods=['DELETE'])
+@requires_auth('delete:location')
+def delete_location(payload, location_id):
+
+  try:
+    location = Location.query.filter(Location.id==location_id).one_or_none()
+
+    if location is None:
+      abort(404)
+
+    location.delete()
+
+    return jsonify({
+      'success': True,
+    }, 200)
+
+  except Exception as e:
+    print("Delete location Exception >> ", e)
+    abort(404)
+
 
 # BOOKS
 @app.route('/books/add', methods=['POST'])
@@ -196,7 +248,7 @@ def create_book(payload):
     }), 200
 
   except Exception as e:
-    print("Add Exception >> ", e)
+    print("Add Book Exception >> ", e)
     abort(422)
 
 @app.route('/books', methods = ['GET'])
