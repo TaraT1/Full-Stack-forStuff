@@ -71,9 +71,9 @@ curl -X GET 'http://127.0.0.1:5000/locations'
 Location
 ```curl
 curl -d '{
-	"name": "curltst1n",
-	"type": "curltst1t",
-	"book": "curltstb"
+	"name": "curltst1Na",
+	"type": "curltst1Ty",
+	"book": "curltstBo"
 }'-H "Content-Type: application/json" 
 -X POST http://127.0.0.1:5000/locations/add
 ```
