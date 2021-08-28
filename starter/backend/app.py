@@ -138,7 +138,7 @@ def create_locations(payload):
     abort(422)
 
 @app.route('/locations', methods=['GET'])
-@requires_auth('get:locations')
+#@requires_auth('get:locations')
 def get_locations():
 
   try:
@@ -153,7 +153,7 @@ def get_locations():
   except Exception as e:
     print('GetLoc Exception >> ', e)
     abort(404)
-
+'''
 ##Update specific location
 @app.route('/locations/<int:location_id>', methods=['PATCH'])
 @requires_auth('patch:location')
@@ -205,7 +205,7 @@ def delete_location(payload, location_id):
   except Exception as e:
     print("Delete location Exception >> ", e)
     abort(404)
-
+'''
 
 # BOOKS
 @app.route('/books/add', methods=['POST'])
