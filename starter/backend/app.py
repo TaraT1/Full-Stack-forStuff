@@ -138,8 +138,8 @@ def create_locations(payload):
     abort(422)
 
 @app.route('/locations', methods=['GET'])
-#@requires_auth('get:locations')
-def get_locations():
+@requires_auth('get:locations')
+def get_locations(payload):
 
   try:
     locations=Location.query.all()
@@ -153,7 +153,7 @@ def get_locations():
   except Exception as e:
     print('GetLoc Exception >> ', e)
     abort(404)
-'''
+
 ##Update specific location
 @app.route('/locations/<int:location_id>', methods=['PATCH'])
 @requires_auth('patch:location')
@@ -186,7 +186,7 @@ def update_location(payload, location_id):
     abort(404)
 
 #Delete location
-@app.route('locations/<int:location_id', methods=['DELETE'])
+@app.route('/locations/<int:location_id>', methods=['DELETE'])
 @requires_auth('delete:location')
 def delete_location(payload, location_id):
 
@@ -205,7 +205,6 @@ def delete_location(payload, location_id):
   except Exception as e:
     print("Delete location Exception >> ", e)
     abort(404)
-'''
 
 # BOOKS
 @app.route('/books/add', methods=['POST'])
@@ -252,8 +251,8 @@ def create_book(payload):
     abort(422)
 
 @app.route('/books', methods = ['GET'])
-# @requires_auth('get:books')
-def get_books():
+@requires_auth('get:books')
+def get_books(payload):
 
   try:
     books = Book.query.all()
