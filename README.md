@@ -3,13 +3,6 @@ A place to record the location of stuff
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
-Where the other projects had starter code with specific aspects of development to address, this project is self-generated.
-
-### Backend
-* Connect to postgres database
-* activate virtual environment
-* invoke flask app
-
 #### Connect Postgres Database
 After the first install and each time you restart your machine you will have to also restart the postgres service, or else you will get an operational error. (Is the server running?)
 	1. To start the service, type ```sudo service postgresql start```
@@ -48,6 +41,27 @@ export FLASK_ENV=development
 flask run
 ```
 
+### Identity Access Management
+#### Roles
+- Admin/Owner *** Separate Admin and Owner roles. Admin only creates users.
+	- full privileges
+	- **future feature: can create new categories of things
+	- assigns users and privileges
+	- can get, create, patch, delete locations
+	- can get, create, patch, delete books
+- User
+	- books
+		- get books
+	- locations
+		- can get locations
+	
+- Helper 
+	- change location
+
+### Getting Setup (from Coffee FE Readme)
+
+> _tip_: this frontend is designed to work with [Flask-based Backend](../backend). It is recommended you stand up the backend first, test using Postman, and then the frontend should integrate smoothly.
+
 ### API documentation
 #### CURL 
 ##### Retrieve
@@ -57,9 +71,9 @@ curl -X GET 'http://127.0.0.1:5000/locations'
 Location
 ```curl
 curl -d '{
-	"name": "curltst1n",
-	"type": "curltst1t",
-	"book": "curltstb"
+	"name": "curltst1Na",
+	"type": "curltst1Ty",
+	"book": "curltstBo"
 }'-H "Content-Type: application/json" 
 -X POST http://127.0.0.1:5000/locations/add
 ```

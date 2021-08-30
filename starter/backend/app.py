@@ -6,6 +6,9 @@ from sqlalchemy import exc
 from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy.ext.declarative.api import declarative_base
+from werkzeug.exceptions import Unauthorized
+from jose import jwt
+from auth import AuthError, requires_auth 
 
 #from models import setup_db - Integrating models.py in app.py
 
@@ -57,8 +60,7 @@ class Location(db.Model):
         return {
           'id': self.id,
           'name': self.name,
-          'type': self.type,
-          'book': self.book
+          'type': self.type
         }
 
 class Book(db.Model):
@@ -102,14 +104,18 @@ class Book(db.Model):
         }
 
 #Controllers
-#Locations
+#LOCATIONS
 @app.route('/locations/add', methods=['POST'])
-def create_locations():
+@requires_auth('post:locations')
+def create_locations(payload):
+  #json
   data=request.get_json()
 
-  new_name=data.get('name', None)
-  new_type=data.get('type', None)
+  new_name=data.get('name')
+  new_type=data.get('type')
 
+  if data is None:
+    abort(404)
 
   try:
     location = Location(
@@ -125,14 +131,15 @@ def create_locations():
       'success': True,
       'created': location.id,
       'total_locations': len(locations)
-    })
+    }), 200
 
   except Exception as e:
     print("Add LocAdd Exception >> ", e)
     abort(422)
 
 @app.route('/locations', methods=['GET'])
-def get_locations():
+@requires_auth('get:locations')
+def get_locations(payload):
 
   try:
     locations=Location.query.all()
@@ -141,17 +148,68 @@ def get_locations():
       'success': True,
       'locations': get_locations,
       'number of locations': len(locations)
-    })
+    }), 200
 
   except Exception as e:
     print('GetLoc Exception >> ', e)
     abort(404)
 
-##LOCATIONS - Patch, delete
+##Update specific location
+@app.route('/locations/<int:location_id>', methods=['PATCH'])
+@requires_auth('patch:location')
+def update_location(payload, location_id):
+
+  data = request.get_json()
+
+  if data is None:
+    abort(404)
+
+  try:
+    location = Location.query.filter(Location.id==location_id).one_or_none()
+
+    if location is None:
+      abort(404)
+
+    # update fields
+    location.name = data.get('name', None)
+    location.type = data.get('type', None)
+
+    location.update()
+
+    return jsonify({
+      'success': True,
+      'location.id': location_id
+    }), 200
+
+  except Exception as e:
+    print ("Patch Location Exception >> ", e)
+    abort(404)
+
+#Delete location
+@app.route('/locations/<int:location_id>', methods=['DELETE'])
+@requires_auth('delete:location')
+def delete_location(payload, location_id):
+
+  try:
+    location = Location.query.filter(Location.id==location_id).one_or_none()
+
+    if location is None:
+      abort(404)
+
+    location.delete()
+
+    return jsonify({
+      'success': True,
+    }, 200)
+
+  except Exception as e:
+    print("Delete location Exception >> ", e)
+    abort(404)
 
 # BOOKS
 @app.route('/books/add', methods=['POST'])
-def create_book():
+@requires_auth('post:book') 
+def create_book(payload):
   ''' Form
   new_title=request.form.get('title', '')
 
@@ -164,14 +222,17 @@ def create_book():
   new_title=data.get('title')
   new_author=data.get('author')
   new_form=data.get('form')
-  new_location=data.get('location_id')
+  #new_location=data.get('location_id')
+
+  if data is None:
+    abort(404)
 
   try:
     book = Book(
       title=new_title, 
       author=new_author, 
-      form=new_form, 
-      #location=new_location
+      form=new_form
+      #location_id=new_location
       )
     
     book.insert()
@@ -183,32 +244,41 @@ def create_book():
       'success': True,
       'created': book.id,
       'total_books': len(Book.query.all())
-    })
+    }), 200
 
   except Exception as e:
-    print("Add Exception >> ", e)
+    print("Add Book Exception >> ", e)
     abort(422)
 
 @app.route('/books', methods = ['GET'])
-def get_books():
+@requires_auth('get:books')
+def get_books(payload):
 
   try:
     books = Book.query.all()
     get_books = [book.format() for book in books]
+
+    if books is None:
+      abort(404) #resource not found
+
     return jsonify({
       'books': get_books,
       'success': True,
       'total_books': len(get_books)
-    })
+    }, 200)
 
   except Exception as e:
     print("Get Exception >> ", e)
     abort(422)
 
 @app.route('/books/<int:book_id>', methods=['PATCH'])
-def update_book(book_id):
+@requires_auth('patch:book')
+def update_book(payload, book_id):
   
   data = request.get_json()
+
+  if data is None:
+    abort(404)
 
   try:
     book = Book.query.filter(Book.id==book_id).one_or_none()
@@ -227,14 +297,15 @@ def update_book(book_id):
     return jsonify({
       'success': True,
       'book.id': book_id
-    })
+    }), 200
 
   except Exception as e:
     print ("Patch Book Exception >> ", e)
     abort(404)
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
-def delete_book(book_id):
+@requires_auth('delete:book')
+def delete_book(payload, book_id):
   try:
     book = Book.query.filter(Book.id==book_id).one_or_none()
 
@@ -245,7 +316,7 @@ def delete_book(book_id):
 
     return jsonify({
       'success': True,
-    })
+    }), 200
 
   except Exception as e:
     print("Delete Book Exception >> ", e)
@@ -267,6 +338,22 @@ def unprocessable(error):
     "error": 422,
     "message": "unprocessable"
   }), 422
+
+# Error handlers for auth errors
+@app.errorhandler(403)
+def forbidden(error):
+  return jsonify({
+    "success": False,
+    "error": "Access is forbidden"
+    }), 403
+
+@app.errorhandler(401)
+def unauthorized(error):
+  return jsonify({
+    "success": False,
+    "error": 401,
+    "message": Unauthorized
+  }), 401
 
 #----------------------------------------------------------------------------#
 # Launch.
