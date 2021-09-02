@@ -106,7 +106,7 @@ class Book(db.Model):
 #Controllers
 #LOCATIONS
 @app.route('/locations/add', methods=['POST'])
-#* @requires_auth('post:locations')
+@requires_auth('post:locations')
 def create_locations(payload):
   #json
   data=request.get_json()
@@ -138,7 +138,7 @@ def create_locations(payload):
     abort(422)
 
 @app.route('/locations', methods=['GET'])
-#* @requires_auth('get:locations')
+@requires_auth('get:locations')
 def get_locations(payload):
 
   try:
@@ -156,7 +156,7 @@ def get_locations(payload):
 
 ##Update specific location
 @app.route('/locations/<int:location_id>', methods=['PATCH'])
-#* @requires_auth('patch:location')
+@requires_auth('patch:location')
 def update_location(payload, location_id):
 
   data = request.get_json()
@@ -187,7 +187,7 @@ def update_location(payload, location_id):
 
 #Delete location
 @app.route('/locations/<int:location_id>', methods=['DELETE'])
-#* @requires_auth('delete:location')
+@requires_auth('delete:location')
 def delete_location(payload, location_id):
 
   try:
@@ -208,9 +208,8 @@ def delete_location(payload, location_id):
 
 # BOOKS
 @app.route('/books/add', methods=['POST'])
-def create_book():
-#* @requires_auth('post:book') 
-#* def create_book(payload):
+@requires_auth('post:book') 
+def create_book(payload):
   ''' Form
   new_title=request.form.get('title', '')
 
@@ -237,8 +236,8 @@ def create_book():
       )
     
     book.insert()
-    #db.session.add(book)
-    #db.session.commit()
+    db.session.add(book)
+    db.session.commit()
     #return redirect(url_for('index.html')) #not sure of format for redirect
     
     return jsonify({
@@ -252,7 +251,7 @@ def create_book():
     abort(422)
 
 @app.route('/books', methods = ['GET'])
-#* @requires_auth('get:books')
+@requires_auth('get:books')
 def get_books(payload):
 
   try:
@@ -273,9 +272,8 @@ def get_books(payload):
     abort(422)
 
 @app.route('/books/<int:book_id>', methods=['PATCH'])
-#* @requires_auth('patch:book')
-def update_book(book_id):
-  #* def update_book(payload, book_id):
+@requires_auth('patch:book')
+def update_book(payload, book_id):
   
   data = request.get_json()
 
@@ -298,8 +296,8 @@ def update_book(book_id):
 
     return jsonify({
       'success': True,
-      'book.id': book_id,
-      'book.location': location
+      'book.id': book_id
+      #'book.location': location_id
     }, 200)
 
   except Exception as e:
@@ -307,7 +305,7 @@ def update_book(book_id):
     abort(404)
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
-#* @requires_auth('delete:book')
+@requires_auth('delete:book')
 def delete_book(payload, book_id):
   try:
     book = Book.query.filter(Book.id==book_id).one_or_none()
