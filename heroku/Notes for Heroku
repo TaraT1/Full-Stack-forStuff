@@ -58,8 +58,39 @@ Notes for Obsidian
 - Create Heroku app
 ``` heroku create app_name ```
     - copy git url
-    - Heroku dashboard will have name
-    
+    - Heroku dashboard will have app_name
+- Add git remote for Heroku to local repo using git url
+```git remote add heroku heroku_git_url ```
+ 
+##Add postgresql add on for db
+- create db and connect to app
+```
+heroku addons:create heroku-postgresql:hobby-dev --app 
+name_of_application
+```
+#hobby-dev refers to free version of addon tier
+
+Run
+```
+heroku config --app
+name_of_application
+```
+
+Fix configurations in Heroku dashboard
+-settings\config vars: add required env vars
+
+```git push heroku master ```
+
+##Run migrations once app is deployed
+```heroku run python manage.py db upgrade --app name_of_application
+
+- Open app from Heroku Dashboard. 
+- Make additional requests using curl or Postman as build app and make more complex endpoints
+
+ References:
+    [Deployment Docs](https://devcenter.heroku.com/categories/deployment)
+    [Getting Started with Python](https://devcenter.heroku.com/articles/getting-started-with-python)
+   
 
 
 
