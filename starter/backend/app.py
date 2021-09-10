@@ -39,7 +39,7 @@ class Location(db.Model):
     type = db.Column(db.String())
     #description = db.Column(db.String())
     #referenceid = db.Column(db.String())
-    book = db.relationship('Book', backref='Location', lazy=True)
+    book = db.relationship('Book', backref='Location', lazy=True) #Book refers to class
 
     def __init__(self, name, type):
         self.name = name
@@ -74,7 +74,8 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
-    location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
+    #location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id')) #fkey refers to actual table
     #future: Zotero integration
     #future: read - date last read
 
