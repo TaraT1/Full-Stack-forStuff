@@ -74,8 +74,7 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
-    #location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
-    location_id = db.Column(db.Integer, db.ForeignKey('location.id')) #fkey refers to actual table
+    location_id = db.Column(db.Integer, db.ForeignKey('Location.id')) #fkey refers to actual table
     #future: Zotero integration
     #future: read - date last read
 
@@ -223,7 +222,7 @@ def create_book(payload):
   new_title=data.get('title')
   new_author=data.get('author')
   new_form=data.get('form')
-  #new_location=data.get('location_id')
+  new_location=data.get('location_id')
 
   if data is None:
     abort(404)
@@ -232,9 +231,11 @@ def create_book(payload):
     book = Book(
       title=new_title, 
       author=new_author, 
-      form=new_form
-      #location_id=new_location
+      form=new_form,
+      location_id=new_location
       )
+      
+      
     
     book.insert()
     db.session.add(book)
