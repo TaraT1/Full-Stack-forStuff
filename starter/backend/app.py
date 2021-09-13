@@ -30,6 +30,7 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE')
   return response
   
+'''
 #Models
 class Location(db.Model): 
     __tablename__ = 'Location'
@@ -102,6 +103,7 @@ class Book(db.Model):
           'form': self.form,
           'location_id': self.location_id
         }
+'''
 
 #Controllers
 #LOCATIONS
