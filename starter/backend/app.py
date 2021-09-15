@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_cors import CORS
 from flask_migrate import Migrate
+from models import Location, Book
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
 from jose import jwt
@@ -17,7 +18,7 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
 db = SQLAlchemy(app)
-
+db.init_app(app) # ** <-- just init ??? https://knowledge.udacity.com/questions/688514
 migrate = Migrate(app, db)
 
 #db.create_all() - using migrate to sync, so no db.create_all() 
