@@ -1,7 +1,8 @@
-#ref trivia. Integrated models into app.py
+#ref trivia. Integrated models into app.py, changed dir structure
 import os
-from sqlalchemy import Column, String, Integer, create_engine
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, String, Integer, create_engine
 import json
 
 app = Flask(__name__)

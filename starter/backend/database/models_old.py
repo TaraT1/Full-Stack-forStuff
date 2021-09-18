@@ -6,51 +6,18 @@ import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 '''
 def db_drop_and_create_all():
-    # Drops db tables. Can be used to initialie clean db
+    # Drops db tables. Can be used to initialize clean db
     db.drop_all()
     db.create_all()
 '''
-'''
-class Book(db.Model):
-    __tablename__ = 'Book'
 
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String)
-    author = db.Column(db.String)
-    #subject = db.Column(db.String)
-    #genre = db.Column(db.String)
-    #description = db.Column(db.String)
-    #notes = db.Column(db.String)
-    form = db.Column(db.String)
-    location_id = db.relationship('Location', backref='Book', lazy=True)
-    #future: Zotero integration
-    #future: read - date last read
+# ** migrate = Migrate(app, db) # ** ???
 
-    def __repr__(self):
-        return f'<Book ID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
-
-class Location(db.Model): #foreign_id in other models
-    __tablename__ = 'Location'
-
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String)
-    type = db.Column(db.String)
-    #description = db.Column(db.String)
-    #referenceid = db.Column(db.String)
-    book_id = db.Column(db.Integer. db.ForeignKey('Book.id'))
-
-    def __repr__(self):
-        return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
-
-#db.create_all() - using migrate to sync db
-'''
-
-
-#Models - from app.py (inadvertant dupe)
+#Models - from app.py (accidental dupe)
 class Location(db.Model): 
     __tablename__ = 'Location'
 
@@ -122,6 +89,42 @@ class Book(db.Model):
           'form': self.form,
           'location_id': self.location_id
         }
+
+'''
+class Book(db.Model):
+    __tablename__ = 'Book'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    author = db.Column(db.String)
+    #subject = db.Column(db.String)
+    #genre = db.Column(db.String)
+    #description = db.Column(db.String)
+    #notes = db.Column(db.String)
+    form = db.Column(db.String)
+    location_id = db.relationship('Location', backref='Book', lazy=True)
+    #future: Zotero integration
+    #future: read - date last read
+
+    def __repr__(self):
+        return f'<Book ID: {self.id}, title: {self.title}, author: {self.author}, form: {self.form}>' 
+
+class Location(db.Model): #foreign_id in other models
+    __tablename__ = 'Location'
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String)
+    type = db.Column(db.String)
+    #description = db.Column(db.String)
+    #referenceid = db.Column(db.String)
+    book_id = db.Column(db.Integer. db.ForeignKey('Book.id'))
+
+    def __repr__(self):
+        return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
+
+#db.create_all() - using migrate to sync db
+'''
+
 
 '''
 class Video(db.Model):
