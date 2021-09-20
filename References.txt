@@ -3,3 +3,20 @@ References
 https://dev.to/brandonwallace/one-to-many-relationships-complete-how-to-2nbi
 Curl delete request
 https://reqbin.com/req/c-1dw4uds4/curl-delete-request-example
+
+https://www.w3schools.com/git/git_branch_merge.asp
+
+https://stackoverflow.com/questions/63309591/import-jwt-importerror-no-module-named-jwt
+
+
+https://auth0.com/docs/flows/authorization-code-flow
+
+Connection not working - / leading urls
+https://knowledge.udacity.com/questions/348038
+
+db: one to many relationship
+https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
+
+https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
+
+Build & Deploy A Python Web App | Flask, Postgres & Heroku

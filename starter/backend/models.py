@@ -18,7 +18,7 @@ def db_drop_and_create_all():
 
 # ** migrate = Migrate(app, db) # ** ???
 
-#Models - from app.py (accidental dupe)
+#Models
 class Location(db.Model): 
     __tablename__ = 'Location'
 
