@@ -13,12 +13,24 @@ from auth import AuthError, requires_auth
 
 #from models import setup_db - Integrating models.py in app.py
 
+ITEMS_PER_PAGE = 10
+
+def paginate(request, selection):
+  page = request.arts.get('page', 1, type=int)
+  start = (page - 1) * ITEMS_PER_PAGE
+  end = start + ITEMS_PER_PAGE
+
+  items = [items.format() for book in selection] #specify items. Books, Locations, etc inclusive
+  current_items = items[start:end]
+  
+  return current_items
+
+
 app = Flask(__name__)
 #cors = CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
 db = SQLAlchemy(app)
-db.init_app(app) # ** <-- just init ??? https://knowledge.udacity.com/questions/688514
 migrate = Migrate(app, db)
 
 #db.create_all() - using migrate to sync, so no db.create_all() 

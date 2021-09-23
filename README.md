@@ -3,6 +3,8 @@ A place to record the location of stuff
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
+Github: https://github.com/TaraT1/Full-Stack-Capstone/tree/main/starter
+
 #### Connect Postgres Database
 After the first install and each time you restart your machine you will have to also restart the postgres service, or else you will get an operational error. (Is the server running?)
 	1. To start the service, type ```sudo service postgresql start```
@@ -96,3 +98,6 @@ curl http://127.0.0.1:5000/books/1 -X PATCH -H "Content-Type: application/json" 
 curl -X DELETE http://127.0.0.1:5000/books/5
 -H "Accept: aplication/json"
 ```
+
+### Pagination
+- based on generic items

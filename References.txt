@@ -19,4 +19,7 @@ https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
 
 https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 
-Build & Deploy A Python Web App | Flask, Postgres & Heroku
+Build & Deploy A Python Web App | Flask, Postgres & Heroku 
+https://www.youtube.com/watch?v=w25ea_I89iM
+
+https://devcenter.heroku.com/articles/getting-started-with-python - django
