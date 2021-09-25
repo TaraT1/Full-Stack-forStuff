@@ -4,6 +4,20 @@
         <title>Stuff</title>
     </head>
     <body>
+        <!--Location -->
+        <form id="form" method="POST" action="/locations/create" >
+            <input type="text" id="name" name="name" />
+            <input type="text" id="type" name="type" />
+            <input type="submit" value="Create" />
+        </form>
+
+        <ul id="locations">
+            {% for d in data %}
+            <li> {{ d.locations}} </li>
+            {% endfor %}
+        </ul>
+        
+        <!-- Book -->
        <form id="form" method="POST" action="/books/create">
             <input type="text" id="title" name="title" />
             <input type="text" id="author" name="author" />
@@ -12,13 +26,6 @@
             <input type="submit" value="Create" />
         </form>
         
-        <!--Add new locations form
-        <form id="form" method="POST" action="/locations/create" >
-            <input type="text" id="name" name="name" />
-            <input type="text" id="type" name="type" />
-            <input type="submit" value="Create" />
-        </form>
-        -->
         <ul id="books">
             {% for d in data %}
             <li> {{ d.books }} </li>
