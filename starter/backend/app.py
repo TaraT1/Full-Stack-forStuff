@@ -44,7 +44,7 @@ def after_request(response):
   return response
   
 '''
-#Models
+#Models **Separate to models.py. Problem is flask migrate is not picking it up
 class Location(db.Model): 
     __tablename__ = 'Location'
 
