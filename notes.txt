@@ -1,0 +1,3 @@
+Changing dir structure in efforts to cleanup
+- Eliminate starter dir
+- heroku specific
