@@ -153,8 +153,11 @@ def create_locations(payload):
     abort(422)
 
 @app.route('/locations', methods=['GET'])
-@requires_auth('get:locations')
-def get_locations(payload):
+#@requires_auth('get:locations')
+def get_locations():
+  #@app.route('/locations', methods=['GET'])
+  #@requires_auth('get:locations')
+  #def get_locations(payload):
 
   try:
     locations=Location.query.all()
@@ -268,8 +271,11 @@ def create_book(payload):
     abort(422)
 
 @app.route('/books', methods = ['GET'])
-@requires_auth('get:books')
-def get_books(payload):
+#@requires_auth('get:books')
+def get_books():
+  #@app.route('/books', methods = ['GET'])
+  #@requires_auth('get:books')
+  #def get_books(payload):
 
   try:
     books = Book.query.all()
