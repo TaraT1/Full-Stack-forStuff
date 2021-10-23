@@ -8,7 +8,8 @@ from flask_migrate import Migrate
 from models import Location, Book
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
-from jose import jwt
+#from jose import jwt #no module named jose error; auth only?
+#from flask_jwk import JWT #SO 52859574
 from auth import AuthError, requires_auth 
 
 #from models import setup_db - Integrating models.py in app.py
@@ -319,8 +320,8 @@ def update_book(payload, book_id):
 
     return jsonify({
       'success': True,
-      'book.id': book_id
-      #'book.location': location_id
+      'book.id': book_id,
+      'book.location': location_id
     }, 200)
 
   except Exception as e:

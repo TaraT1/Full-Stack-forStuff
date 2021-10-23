@@ -63,7 +63,8 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
-    location_id = db.Column(db.Integer, db.ForeignKey('Location.id')) #fkey refers to actual table
+    location_id = db.Column(db.Integer, db.ForeignKey('Location')) #fkey refers to actual table
+    #location_id = db.Column(db.Integer, db.ForeignKey('Location.id')) #fkey refers to actual table
     #future: Zotero integration
     #future: read - date last read
 
