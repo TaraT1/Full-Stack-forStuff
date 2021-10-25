@@ -145,7 +145,7 @@ def create_locations(payload):
 
     return jsonify({
       'success': True,
-      'created': location.id,
+      'created': Location.id,
       'total_locations': len(locations)
     }), 200
 
@@ -241,7 +241,7 @@ def create_book(payload):
   new_title=data.get('title')
   new_author=data.get('author')
   new_form=data.get('form')
-  new_location=data.get('location_id')
+  #new_location=data.get('location_id')
 
   if data is None:
     abort(404)
