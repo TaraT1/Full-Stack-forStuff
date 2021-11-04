@@ -250,8 +250,8 @@ def create_book(payload):
     book = Book(
       title=new_title, 
       author=new_author, 
-      form=new_form,
-      location_id=new_location
+      form=new_form
+      #location_id=new_location
       )
       
       
