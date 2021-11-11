@@ -122,8 +122,8 @@ class Book(db.Model):
 #Controllers
 #LOCATIONS
 @app.route('/locations/add', methods=['POST'])
-@requires_auth('post:locations')
-def create_locations(payload):
+@requires_auth('post:location')
+def create_location(payload):
   #json
   data=request.get_json()
 
@@ -140,13 +140,14 @@ def create_locations(payload):
     )
 
     location.insert()
-
-    locations = Location.query.all()
+    db.session.add(location)
+    db.session.commit()
 
     return jsonify({
       'success': True,
-      'created': Location.id,
-      'total_locations': len(locations)
+      'created': location.id,
+      'total_locations': len(Location.query.all())
+
     }), 200
 
   except Exception as e:
@@ -229,12 +230,6 @@ def delete_location(payload, location_id):
 @app.route('/books/add', methods=['POST'])
 @requires_auth('post:book') 
 def create_book(payload):
-  ''' Form
-  new_title=request.form.get('title', '')
-
-  new_form=request.form.get('form', '')
-  new_location=request.form.get('location_id', '')
-  '''
   #json
   data=request.get_json()
 
@@ -253,8 +248,6 @@ def create_book(payload):
       form=new_form
       #location_id=new_location
       )
-      
-      
     
     book.insert()
     db.session.add(book)
