@@ -8,11 +8,7 @@ from flask_migrate import Migrate
 from models import Location, Book
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
-#from jose import jwt #no module named jose error; auth only?
-#from flask_jwk import JWT #SO 52859574
 from auth import AuthError, requires_auth 
-
-#from models import setup_db - Integrating models.py in app.py
 
 ITEMS_PER_PAGE = 10
 
@@ -45,7 +41,7 @@ def after_request(response):
   return response
   
 '''
-#Models **Separate to models.py. Problem is flask migrate is not picking it up
+#Models **Separate to models.py. **Problem** flask migrate is not picking it up
 class Location(db.Model): 
     __tablename__ = 'Location'
 
