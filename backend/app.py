@@ -136,8 +136,8 @@ def create_location(payload):
     )
 
     location.insert()
-    db.session.add(location)
-    db.session.commit()
+    #db.session.add(location)
+    #db.session.commit()
 
     return jsonify({
       'success': True,
@@ -246,8 +246,8 @@ def create_book(payload):
       )
     
     book.insert()
-    db.session.add(book)
-    db.session.commit()
+    #db.session.add(book) **don't need with book.insert() (Mostafa)
+    #db.session.commit()
     #return redirect(url_for('index.html')) #not sure of format for redirect
     
     return jsonify({
