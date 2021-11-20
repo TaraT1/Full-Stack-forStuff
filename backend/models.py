@@ -28,10 +28,12 @@ class Location(db.Model):
     #referenceid = db.Column(db.String())
     book = db.relationship('Book', backref='Location', lazy=True) #Book refers to class
 
+    def __repr__(self):
+        return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
+    '''
     def __init__(self, name, type):
         self.name = name
         self.type = type
-
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -49,6 +51,7 @@ class Location(db.Model):
           'name': self.name,
           'type': self.type
         }
+    '''
 
 class Book(db.Model):
     __tablename__ = 'Book'
