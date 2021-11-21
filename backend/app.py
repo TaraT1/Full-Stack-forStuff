@@ -121,10 +121,10 @@ class Book(db.Model):
 @requires_auth('post:location')
 def create_location(payload):
   #json
-  #data=request.get_json()
+  data=request.get_json()
 
-  new_name = request.get_json()['Location.name']
-  new_type = request.get_json()['Location.type']
+  new_name = data.get('name')
+  new_type = data.get('type')
 
   if data is None:
     abort(404)

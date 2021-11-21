@@ -26,14 +26,12 @@ class Location(db.Model):
     type = db.Column(db.String())
     #description = db.Column(db.String())
     #referenceid = db.Column(db.String())
-    book = db.relationship('Book', backref='Location', lazy=True) #Book refers to class
+    book = db.relationship('Book', backref='Location', lazy=True) 
 
-    def __repr__(self):
-        return f'<Location ID: {self.id}, name: {self.name}, type: {self.type}>'
-    '''
     def __init__(self, name, type):
         self.name = name
         self.type = type
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -51,7 +49,6 @@ class Location(db.Model):
           'name': self.name,
           'type': self.type
         }
-    '''
 
 class Book(db.Model):
     __tablename__ = 'Book'
@@ -64,7 +61,7 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
-    location_id = db.Column(db.Integer, db.ForeignKey('Location.id')) #fkey refers to actual table
+    location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
     #future: Zotero integration
     #future: read - date last read
 
