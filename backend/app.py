@@ -150,11 +150,7 @@ def create_location(payload):
     abort(422)
 
 @app.route('/locations', methods=['GET'])
-#@requires_auth('get:locations')
 def get_locations():
-  #@app.route('/locations', methods=['GET'])
-  #@requires_auth('get:locations')
-  #def get_locations(payload):
 
   try:
     locations=Location.query.all()
