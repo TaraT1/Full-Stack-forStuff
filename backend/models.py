@@ -26,9 +26,9 @@ class Location(db.Model):
     type = db.Column(db.String())
     #description = db.Column(db.String())
     #referenceid = db.Column(db.String())
-    book = db.relationship('Book', backref='Location', lazy=True) 
+    book = db.relationship('Book', backref='location', lazy=True) 
 
-    def __init__(self, name, type):
+    def __init__(self, name, type):#??? book
         self.name = name
         self.type = type
 
