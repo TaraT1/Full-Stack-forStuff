@@ -227,6 +227,7 @@ def create_book(payload):
   new_title=data.get('title')
   new_author=data.get('author')
   new_form=data.get('form')
+  #new_location=data.get('location.id')
   new_location=data.get('location_id')
 
   if data is None:
@@ -241,8 +242,6 @@ def create_book(payload):
       )
     
     book.insert()
-    #db.session.add(book) **don't need with book.insert() (Mostafa)
-    #db.session.commit()
     #return redirect(url_for('index.html')) #not sure of format for redirect
     
     return jsonify({

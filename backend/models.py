@@ -26,7 +26,7 @@ class Location(db.Model):
     type = db.Column(db.String())
     #description = db.Column(db.String())
     #referenceid = db.Column(db.String())
-    book = db.relationship('Book', backref='location', lazy=True) 
+    books = db.relationship('Book', backref='location') #for location.id, etc.; place?
 
     def __init__(self, name, type):#??? book
         self.name = name
@@ -61,9 +61,12 @@ class Book(db.Model):
     #description = db.Column(db.String())
     #notes = db.Column(db.String())
     form = db.Column(db.String())
+    # ForeignKey to link books and locations
+    #location_id = db.Column(db.Integer, db.ForeignKey('location.id'))#for add book; not working
     location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
     #future: Zotero integration
     #future: read - date last read
+
 
     def __init__(self, title, author, form):
         self.title = title
@@ -86,8 +89,7 @@ class Book(db.Model):
           'id': self.id,
           'title': self.title,
           'author': self.author,
-          'form': self.form,
-          'location_id': self.location_id
+          'form': self.form
         }
 
 '''
