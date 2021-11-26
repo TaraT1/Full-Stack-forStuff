@@ -26,8 +26,7 @@ class Location(db.Model):
     type = db.Column(db.String())
     #description = db.Column(db.String())
     #referenceid = db.Column(db.String())
-    books = db.relationship('Book', backref='Location') #emulating Fyyur
-    #books = db.relationship('Book', backref='location') #for location.id, etc.; place?
+    books = db.relationship('Book', backref='Location') 
 
     def __init__(self, name, type):#??? book
         self.name = name
@@ -63,13 +62,11 @@ class Book(db.Model):
     #notes = db.Column(db.String())
     form = db.Column(db.String())
     # ForeignKey to link books and locations
-    #location_id = db.Column(db.Integer, db.ForeignKey('location.id'))#for add book; not working
     location_id = db.Column(db.Integer, db.ForeignKey('Location.id'))
     #future: Zotero integration
     #future: read - date last read
 
 
-    #def __init__(self, title, author, form):
     def __init__(self, title, author, form, location_id):
         self.title = title
         self.author = author
