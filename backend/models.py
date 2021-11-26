@@ -26,7 +26,8 @@ class Location(db.Model):
     type = db.Column(db.String())
     #description = db.Column(db.String())
     #referenceid = db.Column(db.String())
-    books = db.relationship('Book', backref='location') #for location.id, etc.; place?
+    books = db.relationship('Book', backref='Location') #emulating Fyyur
+    #books = db.relationship('Book', backref='location') #for location.id, etc.; place?
 
     def __init__(self, name, type):#??? book
         self.name = name
@@ -68,10 +69,12 @@ class Book(db.Model):
     #future: read - date last read
 
 
-    def __init__(self, title, author, form):
+    #def __init__(self, title, author, form):
+    def __init__(self, title, author, form, location_id):
         self.title = title
         self.author = author
         self.form = form
+        self.location_id = location_id
 
     def insert(self):
         db.session.add(self)
@@ -89,7 +92,8 @@ class Book(db.Model):
           'id': self.id,
           'title': self.title,
           'author': self.author,
-          'form': self.form
+          'form': self.form,
+          'location_id': self.location_id
         }
 
 '''
