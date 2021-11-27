@@ -297,16 +297,23 @@ def update_book(payload, book_id):
     book.title = data.get('title', None)
     book.author = data.get('author', None)
     book.form = data.get('form', None)
-    book.location = data.get('location_id', None)
+    #book.location_id = data.get('location_id', None)
     
     book.update()
+
+    '''
+    return jsonify({
+      'success': True,
+      'book.id': book_id
+    }, 200)
+    '''
 
     return jsonify({
       'success': True,
       'book.id': book_id,
-      'book.location': location_id
+      'book.location_id': location_id
     }, 200)
-
+    
   except Exception as e:
     print ("Patch Book Exception >> ", e)
     abort(404)
