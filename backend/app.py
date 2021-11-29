@@ -12,6 +12,7 @@ from auth import AuthError, requires_auth
 
 ITEMS_PER_PAGE = 10
 
+'''
 def paginate(request, selection):
   page = request.arts.get('page', 1, type=int)
   start = (page - 1) * ITEMS_PER_PAGE
@@ -21,7 +22,7 @@ def paginate(request, selection):
   current_items = items[start:end]
   
   return current_items
-
+'''
 
 app = Flask(__name__)
 #cors = CORS(app)
@@ -40,81 +41,6 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE')
   return response
   
-'''
-#Models **Separate to models.py. **Problem** flask migrate is not picking it up
-class Location(db.Model): 
-    __tablename__ = 'Location'
-
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String())
-    type = db.Column(db.String())
-    #description = db.Column(db.String())
-    #referenceid = db.Column(db.String())
-    book = db.relationship('Book', backref='Location', lazy=True) #Book refers to class
-
-    def __init__(self, name, type):
-        self.name = name
-        self.type = type
-
-    def insert(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def format(self):
-        return {
-          'id': self.id,
-          'name': self.name,
-          'type': self.type
-        }
-
-class Book(db.Model):
-    __tablename__ = 'Book'
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String())
-    author = db.Column(db.String())
-    #subject = db.Column(db.String())
-    #genre = db.Column(db.String())
-    #description = db.Column(db.String())
-    #notes = db.Column(db.String())
-    form = db.Column(db.String())
-    location_id = db.Column(db.Integer, db.ForeignKey('Location.id')) #fkey refers to actual table
-    #future: Zotero integration
-    #future: read - date last read
-
-    def __init__(self, title, author, form):
-        self.title = title
-        self.author = author
-        self.form = form
-
-    def insert(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def format(self):
-        return {
-          'id': self.id,
-          'title': self.title,
-          'author': self.author,
-          'form': self.form,
-          'location_id': self.location_id
-        }
-'''
-
 #Controllers
 #LOCATIONS
 @app.route('/locations/add', methods=['POST'])
