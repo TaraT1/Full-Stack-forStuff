@@ -1,7 +1,8 @@
+import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-from flaskr import create_app
+#?create_app; Trivia has def create_app
 from models import setup_db, Location, Book
 
 #API Testing 4.2
@@ -11,12 +12,19 @@ class LocationTestCase(unittest.TestCase):
 
     def setUp(self):
         """Executed before each test. Define test variables and initialize app."""
-        self.app = create_app()
+        self.app = create_app()#need create_app function
         self.client = app.test_client
         self.database_name = "test_db"
         self.database_path = "postgres://{}:{}@{}/{}".format('postgres','postgres','localhost:5432', self.database_name)
 
         setup_db(self.app, self.database_path)
+
+        #bind app to current context - ?? What is context?
+        with self.app.app_context():
+            self.db = SQLAlchemy
+            self.db.init_app(self.app)
+            #create tables
+            self.db.create_all()
 
         #create new location record for testing
         self.new_location = {
@@ -24,20 +32,13 @@ class LocationTestCase(unittest.TestCase):
             "type": "bookshelf"
         }
 
-    
+        #create new book for testing
         self.new_book = {
             "title": "Title1", 
             "author": "Author1", 
-            "form": "ebook_kindle",
-            "location_id": 2
+            "form": "ebook",
+            "location_id": 1
         }
-
-        #bind app to current context
-        with self.app.app_context():
-            self.db = SQLAlchemy
-            self.db.init_app(self.app)
-            #create tables
-            self.db.create_all()
 
     def tearDown(self):
         """Executed after reach test"""
@@ -49,29 +50,96 @@ class LocationTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
 
-        #LOCATION TESTS
-        #def post_location
+    #LOCATION TESTS
+    def test_post_location_auth(self):#payload required
+        res = self.client().post('/locations/add', json=self.new_name)
+        data = json.loads(res.data)
 
-        #def get_location
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'], True)
+        self.assertTrue(data['created'])
+        self.assertTrue(data['total_locations'])
+    
+    #def test_post_location_not_auth(self)
 
-        #def update_location
-
-        #def delete_location
 
 
-        #BOOK TESTS
-        #def post_book, location
+    def test_get_location(self):
+        res = self.client().get('/locations')
+        data = json.loads(res.data)
 
-        #def get_book
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'], True)
+        self.assertTrue(data['locations'])
+        self.assertTrue(data['number of locations'])
 
-        
+    #test if no locations found
+    
+    #With authorizations
+    def test_update_location_authorized(self): #payload
+        res = self.client().patch('locations/1', json={'name': 'upshelf'})
+        data = json.loads(res.data)
+        location = Location.query.filter(Location.id == 1).one_or_none()
 
-        #def delete_book
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'], True)
+        self.assertTrue(data['location.id'])
 
+    #def test_update_location_not_auth
+
+        #self.assertEqual(res.status_code, 422)
+
+    #def delete_location_auth
+    
+    
+    #def delete_location_not_auth
+
+        #self.assertEqual(res.status_code, 422)
+
+    #BOOK TESTS
+    def test_post_book_auth(self): # + location
+        res = self.client().post('/books/add')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(['success'], True)
+        self.assertTrue(['created'])
+        self.assertTrue(['total_books'])
+
+    #def test_post_book_not_auth(self): # + location
+
+        #self.assertEqual(res.status_code, 422)
+    def test_get_books(self): #no auth ndd
+        res = self.client().get('/books')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success', True])
+        self.assertTrue(data(['total_books']))
+
+    #test if no books found
+    
+    #def update_book_auth(self)
+
+        #self.assertEqual(res.status_code, 422)
+
+    #def update_book_not_auth(self)
     
 
+        #self.assertEqual(res.status_code, 422)
+    #def delete_book_auth(self)
+
+        #self.assertEqual(res.status_code, 200)
+    
+    #def delete_book_not_auth(self)
+
+        #self.assertEqual(res.status_code, 422)
 
 
+
+
+    
+    
 
 
 
