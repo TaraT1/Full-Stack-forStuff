@@ -45,10 +45,7 @@ flask run
 
 ### Identity Access Management
 #### Roles
-- Admin/Owner *** Separate Admin and Owner roles. Admin only creates users.
-	- full privileges
-	- **future feature: can create new categories of things
-	- assigns users and privileges
+- Owner 
 	- can get, create, patch, delete locations
 	- can get, create, patch, delete books
 - User
@@ -57,8 +54,10 @@ flask run
 	- locations
 		- can get locations
 	
-- Helper 
-	- change location
+**future features: 
+- Owner role can create new categories of things
+- Admin role creates users and assigns privileges
+- Helper role changes location
 
 ### Getting Setup (from Coffee FE Readme)
 
