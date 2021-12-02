@@ -4,15 +4,24 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 #?create_app; Trivia has def create_app
 from models import setup_db, Location, Book
+from dotenv import load_dotenv
 
+load_dotenv() #loads environment variables
+
+#assigning env variables
+USER = os.environ.get('user_jwt')
+OWNER = os.environ.get('owner_jwt')
+
+def get_headers(token):
+    return {'Authorization': f'Bearer {token'}
+
+#???app = Flask(__name__)
 #API Testing 4.2
 
-class LocationTestCase(unittest.TestCase):
-    """This class represents a stuff test case"""
-
-    def setUp(self):
+class StuffTestCase(unittest.TestCase):
+    def setUp(self):#from bookshelf I think
         """Executed before each test. Define test variables and initialize app."""
-        self.app = create_app()#need create_app function
+        self.app = create_app()###need create_app function in app.py
         self.client = app.test_client
         self.database_name = "test_db"
         self.database_path = "postgres://{}:{}@{}/{}".format('postgres','postgres','localhost:5432', self.database_name)
@@ -39,10 +48,11 @@ class LocationTestCase(unittest.TestCase):
             "form": "ebook",
             "location_id": 1
         }
-
     def tearDown(self):
         """Executed after reach test"""
         pass
+
+
 
     def test_given_behavior(self):
         """Test _____________ """
@@ -50,9 +60,12 @@ class LocationTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
 
-    #LOCATION TESTS
+    #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
     def test_post_location_auth(self):#payload required
-        res = self.client().post('/locations/add', json=self.new_name)
+        res = self.client().post('/locations/add', 
+            json=self.new_location, 
+            headers=get_headers(OWNER))
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
