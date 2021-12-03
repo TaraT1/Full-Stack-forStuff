@@ -2,6 +2,7 @@ import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.exceptions import Unauthorized
 #?create_app; Trivia has def create_app
 from models import setup_db, Location, Book
 from dotenv import load_dotenv
@@ -13,16 +14,16 @@ USER = os.environ.get('user_jwt')
 OWNER = os.environ.get('owner_jwt')
 
 def get_headers(token):
-    return {'Authorization': f'Bearer {token'}
+    return {'Authorization': f'Bearer {token'}}
 
 #???app = Flask(__name__)
 #API Testing 4.2
 
 class StuffTestCase(unittest.TestCase):
-    def setUp(self):#from bookshelf I think
+    def setUp(self):#from trivia
         """Executed before each test. Define test variables and initialize app."""
-        self.app = create_app()###need create_app function in app.py
-        self.client = app.test_client
+        self.app = create_app()
+        self.client = self.app.test_client
         self.database_name = "test_db"
         self.database_path = "postgres://{}:{}@{}/{}".format('postgres','postgres','localhost:5432', self.database_name)
 
@@ -73,8 +74,15 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['created'])
         self.assertTrue(data['total_locations'])
     
-    #def test_post_location_not_auth(self)
+    def test_post_location_not_auth(self):#payload required
+        res = self.client().post('/locations/add', 
+            json=self.new_location) 
 
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 403)
+        self.assertTrue(data['success'], False)
+        self.assertTrue(data['message'], 'Unauthorized')
 
 
     def test_get_location(self):
@@ -86,11 +94,20 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['locations'])
         self.assertTrue(data['number of locations'])
 
-    #test if no locations found
+    def test_get_locations_when_none(self):# Should self be none?
+        res = self.client().get('locations')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'], True)
+        self.assertTrue(data['locations'])
+        self.assertTrue(data['number of locations'])
     
-    #With authorizations
     def test_update_location_authorized(self): #payload
-        res = self.client().patch('locations/1', json={'name': 'upshelf'})
+        res = self.client().patch('locations/1', 
+        json={'name': 'upshelf'},
+        headers=get_headers(OWNER))
+
         data = json.loads(res.data)
         location = Location.query.filter(Location.id == 1).one_or_none()
 
@@ -98,16 +115,40 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
 
-    #def test_update_location_not_auth
+    def test_update_location_not_auth(self):
+        res = self.client().patch('location/1'),
+        json={'name': 'upshelf'})
 
-        #self.assertEqual(res.status_code, 422)
+        data = json.loads(res.data)
+        location = Location.query.filter(Location.id == 1).one_or_none()
 
-    #def delete_location_auth
-    
-    
-    #def delete_location_not_auth
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], Unauthorized)
 
-        #self.assertEqual(res.status_code, 422)
+
+    def test_delete_location_authorized(self):
+        res = self.client().delete('locations/1',
+        headers=get_headers(OWNER))
+
+        data = json.loads(res.data)
+        
+        location = Location.query.filter(Location.id == 1).one_or_none()
+
+        self.assertEqual(res.statust_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(location, None)
+
+    def test_delete_location_not_auth(self):
+        res = self.client().delete('locations/1')
+
+        data = json.loads(res.data)
+
+        location = Location.query.filter(Location.id == 1).one_or_none()
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(location, None)
 
     #BOOK TESTS
     def test_post_book_auth(self): # + location
