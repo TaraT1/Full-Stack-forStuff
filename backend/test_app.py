@@ -43,12 +43,32 @@ class StuffTestCase(unittest.TestCase):
         }
 
         #create new book for testing
-        self.new_book = {
+        self.new_book_0 = {
+            "title": "", 
+            "author": "", 
+            "form": ""
+        }
+
+        self.new_book_1 = {
             "title": "Title1", 
             "author": "Author1", 
-            "form": "ebook",
+            "form": "ebook"
+        }
+
+         self.new_book_2 = {
+            "title": "Title2", 
+            "author": "Author2", 
+            "form": "form2",
+            "location_id": 2
+        } 
+        
+        self.new_book_3 = {
+            "title": "Title3", 
+            "author": "Author3", 
+            "form": "book",
             "location_id": 1
         }
+
     def tearDown(self):
         """Executed after reach test"""
         pass
@@ -151,8 +171,11 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(location, None)
 
     #BOOK TESTS
-    def test_post_book_auth(self): # + location
-        res = self.client().post('/books/add')
+    def test_post_book_auth(self): # payload reqd, + location
+        res = self.client().post('/books/add',
+            json=self.new_book_1,
+            headers=get_headers(OWNER))
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -160,9 +183,17 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(['created'])
         self.assertTrue(['total_books'])
 
-    #def test_post_book_not_auth(self): # + location
+    def test_post_book_not_auth(self): # payload required
+        res = self.client().post('/books/add', 
+            json=self.new_book_1)
 
-        #self.assertEqual(res.status_code, 422)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 403)
+        self.assertTrue(data['success'], False)
+        self.assertTrue(data]['message'], 'Unauthorized')
+
+
     def test_get_books(self): #no auth ndd
         res = self.client().get('/books')
         data = json.loads(res.data)
@@ -173,36 +204,54 @@ class StuffTestCase(unittest.TestCase):
 
     #test if no books found
     
-    #def update_book_auth(self)
+    def update_book_authorized(self):
+        res = self.client().patch('books/1',
+        json={'title': 'Changed_Title'},
+        headers=get_headers(OWNER))
 
-        #self.assertEqual(res.status_code, 422)
+        data = json.loads(res.data)
+        book = Book.query.filter(Book.id == 1).one_or_none()
 
-    #def update_book_not_auth(self)
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'], True)
+        self.assertTrue(data['book.id'])
+
+    def update_book_not_authorized(self):
+        res = self.client().patch('books/1',
+        json={'title': 'Changed_Title'})
     
+        data = json.loads(res.data)
+        book = Book.query.filter(Book.id == 1).one_or_none()
 
-        #self.assertEqual(res.status_code, 422)
-    #def delete_book_auth(self)
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], Unauthorized)
 
-        #self.assertEqual(res.status_code, 200)
-    
-    #def delete_book_not_auth(self)
+    def delete_book_auth(self): #requires auth
+        res = self.client().delete('books/1',
+        json=self.new_book_1,
+        headers=get_headers(OWNER))
 
-        #self.assertEqual(res.status_code, 422)
+        data = json.loads(res.data)
 
+        book = Book.query.filter(Book.id == 1).one_or_none()
 
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'], True)
+        self.assertTrue(book, None)
 
+    def delete_book_not_authorized(self):
+        res = self.client().delete('books/1',
+        json=self.new_book_1)
 
-    
-    
+        data = json.loads(res.data)
 
+        book = Book.query.filter(Book.id == 1).one_or_none()
 
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], Unauthorized
 
-
-
-
-
-
-
-# Make the tests conveniently executable
+# Make the tests executable
 if __name__ == "__main__":
 unittest.main()
