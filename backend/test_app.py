@@ -4,17 +4,17 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import Unauthorized
 #?create_app; Trivia has def create_app
-from models import setup_db, Location, Book
-from dotenv import load_dotenv
+from models import Location, Book
+#from dotenv import load_dotenv
 
-load_dotenv() #loads environment variables
+#load_dotenv() #loads environment variables
 
 #assigning env variables
-USER = os.environ.get('user_jwt')
-OWNER = os.environ.get('owner_jwt')
+#USER = os.environ.get('user_jwt')
+
 
 def get_headers(token):
-    return {'Authorization': f'Bearer {token'}}
+    return {'Authorization': f'Bearer {token}'}
 
 #???app = Flask(__name__)
 #API Testing 4.2
@@ -41,6 +41,18 @@ class StuffTestCase(unittest.TestCase):
             "name": "shelf ds1",
             "type": "bookshelf"
         }
+        self.new_location_2 = {
+            "name": "shelf ups1",
+            "type": "bookshelf"
+        }
+        self.new_location_3 = {
+            "name": "pantry ds2",
+            "type": "area"
+        }
+        self.new_location_4 = {
+            "name": "cbnt ups2",
+            "type": "bin"
+        }
 
         #create new book for testing
         self.new_book_0 = {
@@ -55,7 +67,7 @@ class StuffTestCase(unittest.TestCase):
             "form": "ebook"
         }
 
-         self.new_book_2 = {
+        self.new_book_2 = {
             "title": "Title2", 
             "author": "Author2", 
             "form": "form2",
@@ -75,12 +87,15 @@ class StuffTestCase(unittest.TestCase):
 
 
 
+    '''
     def test_given_behavior(self):
         """Test _____________ """
         res = self.client().get('/')
 
         self.assertEqual(res.status_code, 200)
+    '''
 
+    '''
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
@@ -103,6 +118,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertTrue(data['success'], False)
         self.assertTrue(data['message'], 'Unauthorized')
+    '''
 
 
     def test_get_location(self):
@@ -115,7 +131,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['number of locations'])
 
     def test_get_locations_when_none(self):# Should self be none?
-        res = self.client().get('locations')
+        res = self.client().get('/locations')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -123,8 +139,9 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['locations'])
         self.assertTrue(data['number of locations'])
     
+    '''
     def test_update_location_authorized(self): #payload
-        res = self.client().patch('locations/1', 
+        res = self.client().patch('/locations/1', 
         json={'name': 'upshelf'},
         headers=get_headers(OWNER))
 
@@ -134,7 +151,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
-
+    
     def test_update_location_not_auth(self):
         res = self.client().patch('location/1'),
         json={'name': 'upshelf'})
@@ -145,8 +162,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], Unauthorized)
-
-
+    '''
+    '''
     def test_delete_location_authorized(self):
         res = self.client().delete('locations/1',
         headers=get_headers(OWNER))
@@ -169,7 +186,9 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
         self.assertEqual(location, None)
-
+    '''
+    
+    '''
     #BOOK TESTS
     def test_post_book_auth(self): # payload reqd, + location
         res = self.client().post('/books/add',
@@ -193,7 +212,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], False)
         self.assertTrue(data]['message'], 'Unauthorized')
 
-
+    '''
+    '''
     def test_get_books(self): #no auth ndd
         res = self.client().get('/books')
         data = json.loads(res.data)
@@ -204,6 +224,8 @@ class StuffTestCase(unittest.TestCase):
 
     #test if no books found
     
+    '''
+    '''
     def update_book_authorized(self):
         res = self.client().patch('books/1',
         json={'title': 'Changed_Title'},
@@ -227,6 +249,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], Unauthorized)
 
+    '''
+    '''
     def delete_book_auth(self): #requires auth
         res = self.client().delete('books/1',
         json=self.new_book_1,
@@ -251,7 +275,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], Unauthorized
+    '''
 
 # Make the tests executable
 if __name__ == "__main__":
-unittest.main()
+    unittest.main()
