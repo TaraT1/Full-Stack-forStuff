@@ -6,9 +6,19 @@ from sqlalchemy import Column, String, Integer, create_engine
 #from flask_migrate import Migrate
 import json
 
+'''changing for coffee setup
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
 db = SQLAlchemy()
+'''
+#???database_filename = 'database.db'
+
+db = SQLAlchemy()
+
+def setup_db(app):
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
+    db.app = app
+    db.init_app(app)
 
 '''
 def db_drop_and_create_all():

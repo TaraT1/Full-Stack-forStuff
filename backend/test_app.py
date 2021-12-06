@@ -3,31 +3,29 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import Unauthorized
-#?create_app; Trivia has def create_app
-from models import Location, Book
-#from dotenv import load_dotenv
+from app import create_app
+from models import setup_db, Location, Book
+from dotenv import load_dotenv
 
-#load_dotenv() #loads environment variables
+load_dotenv() #loads environment variables
 
 #assigning env variables
-#USER = os.environ.get('user_jwt')
-
+OWNER = os.environ.get('owner_jwt')
+USER = os.environ.get('user_jwt')
 
 def get_headers(token):
     return {'Authorization': f'Bearer {token}'}
-
-#???app = Flask(__name__)
-#API Testing 4.2
 
 class StuffTestCase(unittest.TestCase):
     def setUp(self):#from trivia
         """Executed before each test. Define test variables and initialize app."""
         self.app = create_app()
-        self.client = self.app.test_client
+        #self.client = self.app.test_client
         self.database_name = "test_db"
         self.database_path = "postgres://{}:{}@{}/{}".format('postgres','postgres','localhost:5432', self.database_name)
 
-        setup_db(self.app, self.database_path)
+        #setup_db(self.app, self.database_path)
+        setup_db(self.app)
 
         #bind app to current context - ?? What is context?
         with self.app.app_context():
