@@ -20,21 +20,21 @@ class StuffTestCase(unittest.TestCase):
     def setUp(self):#from trivia
         """Executed before each test. Define test variables and initialize app."""
         self.app = create_app()
-        #self.client = self.app.test_client
-        self.database_name = "test_db"
+        self.client = self.app.test_client
+        self.database_name = "stuff_test"
         self.database_path = "postgres://{}:{}@{}/{}".format('postgres','postgres','localhost:5432', self.database_name)
 
         #setup_db(self.app, self.database_path)
         setup_db(self.app)
 
-        #bind app to current context - ?? What is context?
+        #bind app to current context
         with self.app.app_context():
-            self.db = SQLAlchemy
+            self.db = SQLAlchemy()
             self.db.init_app(self.app)
             #create tables
             self.db.create_all()
 
-        #create new location record for testing
+        #create new location records for testing
         self.new_location = {
             "name": "shelf ds1",
             "type": "bookshelf"
@@ -52,7 +52,7 @@ class StuffTestCase(unittest.TestCase):
             "type": "bin"
         }
 
-        #create new book for testing
+        #create new book records for testing
         self.new_book_0 = {
             "title": "", 
             "author": "", 
@@ -128,6 +128,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['locations'])
         self.assertTrue(data['number of locations'])
 
+    '''
     def test_get_locations_when_none(self):# Should self be none?
         res = self.client().get('/locations')
         data = json.loads(res.data)
@@ -136,7 +137,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['locations'])
         self.assertTrue(data['number of locations'])
-    
+    '''
+
     '''
     def test_update_location_authorized(self): #payload
         res = self.client().patch('/locations/1', 

@@ -29,10 +29,12 @@ def create_app(test_config=None):
   app = Flask(__name__)
   setup_db(app)
   '''
-def create_app(test_config=None):#coffee
+def create_app(test_config=None):#trivia and coffee
+    #create and configure
     app = Flask(__name__)
     setup_db(app)
-    CORS(app)
+    
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     '''Changing database setup info (coffee)
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -306,6 +308,7 @@ def create_app(test_config=None):#coffee
         "message": Unauthorized
       }), 401
 
+    return app
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
