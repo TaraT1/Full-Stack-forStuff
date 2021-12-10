@@ -6,22 +6,22 @@ from sqlalchemy import Column, String, Integer, create_engine
 #from flask_migrate import Migrate
 import json
 
-'''changing for coffee setup
+'''#changing for coffee setup
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
 db = SQLAlchemy()
 '''
 #database_name = 'stuff.db'
-database_name = 'stuff_test.db'
-project_dir = os.path.dirname(os.path.abspath(__file__))
-database_path = 'postgres:///{}'.format(os.path.join(project_dir, database_name))
+#database_name = 'stuff_test.db'
+#project_dir = os.path.dirname(os.path.abspath(__file__))
+#database_path = 'postgres:///{}'.format(os.path.join(project_dir, database_name))
 
 db = SQLAlchemy()
 
-def setup_db(app, database_path=database_path):#trivia
-#def setup_db(app):
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
-    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
+#def setup_db(app, database_path=database_path):#trivia
+def setup_db(app):
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
