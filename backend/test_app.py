@@ -53,12 +53,6 @@ class StuffTestCase(unittest.TestCase):
         }
 
         #create new book records for testing
-        self.new_book_0 = {
-            "title": "", 
-            "author": "", 
-            "form": ""
-        }
-
         self.new_book_1 = {
             "title": "Title1", 
             "author": "Author1", 
@@ -108,25 +102,25 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['message'], 'Unauthorized')
     '''
 
-
-    def test_get_location(self):
-        res = self.client().get('/locations')
-        data = json.loads(res.data)
-
-        self.assertEqual(res.status_code, 200)
-        self.assertTrue(data['success'], True)
-        self.assertTrue(data['locations'])
-        self.assertTrue(data['number of locations'])
-
     '''
-    def test_get_locations_when_none(self):# Should self be none?
+    def test_get_location(self): #OK
+        res = self.client().get('/locations')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['locations'])
+        self.assertTrue(data['total_locations'])
+    '''    
+    '''
+    def test_get_locations_when_none(self):#404 Should self be none?
         res = self.client().get('/locations')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
         self.assertTrue(data['locations'])
-        self.assertTrue(data['number of locations'])
+        self.assertTrue(data['total_locations'])
     '''
 
     '''
@@ -209,8 +203,9 @@ class StuffTestCase(unittest.TestCase):
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertTrue(data['success'], True)
-        self.assertTrue(data(['total_books']))
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_books']) #errors - ???
+
 
     #test if no books found
 
