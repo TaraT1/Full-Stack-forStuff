@@ -83,16 +83,6 @@ class StuffTestCase(unittest.TestCase):
         """Executed after reach test"""
         pass
 
-
-
-    '''
-    def test_given_behavior(self):
-        """Test _____________ """
-        res = self.client().get('/')
-
-        self.assertEqual(res.status_code, 200)
-    '''
-
     '''
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
     def test_post_location_auth(self):#payload required
@@ -213,18 +203,16 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data]['message'], 'Unauthorized')
 
     '''
-    '''
     def test_get_books(self): #no auth ndd
         res = self.client().get('/books')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertTrue(data['success', True])
+        #self.assertTrue(data['success'], True)
         self.assertTrue(data(['total_books']))
 
     #test if no books found
     
-    '''
     '''
     def update_book_authorized(self):
         res = self.client().patch('books/1',
