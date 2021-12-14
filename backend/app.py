@@ -209,8 +209,8 @@ def create_app(test_config=None):#trivia and coffee
         return jsonify({
           'books': get_books,
           'success': True,
-          'total_books': len(get_books)
-        }, 200)
+          'total_books': len(books)
+        }), 200
 
       except Exception as e:
         print("Get Exception >> ", e)

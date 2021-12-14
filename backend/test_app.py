@@ -203,16 +203,18 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data]['message'], 'Unauthorized')
 
     '''
+
     def test_get_books(self): #no auth ndd
         res = self.client().get('/books')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        #self.assertTrue(data['success'], True)
+        self.assertTrue(data['success'], True)
         self.assertTrue(data(['total_books']))
 
     #test if no books found
-    
+
+
     '''
     def update_book_authorized(self):
         res = self.client().patch('books/1',
