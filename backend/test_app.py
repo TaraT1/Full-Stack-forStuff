@@ -204,7 +204,7 @@ class StuffTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertTrue(data['total_books']) #errors - ???
+        self.assertTrue(data['total_books']) 
 
 
     #test if no books found
