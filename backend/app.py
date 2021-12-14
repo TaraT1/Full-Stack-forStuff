@@ -93,15 +93,19 @@ def create_app(test_config=None):#trivia and coffee
       try:
         locations=Location.query.all()
         get_locations = [location.format() for location in locations]
+
+        if locations is None:
+          abort(404) #resource not found
+
         return jsonify({
           'success': True,
           'locations': get_locations,
-          'number of locations': len(locations)
+          'total_locations': len(locations)
         }), 200
 
       except Exception as e:
         print('GetLoc Exception >> ', e)
-        abort(404)
+        abort(422)
 
     ##Update specific location
     @app.route('/locations/<int:location_id>', methods=['PATCH'])
@@ -193,11 +197,7 @@ def create_app(test_config=None):#trivia and coffee
         abort(422)
 
     @app.route('/books', methods = ['GET'])
-    #@requires_auth('get:books')
     def get_books():
-      #@app.route('/books', methods = ['GET'])
-      #@requires_auth('get:books')
-      #def get_books(payload):
 
       try:
         books = Book.query.all()
@@ -207,8 +207,8 @@ def create_app(test_config=None):#trivia and coffee
           abort(404) #resource not found
 
         return jsonify({
-          'books': get_books,
           'success': True,
+          'books': get_books,
           'total_books': len(books)
         }), 200
 
