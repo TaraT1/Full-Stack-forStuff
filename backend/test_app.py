@@ -72,6 +72,17 @@ class StuffTestCase(unittest.TestCase):
             "form": "book",
             "location_id": 1
         }
+        
+        #Auth header - integrate auth header info in tests
+        self.owner_header = {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + OWNER
+        }
+
+        self.user_header = {
+            "Content-Type": "application/json",
+            "Authorizaiton": "Bearer " + USER
+        }
 
     def tearDown(self):
         """Executed after reach test"""
@@ -82,7 +93,8 @@ class StuffTestCase(unittest.TestCase):
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
             json=self.new_location, 
-            headers=get_headers(OWNER))
+            #headers=get_headers(OWNER))
+            headers=self.owner_header)
 
         data = json.loads(res.data)
 
