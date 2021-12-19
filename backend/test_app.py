@@ -13,7 +13,7 @@ load_dotenv() #loads environment variables
 OWNER = os.environ.get('owner_jwt')
 USER = os.environ.get('user_jwt')
 
-def get_headers(token):
+def get_headers(token):#Refactor for auth?
     return {'Authorization': f'Bearer {token}'}
 
 class StuffTestCase(unittest.TestCase):
@@ -73,17 +73,6 @@ class StuffTestCase(unittest.TestCase):
             "location_id": 1
         }
         
-        #Auth header - integrate auth header info in tests
-        self.owner_header = {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + OWNER
-        }
-
-        self.user_header = {
-            "Content-Type": "application/json",
-            "Authorizaiton": "Bearer " + USER
-        }
-
     def tearDown(self):
         """Executed after reach test"""
         pass
@@ -93,8 +82,7 @@ class StuffTestCase(unittest.TestCase):
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
             json=self.new_location, 
-            #headers=get_headers(OWNER))
-            headers=self.owner_header)
+            headers=get_headers(OWNER))
 
         data = json.loads(res.data)
 
@@ -103,7 +91,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['created'])
         self.assertTrue(data['total_locations'])
     
-    def test_post_location_not_auth(self):#payload required
+    def test_post_location_not_auth(self):#payload required to post
         res = self.client().post('/locations/add', 
             json=self.new_location) 
 
@@ -115,7 +103,7 @@ class StuffTestCase(unittest.TestCase):
     '''
 
     '''
-    def test_get_location(self): #OK
+    def test_get_location(self): #OK; payload not required to retrieve
         res = self.client().get('/locations')
         data = json.loads(res.data)
 
@@ -136,7 +124,7 @@ class StuffTestCase(unittest.TestCase):
     '''
 
     '''
-    def test_update_location_authorized(self): #payload
+    def test_update_location_authorized(self): #Permission required and granted
         res = self.client().patch('/locations/1', 
         json={'name': 'upshelf'},
         headers=get_headers(OWNER))
@@ -148,9 +136,10 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
     
-    def test_update_location_not_auth(self):
+    def test_update_location_not_auth(self): #Permission required not granted
         res = self.client().patch('location/1'),
-        json={'name': 'upshelf'})
+        json={'name': 'upshelf'},
+        headers=get_headers(USER))
 
         data = json.loads(res.data)
         location = Location.query.filter(Location.id == 1).one_or_none()
@@ -173,7 +162,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(location, None)
 
     def test_delete_location_not_auth(self):
-        res = self.client().delete('locations/1')
+        res = self.client().delete('locations/1',
+        headers=get_headers(USER))
 
         data = json.loads(res.data)
 
