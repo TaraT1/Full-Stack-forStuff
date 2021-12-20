@@ -176,7 +176,7 @@ class StuffTestCase(unittest.TestCase):
     
     '''
     #BOOK TESTS
-    def test_post_book_auth(self): # payload reqd, + location
+    def test_post_book_auth(self): # Permission required
         res = self.client().post('/books/add',
             json=self.new_book_1,
             headers=get_headers(OWNER))
@@ -188,9 +188,10 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(['created'])
         self.assertTrue(['total_books'])
 
-    def test_post_book_not_auth(self): # payload required
+    def test_post_book_not_auth(self): # Permission required to post
         res = self.client().post('/books/add', 
-            json=self.new_book_1)
+        headers=get_headers(USER),
+        json=self.new_book_1)
 
         data = json.loads(res.data)
 
@@ -218,7 +219,7 @@ class StuffTestCase(unittest.TestCase):
         json={'title': 'Changed_Title'},
         headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
+        
         book = Book.query.filter(Book.id == 1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
@@ -227,7 +228,8 @@ class StuffTestCase(unittest.TestCase):
 
     def update_book_not_authorized(self):
         res = self.client().patch('books/1',
-        json={'title': 'Changed_Title'})
+        json={'title': 'Changed_Title'},
+        headers=get_headers(USER))
     
         data = json.loads(res.data)
         book = Book.query.filter(Book.id == 1).one_or_none()
@@ -253,7 +255,8 @@ class StuffTestCase(unittest.TestCase):
 
     def delete_book_not_authorized(self):
         res = self.client().delete('books/1',
-        json=self.new_book_1)
+        json=self.new_book_1),
+        headers=get_headers(USER))
 
         data = json.loads(res.data)
 
