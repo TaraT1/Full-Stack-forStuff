@@ -1,3 +1,10 @@
 Changing dir structure in efforts to cleanup
 - Eliminate starter dir
 - heroku specific
+
+authorization
+- setup .env
+    - owner@stuff.com (pw: passwoid123!)
+    - user@stuff.com (pw: passwoid123!)
+
+    

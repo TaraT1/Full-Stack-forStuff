@@ -77,7 +77,6 @@ class StuffTestCase(unittest.TestCase):
         """Executed after reach test"""
         pass
 
-    '''
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
@@ -100,7 +99,6 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertTrue(data['success'], False)
         self.assertTrue(data['message'], 'Unauthorized')
-    '''
 
     '''
     def test_get_location(self): #OK; payload not required to retrieve
@@ -200,7 +198,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data]['message'], 'Unauthorized')
 
     '''
-
+    '''
     def test_get_books(self): #no auth ndd
         res = self.client().get('/books')
         data = json.loads(res.data)
@@ -208,7 +206,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['total_books']) 
-
+    '''
 
     #test if no books found
 
