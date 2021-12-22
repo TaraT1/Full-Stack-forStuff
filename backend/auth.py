@@ -14,9 +14,9 @@ API_AUDIENCE = 'stuff'
 # Standardized method to communicate failure modes
 
 class AuthError(Exception):
-    def __init__(self, error, status_Code):
+    def __init__(self, error, status_code):
        self.error = error
-       self.status_code = status_Code
+       self.status_code = status_code
 
 ## Auth Header
 # Get header from request
@@ -27,7 +27,7 @@ def get_token_auth_header():
     if not auth_header:
         raise AuthError({
             'code': 'missing_authorization_header',
-            'description': 'Expected Authoriation header'
+            'description': 'Expected Authorization header'
         }, 401)
 
     # validate authn format of bearer +token
