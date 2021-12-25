@@ -78,6 +78,7 @@ class StuffTestCase(unittest.TestCase):
         pass
 
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
+    '''
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
             json=self.new_location, 
@@ -90,16 +91,18 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['created'])
         self.assertTrue(data['total_locations'])
     
-    def test_post_location_not_auth(self):#payload required to post
+    '''
+    def test_post_location_not_auth(self):#payload required, unauth user
         res = self.client().post('/locations/add', 
-            json=self.new_location) 
+            json=self.new_location_2, 
+            headers=get_headers(USER))
 
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 403)
         self.assertTrue(data['success'], False)
-        self.assertTrue(data['message'], 'Unauthorized')
-
+        self.assertTrue(data['message'], 'Access is forbidden')
+        
     '''
     def test_get_location(self): #OK; payload not required to retrieve
         res = self.client().get('/locations')
@@ -144,7 +147,7 @@ class StuffTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], Unauthorized)
+        self.assertEqual(data['message'], 'Access is Forbidden')
     '''
     '''
     def test_delete_location_authorized(self):
