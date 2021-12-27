@@ -1,6 +1,7 @@
 import os
 import unittest
 import json
+from flask.wrappers import JSONMixin
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import Unauthorized
 from app import create_app
@@ -13,8 +14,11 @@ load_dotenv() #loads environment variables
 OWNER = os.environ.get('owner_jwt')
 USER = os.environ.get('user_jwt')
 
-def get_headers(token):#Refactor for auth?
-    return {'Authorization': f'Bearer {token}'}
+def get_headers(token):#unauth testing shows 200 - add content-type
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {token}'
+        }
 
 class StuffTestCase(unittest.TestCase):
     def setUp(self):#from trivia
@@ -74,14 +78,17 @@ class StuffTestCase(unittest.TestCase):
         }
         
     def tearDown(self):
-        """Executed after reach test"""
+        """Executed after each test"""
         pass
 
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
-    '''
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
-            json=self.new_location, 
+            #json=self.new_location, 
+            json={
+                'name': 'test name A5',
+                'type': 'test type A5'
+            },
             headers=get_headers(OWNER))
 
         data = json.loads(res.data)
@@ -91,14 +98,18 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['created'])
         self.assertTrue(data['total_locations'])
     
-    '''
     def test_post_location_not_auth(self):#payload required, unauth user
         res = self.client().post('/locations/add', 
-            json=self.new_location_2, 
+            #json=self.new_location_2, 
+            json={
+                'name': 'test name NAuth1',
+                'type': 'test type NAuth1'
+            },
             headers=get_headers(USER))
 
         data = json.loads(res.data)
 
+        print(data)
         self.assertEqual(res.status_code, 403)
         self.assertTrue(data['success'], False)
         self.assertTrue(data['message'], 'Access is forbidden')
