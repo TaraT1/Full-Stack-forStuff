@@ -53,19 +53,19 @@ def get_token_auth_header():
 
 ### Check permissions of decoded payload (RBAC settings)
 def check_permissions(permission, payload):
-    if 'permissions' not in payload:
-        raise AuthError({
-            'code': 'unauthorized',
-            'description': 'Permission not found in token',
-            'success': False
-        }, 403)
+    #if 'permissions' not in payload:
+        #raise AuthError({
+            #'code': 'unauthorized',
+            #'description': 'Permission not found in token',
+            #'success': False
+        #}, 403)
     
-    if permission not in payload:#['permissions']:
+    if permission not in payload['permissions']:
         raise AuthError({
             'code': 'unauthorized',
             'description': 'Permission not found',
             'success': False
-        }, 403)
+        }, 403)#or 401
 
     return True
 

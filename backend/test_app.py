@@ -83,28 +83,29 @@ class StuffTestCase(unittest.TestCase):
         pass
 
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
-    #def test_post_location_auth(self):#payload required
-        #res = self.client().post('/locations/add', 
-            ##json=self.new_location, 
-            #json={
-                #'name': 'test name A',
-                #'type': 'test type A'
-            #},
-            #headers=get_headers(OWNER))
+    def test_post_location_auth(self):#payload required
+        res = self.client().post('/locations/add', 
+            #json=self.new_location, 
+            json={
+                'name': 'test name A',
+                'type': 'test type A'
+            },
+            headers=get_headers(OWNER))
 
-        #data = json.loads(res.data)
+        data = json.loads(res.data)
 
-        #self.assertEqual(res.status_code, 200)
-        #self.assertTrue(data['success'], True)
-        #self.assertTrue(data['created'])
-        #self.assertTrue(data['total_locations'])
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'], True)
+        self.assertTrue(data['created'])
+        self.assertTrue(data['total_locations'])
     
+    '''
     def test_post_location_not_auth(self):#payload required, unauth user
         res = self.client().post('/locations/add', 
             #json=self.new_location_2, 
             json={
-                'name': 'test name NAuth2',
-                'type': 'test type NAuth2'
+                'name': 'test name NAuth3',
+                'type': 'test type NAuth3'
             },
             headers=get_headers(USER))
 
@@ -113,9 +114,9 @@ class StuffTestCase(unittest.TestCase):
         print(data)
         self.assertEqual(res.status_code, 403)
         self.assertTrue(data['success'], False)
-        self.assertTrue(data['message'], 'Access is forbidden')
-        
-    '''
+        self.assertTrue(data['message'], 'Permission not found')
+    '''        
+    
     def test_get_location(self): #OK; payload not required to retrieve
         res = self.client().get('/locations')
         data = json.loads(res.data)
@@ -124,8 +125,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['locations'])
         self.assertTrue(data['total_locations'])
-    '''    
-    '''
+
     def test_get_locations_when_none(self):
         res = self.client().get('/locations')
         data = json.loads(res.data)
@@ -134,9 +134,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['locations'])
         self.assertTrue(data['total_locations'])
-    '''
 
-    '''
     def test_update_location_authorized(self): #Permission required and granted
         res = self.client().patch('/locations/1', 
         json={'name': 'upshelf'},
@@ -149,8 +147,9 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
     
+    '''
     def test_update_location_not_auth(self): #Permission required not granted
-        res = self.client().patch('location/1'),
+        res = self.client().patch('locations/1',
         json={'name': 'upshelf'},
         headers=get_headers(USER))
 
