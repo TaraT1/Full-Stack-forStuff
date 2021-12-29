@@ -27,7 +27,8 @@ def get_token_auth_header():
     if not auth_header:
         raise AuthError({
             'code': 'missing_authorization_header',
-            'description': 'Expected Authorization header'
+            'description': 'Expected Authorization header',
+            'success': False
         }, 401)
 
     # validate authn format of bearer +token
@@ -36,13 +37,15 @@ def get_token_auth_header():
     if not len(header_parts) ==2:
         raise AuthError({
             'code': 'invalid_header',
-            'description': 'Authorization header needs 2 parts'
+            'description': 'Authorization header needs 2 parts',
+            'success': False
         }, 401)
 
     if header_parts[0].lower() != 'bearer':
         raise AuthError({
             'code': 'invalid_header',
-            'description': 'Authorization header should start with "bearer"'
+            'description': 'Authorization header should start with "Bearer"',
+            'success': False
         }, 401)
 
     token = header_parts[1]
@@ -52,8 +55,16 @@ def get_token_auth_header():
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
         raise AuthError({
-            'code': 'unauthoried',
-            'description': 'Permission not found in token.'
+            'code': 'unauthorized',
+            'description': 'Permission not found in token',
+            'success': False
+        }, 403)
+    
+    if permission not in payload:#['permissions']:
+        raise AuthError({
+            'code': 'unauthorized',
+            'description': 'Permission not found',
+            'success': False
         }, 403)
 
     return True
@@ -66,7 +77,7 @@ def verify_decode_jwt(token):
 
     #get data in header
     unverified_header = jwt.get_unverified_header(token)
-
+    rsa_key = {}
     #choose key
     if 'kid' not in unverified_header:
         raise AuthError({
@@ -74,7 +85,6 @@ def verify_decode_jwt(token):
             'description': 'Authorization malformed'
         }, 401)
 
-    rsa_key = {}
     for key in jwks['keys']:
         if key['kid'] == unverified_header['kid']:
             rsa_key = {
@@ -94,7 +104,6 @@ def verify_decode_jwt(token):
                 algorithms = ALGORITHMS,
                 audience = API_AUDIENCE,
                 issuer='https://' + AUTH0_DOMAIN + '/'
-
             )
 
             return payload
@@ -125,5 +134,6 @@ def requires_auth(permission=''):
             payload = verify_decode_jwt(token)
             check_permissions(permission, payload)
             return f(payload, *args, **kwargs)
+
         return wrapper
     return requires_auth_decorator
