@@ -1,4 +1,5 @@
 import json
+from os import execle
 from flask import request, _request_ctx_stack, abort
 from functools import wraps
 from jose import jwt
@@ -44,7 +45,7 @@ def get_token_auth_header():
     if header_parts[0].lower() != 'bearer':
         raise AuthError({
             'code': 'invalid_header',
-            'description': 'Authorization header should start with "Bearer"',
+            'description': 'Authorization header should start with Bearer',
             'success': False
         }, 401)
 
@@ -53,19 +54,17 @@ def get_token_auth_header():
 
 ### Check permissions of decoded payload (RBAC settings)
 def check_permissions(permission, payload):
-    #if 'permissions' not in payload:
-        #raise AuthError({
-            #'code': 'unauthorized',
-            #'description': 'Permission not found in token',
-            #'success': False
-        #}, 403)
+    if 'permissions' not in payload:
+        raise AuthError({
+            'code': 'forbidden',
+            'description': 'Permission not found'
+            }, 403)
     
     if permission not in payload['permissions']:
         raise AuthError({
-            'code': 'unauthorized',
-            'description': 'Permission not found',
-            'success': False
-        }, 403)#or 401
+            'code': 'forbidden',
+            'description': 'Permission not found' 
+            }, 403)
 
     return True
 
@@ -117,6 +116,12 @@ def verify_decode_jwt(token):
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
+                'description': 'Invalid claims. Please check audience and issuer'
+            }, 400)
+        
+        except Exception:
+            raise AuthError({
+                'code': 'invalid_header',
                 'description': 'Unable to parse authentication token'
             }, 400)
 

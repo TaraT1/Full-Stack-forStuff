@@ -58,16 +58,16 @@ def create_app(test_config=None):#trivia and coffee
     @app.route('/locations/add', methods=['POST'])
     @requires_auth('post:location')
     def create_location(payload):
-      #json
-      data=request.get_json()
-
-      new_name = data.get('name')
-      new_type = data.get('type')
-
-      if data is None:
-        abort(404)
-
       try:
+        #json
+        data=request.get_json()
+
+        new_name = data.get('name')
+        new_type = data.get('type')
+
+        if data is None:
+          abort(404)
+
         location = Location(
           name=new_name,
           type=new_type
@@ -78,9 +78,9 @@ def create_app(test_config=None):#trivia and coffee
         #db.session.commit()
 
         return jsonify({
-          'success': True,
-          'created': location.id,
-          'total_locations': len(Location.query.all())
+          'success': True
+          #'created': location.id,
+          #'total_locations': len(Location.query.all())
         }), 200
 
       except Exception as e:

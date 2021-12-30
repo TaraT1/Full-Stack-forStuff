@@ -83,6 +83,7 @@ class StuffTestCase(unittest.TestCase):
         pass
 
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
+    '''
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
             #json=self.new_location, 
@@ -98,25 +99,27 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['created'])
         self.assertTrue(data['total_locations'])
+    '''    
     
-    '''
     def test_post_location_not_auth(self):#payload required, unauth user
         res = self.client().post('/locations/add', 
             #json=self.new_location_2, 
+            headers=get_headers(USER),
             json={
                 'name': 'test name NAuth3',
                 'type': 'test type NAuth3'
-            },
-            headers=get_headers(USER))
+            })
 
-        data = json.loads(res.data)
+        #data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         print(data)
+        print(res)
         self.assertEqual(res.status_code, 403)
         self.assertTrue(data['success'], False)
-        self.assertTrue(data['message'], 'Permission not found')
-    '''        
+        #self.assertTrue(data['message'], 'Permission not found')
     
+    '''
     def test_get_location(self): #OK; payload not required to retrieve
         res = self.client().get('/locations')
         data = json.loads(res.data)
@@ -147,7 +150,6 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
     
-    '''
     def test_update_location_not_auth(self): #Permission required not granted
         res = self.client().patch('locations/1',
         json={'name': 'upshelf'},
@@ -209,7 +211,7 @@ class StuffTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 403)
         self.assertTrue(data['success'], False)
-        self.assertTrue(data]['message'], 'Unauthorized')
+        self.assertTrue(data['message'], 'Unauthorized')
 
     '''
     '''
