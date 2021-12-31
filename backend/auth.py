@@ -28,8 +28,7 @@ def get_token_auth_header():
     if not auth_header:
         raise AuthError({
             'code': 'missing_authorization_header',
-            'description': 'Expected Authorization header',
-            'success': False
+            'description': 'Expected Authorization header'
         }, 401)
 
     # validate authn format of bearer +token
@@ -38,15 +37,13 @@ def get_token_auth_header():
     if not len(header_parts) ==2:
         raise AuthError({
             'code': 'invalid_header',
-            'description': 'Authorization header needs 2 parts',
-            'success': False
+            'description': 'Authorization header needs 2 parts'
         }, 401)
 
     if header_parts[0].lower() != 'bearer':
         raise AuthError({
             'code': 'invalid_header',
-            'description': 'Authorization header should start with Bearer',
-            'success': False
+            'description': 'Authorization header should start with Bearer'
         }, 401)
 
     token = header_parts[1]
