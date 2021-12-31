@@ -48,7 +48,6 @@ def create_app(test_config=None):#trivia and coffee
     #Access-Control-Allow
     @app.after_request
     def after_request(response):
-      #response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
       response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
       response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE')
       return response
@@ -74,13 +73,11 @@ def create_app(test_config=None):#trivia and coffee
         )
 
         location.insert()
-        #db.session.add(location)
-        #db.session.commit()
-
+        
         return jsonify({
-          'success': True
-          #'created': location.id,
-          #'total_locations': len(Location.query.all())
+          'success': True,
+          'created': location.id,
+          'total_locations': len(Location.query.all())
         }), 200
 
       except Exception as e:
@@ -293,6 +290,14 @@ def create_app(test_config=None):#trivia and coffee
       }), 422
 
     # Error handlers for auth errors
+    @app.errorhandler(AuthError)
+    def auth_error(error):
+      return jsonify({
+        "success": False,
+        "error": error.status_code,
+        "message": error.error['description']
+      }), error.status_code
+
     @app.errorhandler(403)
     def forbidden(error):
       return jsonify({
@@ -305,9 +310,17 @@ def create_app(test_config=None):#trivia and coffee
       return jsonify({
         "success": False,
         "error": 401,
-        "message": Unauthorized
+        "message": "Unauthorized"
       }), 401
 
+    @app.errorhandler(500)
+    def internal(error):
+      return jsonify({
+        "success": False,
+        "error": 500,
+        "message": "Internal server error"
+      }), 500
+      
     return app
 #----------------------------------------------------------------------------#
 # Launch.
