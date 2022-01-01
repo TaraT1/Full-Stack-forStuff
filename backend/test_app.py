@@ -99,9 +99,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['created'])
         self.assertTrue(data['total_locations'])
-    '''    
     
-    def test_post_location_not_auth(self):#payload required, unauth user
+    def test_403_permission_not_found_post_location #payload required, unauth user
         res = self.client().post('/locations/add', 
             #json=self.new_location_2, 
             headers=get_headers(USER),
@@ -116,10 +115,9 @@ class StuffTestCase(unittest.TestCase):
         print(data)
         print(res)
         self.assertEqual(res.status_code, 403)
-        self.assertTrue(data['success'], False)
-        #self.assertTrue(data['message'], 'Permission not found')
+        self.assertFalse(data['success'], False)
+        self.assertTrue(data['message'], 'Permission not found')
     
-    '''
     def test_get_location(self): #OK; payload not required to retrieve
         res = self.client().get('/locations')
         data = json.loads(res.data)
@@ -149,10 +147,9 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
-    
-    def test_update_location_not_auth(self): #Permission required not granted
+    def test_403_permission_not_found #update_location; Permission required not granted
         res = self.client().patch('locations/1',
-        json={'name': 'upshelf'},
+        json={'name': 'upshelf2'},
         headers=get_headers(USER))
 
         data = json.loads(res.data)
@@ -160,21 +157,22 @@ class StuffTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'Access is Forbidden')
-    '''
+        self.assertEqual(data['message'], 'Permission not found')
+
     '''
     def test_delete_location_authorized(self):
-        res = self.client().delete('locations/1',
+        res = self.client().delete('locations/3',
         headers=get_headers(OWNER))
 
         data = json.loads(res.data)
         
         location = Location.query.filter(Location.id == 1).one_or_none()
 
-        self.assertEqual(res.statust_code, 200)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(location, None)
 
+    '''
     def test_delete_location_not_auth(self):
         res = self.client().delete('locations/1',
         headers=get_headers(USER))
