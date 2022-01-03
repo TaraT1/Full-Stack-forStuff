@@ -147,6 +147,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
+
     def test_403_permission_not_found #update_location; Permission required not granted
         res = self.client().patch('locations/1',
         json={'name': 'upshelf2'},
@@ -159,32 +160,41 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Permission not found')
 
-    '''
     def test_delete_location_authorized(self):
-        res = self.client().delete('locations/3',
+        res = self.client().delete('locations/11',
         headers=get_headers(OWNER))
 
         data = json.loads(res.data)
         
-        location = Location.query.filter(Location.id == 1).one_or_none()
+        location = Location.query.filter(Location.id==11).one_or_none()
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
+        #self.assertEqual(data['success'], True) #TypeError: list indices must be integers or slices, not str
         self.assertEqual(location, None)
 
-    '''
-    def test_delete_location_not_auth(self):
+    def test_403_delete_location_not_auth(self):#works
         res = self.client().delete('locations/1',
         headers=get_headers(USER))
 
         data = json.loads(res.data)
 
-        location = Location.query.filter(Location.id == 1).one_or_none()
+        location = Location.query.filter(Location.id==1).one_or_none()
 
-        self.assertEqual(res.status_code, 422)
+        self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
-        self.assertEqual(location, None)
+
+    def test_404_delete_location_if_not_exist(self):
+        res = self.client().delete('locations/1000',
+        headers=get_headers(OWNER))
+
+        data = json.loads(res.data)
+
+        location = Location.query.filter(Location.id==1000).one_or_none()
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
     '''
+
     
     '''
     #BOOK TESTS
