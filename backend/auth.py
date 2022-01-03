@@ -53,13 +53,13 @@ def get_token_auth_header():
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
         raise AuthError({
-            'code': 'forbidden',
-            'description': 'Permission not found'
-            }, 403)
+            'code': 'invalid_claims',
+            'description': 'Permissions not included'
+            }, 400)
     
     if permission not in payload['permissions']:
         raise AuthError({
-            'code': 'forbidden',
+            'code': 'unauthorized',
             'description': 'Permission not found' 
             }, 403)
 
