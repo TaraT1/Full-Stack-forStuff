@@ -196,9 +196,9 @@ class StuffTestCase(unittest.TestCase):
     '''
 
     
-    '''
     #BOOK TESTS
-    def test_post_book_auth(self): # Permission required
+    '''
+    def test_post_book_auth(self): #works 
         res = self.client().post('/books/add',
             json=self.new_book_1,
             headers=get_headers(OWNER))
@@ -210,44 +210,51 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(['created'])
         self.assertTrue(['total_books'])
 
-    def test_post_book_not_auth(self): # Permission required to post
+    
+    def test_403_permission_not_found_post_book_not_auth(self): #works
         res = self.client().post('/books/add', 
         headers=get_headers(USER),
-        json=self.new_book_1)
+        json=self.new_book_2)
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 403)
-        self.assertTrue(data['success'], False)
-        self.assertTrue(data['message'], 'Unauthorized')
+        self.assertFalse(data['success'], False)
+        self.assertTrue(data['message'], 'Permission not found')
 
-    '''
-    '''
-    def test_get_books(self): #no auth ndd
+    def test_get_books(self): #works
         res = self.client().get('/books')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['total_books']) 
+    
+
+    #test if no books 
+    def test_get_locations_when_none(self):#works
+        res = self.client().get('/books')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['books'])
+        self.assertTrue(data['total_books'])
+
     '''
-
-    #test if no books found
-
-
-    '''
-    def update_book_authorized(self):
+    def test_update_book_authorized(self):#Post books
         res = self.client().patch('books/1',
         json={'title': 'Changed_Title'},
         headers=get_headers(OWNER))
 
-        
+        data = json.loads(res.data)
         book = Book.query.filter(Book.id == 1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
         self.assertTrue(data['book.id'])
 
+    '''
     def update_book_not_authorized(self):
         res = self.client().patch('books/1',
         json={'title': 'Changed_Title'},
@@ -260,8 +267,6 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], Unauthorized)
 
-    '''
-    '''
     def delete_book_auth(self): #requires auth
         res = self.client().delete('books/1',
         json=self.new_book_1,
