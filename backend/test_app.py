@@ -129,7 +129,7 @@ class StuffTestCase(unittest.TestCase):
 
     def test_get_locations_when_none(self):
         res = self.client().get('/locations')
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
@@ -141,7 +141,7 @@ class StuffTestCase(unittest.TestCase):
         json={'name': 'upshelf'},
         headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
         location = Location.query.filter(Location.id == 1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
@@ -153,7 +153,7 @@ class StuffTestCase(unittest.TestCase):
         json={'name': 'upshelf2'},
         headers=get_headers(USER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
         location = Location.query.filter(Location.id == 1).one_or_none()
 
         self.assertEqual(res.status_code, 403)
@@ -164,7 +164,7 @@ class StuffTestCase(unittest.TestCase):
         res = self.client().delete('locations/11',
         headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
         
         location = Location.query.filter(Location.id==11).one_or_none()
 
@@ -187,34 +187,42 @@ class StuffTestCase(unittest.TestCase):
         res = self.client().delete('locations/1000',
         headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         location = Location.query.filter(Location.id==1000).one_or_none()
 
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-    '''
 
     
     #BOOK TESTS
-    '''
     def test_post_book_auth(self): #works 
         res = self.client().post('/books/add',
-            json=self.new_book_1,
+            json={
+                'title': 'Test Book 2',
+                'author': 'great author 2',
+                'form': 'ebook',
+                'location_id': 12
+            },
             headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(['success'], True)
         self.assertTrue(['created'])
         self.assertTrue(['total_books'])
-
     
     def test_403_permission_not_found_post_book_not_auth(self): #works
         res = self.client().post('/books/add', 
         headers=get_headers(USER),
-        json=self.new_book_2)
+            json={
+                'title': 'Test Book 2',
+                'author': 'great author 2',
+                'form': 'ebook',
+                'location_id': 1
+            })
+
 
         data = json.loads(res.data.decode('utf-8'))
 
@@ -224,7 +232,7 @@ class StuffTestCase(unittest.TestCase):
 
     def test_get_books(self): #works
         res = self.client().get('/books')
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
@@ -234,7 +242,7 @@ class StuffTestCase(unittest.TestCase):
     #test if no books 
     def test_get_locations_when_none(self):#works
         res = self.client().get('/books')
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
@@ -242,13 +250,18 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['total_books'])
 
     '''
-    def test_update_book_authorized(self):#Post books
-        res = self.client().patch('books/1',
-        json={'title': 'Changed_Title'},
+    def test_update_book_authorized(self):
+        res = self.client().patch('books/3',
+        json={
+            'title': 'Changed Title00',
+            'author': 'interesting author',
+            'form': 'book',
+            'location_id': 11
+        },
         headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
-        book = Book.query.filter(Book.id == 1).one_or_none()
+        data = json.loads(res.data.decode('utf-8'))
+        book = Book.query.filter(Book.id == 3).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
@@ -260,7 +273,7 @@ class StuffTestCase(unittest.TestCase):
         json={'title': 'Changed_Title'},
         headers=get_headers(USER))
     
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
         book = Book.query.filter(Book.id == 1).one_or_none()
 
         self.assertEqual(res.status_code, 403)
@@ -272,7 +285,7 @@ class StuffTestCase(unittest.TestCase):
         json=self.new_book_1,
         headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         book = Book.query.filter(Book.id == 1).one_or_none()
 
@@ -285,7 +298,7 @@ class StuffTestCase(unittest.TestCase):
         json=self.new_book_1),
         headers=get_headers(USER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         book = Book.query.filter(Book.id == 1).one_or_none()
 
