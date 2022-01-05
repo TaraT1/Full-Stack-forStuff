@@ -250,7 +250,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['total_books'])
 
     '''
-    def test_update_book_authorized(self):
+    def test_update_book_authorized(self):#res errors
         res = self.client().patch('books/3',
         json={
             'title': 'Changed Title00',
@@ -267,6 +267,21 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['book.id'])
 
+    def test_404_book_location_not_exist(self):
+        res = self.client().patch('books/4',
+        json={
+            'title': 'Title008',
+            'author': 'Wonder Worder',
+            'form': 'cool1',
+            'location_id': 2000
+        },
+        headers=get_headers(OWNER))
+
+        data = json.loads(res.data.decode('utf-8'))
+        book = Book.query.filter(Book.id == 4).one_or_none()
+
+        self.assertEqual(res.status_code, 404)
+        self.assertTrue(data['success'], False)
     '''
     def update_book_not_authorized(self):
         res = self.client().patch('books/1',
