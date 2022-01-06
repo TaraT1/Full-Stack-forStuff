@@ -236,19 +236,19 @@ def create_app(test_config=None):#trivia and coffee
         
         book.update()
 
-        '''
         return jsonify({
           'success': True,
           'book.id': book_id
-        }, 200)
-        '''
+        }), 200
 
+        '''
         return jsonify({
           'success': True,
           'book.id': book_id,
           'book.location_id': location_id
-        }, 200)
+        }), 200
         
+        '''
       except Exception as e:
         print ("Patch Book Exception >> ", e)
         abort(404)
