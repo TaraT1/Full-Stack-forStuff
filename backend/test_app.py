@@ -83,7 +83,6 @@ class StuffTestCase(unittest.TestCase):
         pass
 
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
-    '''
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
             #json=self.new_location, 
@@ -249,40 +248,36 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['books'])
         self.assertTrue(data['total_books'])
 
-    '''
-    def test_update_book_authorized(self):#res errors
-        res = self.client().patch('books/3',
+    def test_update_book_authorized(self):#res errors if location doesn't exist
+        res = self.client().patch('books/2',
         json={
-            'title': 'Changed Title00',
-            'author': 'interesting author',
-            'form': 'book',
-            'location_id': 11
+            'title': 'Changed Title17'
         },
         headers=get_headers(OWNER))
 
         data = json.loads(res.data.decode('utf-8'))
-        book = Book.query.filter(Book.id == 3).one_or_none()
+        book = Book.query.filter(Book.id == 2).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
         self.assertTrue(data['book.id'])
 
-    def test_404_book_location_not_exist(self):
-        res = self.client().patch('books/4',
-        json={
-            'title': 'Title008',
-            'author': 'Wonder Worder',
-            'form': 'cool1',
-            'location_id': 2000
-        },
-        headers=get_headers(OWNER))
+    #def test_404_book_location_not_exist(self):
+        #res = self.client().patch('books/4',
+        #json={
+            #'title': 'Title008',
+            #'author': 'Wonder Worder',
+            #'form': 'cool1',
+            #'location_id': 2000
+        #},
+        #headers=get_headers(OWNER))
 
-        data = json.loads(res.data.decode('utf-8'))
-        book = Book.query.filter(Book.id == 4).one_or_none()
+        #data = json.loads(res.data.decode('utf-8'))
+        #book = Book.query.filter(Book.id == 4).one_or_none()
 
-        self.assertEqual(res.status_code, 404)
-        self.assertTrue(data['success'], False)
-    '''
+        #self.assertEqual(res.status_code, 404)
+        #self.assertTrue(data['success'], False)
+
     def update_book_not_authorized(self):
         res = self.client().patch('books/1',
         json={'title': 'Changed_Title'},
@@ -310,7 +305,7 @@ class StuffTestCase(unittest.TestCase):
 
     def delete_book_not_authorized(self):
         res = self.client().delete('books/1',
-        json=self.new_book_1),
+        json=self.new_book_1,
         headers=get_headers(USER))
 
         data = json.loads(res.data.decode('utf-8'))
@@ -319,8 +314,7 @@ class StuffTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], Unauthorized
-    '''
+        self.assertEqual(data['message'], Unauthorized)
 
 # Make the tests executable
 if __name__ == "__main__":
