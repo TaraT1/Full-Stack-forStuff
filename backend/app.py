@@ -235,8 +235,8 @@ def create_app(test_config=None):#trivia and coffee
           book.author = data['author']
         if 'form' in data:
           book.form = data['form']
-        #if 'location_id' in data:
-          #book.location_id = data['location_id']
+        if 'location_id' in data:
+          book.location_id = data['location_id']
         
         '''
         #*** Updates all fields*** 
