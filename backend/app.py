@@ -120,9 +120,10 @@ def create_app(test_config=None):#trivia and coffee
         if location is None:
           abort(404)
 
-        # update fields
-        location.name = data.get('name', None)
-        location.type = data.get('type', None)
+        if 'name' in data:
+          location.name = data['name']
+        if 'type' in data:
+          location.type = data['type']
 
         location.update()
 
@@ -228,12 +229,22 @@ def create_app(test_config=None):#trivia and coffee
         if book is None:
           abort(404)
         
+        if 'title' in data:
+          book.title = data['title']
+        if 'author' in data:
+          book.author = data['author']
+        if 'form' in data:
+          book.form = data['form']
+        #if 'location_id' in data:
+          #book.location_id = data['location_id']
+        
+        '''
         #*** Updates all fields*** 
         book.title = data.get('title', None)
         book.author = data.get('author', None)
         book.form = data.get('form', None)
         #book.location_id = data.get('location_id', None)
-        
+        '''
         book.update()
 
         return jsonify({
