@@ -36,13 +36,6 @@ def create_app(test_config=None):#trivia and coffee
     
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-    '''Changing database setup info (coffee)
-    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
-    db = SQLAlchemy(app)
-    migrate = Migrate(app, db)
-    '''
-
     #db.create_all() - using migrate to sync, so no db.create_all() 
 
     #Access-Control-Allow
@@ -167,7 +160,6 @@ def create_app(test_config=None):#trivia and coffee
       new_title=data.get('title')
       new_author=data.get('author')
       new_form=data.get('form')
-      #new_location=data.get('location.id')
       new_location=data.get('location_id')
 
       if data is None:
@@ -238,13 +230,6 @@ def create_app(test_config=None):#trivia and coffee
         if 'location_id' in data:
           book.location_id = data['location_id']
         
-        '''
-        #*** Updates all fields*** 
-        book.title = data.get('title', None)
-        book.author = data.get('author', None)
-        book.form = data.get('form', None)
-        #book.location_id = data.get('location_id', None)
-        '''
         book.update()
 
         return jsonify({

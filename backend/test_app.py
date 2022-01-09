@@ -82,6 +82,7 @@ class StuffTestCase(unittest.TestCase):
         """Executed after each test"""
         pass
 
+    '''
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
     def test_post_location_auth(self):#payload required
         res = self.client().post('/locations/add', 
@@ -135,9 +136,10 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['locations'])
         self.assertTrue(data['total_locations'])
 
+    
     def test_update_location_authorized(self): #Permission required and granted
         res = self.client().patch('/locations/1', 
-        json={'name': 'upshelf'},
+        json={'type': 'upshelf type blank no more'},
         headers=get_headers(OWNER))
 
         data = json.loads(res.data.decode('utf-8'))
@@ -149,7 +151,7 @@ class StuffTestCase(unittest.TestCase):
 
     def test_403_permission_not_found #update_location; Permission required not granted
         res = self.client().patch('locations/1',
-        json={'name': 'upshelf2'},
+        json={'name': 'upshelf5'},
         headers=get_headers(USER))
 
         data = json.loads(res.data.decode('utf-8'))
@@ -192,9 +194,11 @@ class StuffTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
+    '''
 
     
     #BOOK TESTS
+    '''
     def test_post_book_auth(self): #works 
         res = self.client().post('/books/add',
             json={
@@ -251,7 +255,8 @@ class StuffTestCase(unittest.TestCase):
     def test_update_book_authorized(self):#res errors if location doesn't exist
         res = self.client().patch('books/2',
         json={
-            'title': 'Changed Title17'
+            'author': 'Changed Author18',
+            'location_id': 10
         },
         headers=get_headers(OWNER))
 
@@ -303,7 +308,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(book, None)
 
-    def delete_book_not_authorized(self):
+    def test_403_delete_book_not_authorized(self):
         res = self.client().delete('books/1',
         json=self.new_book_1,
         headers=get_headers(USER))
@@ -315,7 +320,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], Unauthorized)
-
+    '''
 # Make the tests executable
 if __name__ == "__main__":
     unittest.main()
