@@ -229,7 +229,8 @@ def create_app(test_config=None):#trivia and coffee
           book.form = data['form']
         if 'location_id' in data:
           book.location_id = data['location_id']
-        
+          #if location_id is None: Location does not exist. Please correct or create new location
+
         book.update()
 
         return jsonify({
