@@ -41,12 +41,12 @@ class StuffTestCase(unittest.TestCase):
 
         #create new location records for testing
         self.new_location = {
-            "name": "shelf ds1",
-            "type": "bookshelf"
+            "name": "shelf ds100",
+            "type": "bookshelf2"
         }
         self.new_location_2 = {
-            "name": "shelf ups1",
-            "type": "bookshelf"
+            "name": "shelf ups10",
+            "type": "bookshelf3"
         }
         self.new_location_3 = {
             "name": "pantry ds2",
@@ -82,32 +82,32 @@ class StuffTestCase(unittest.TestCase):
         """Executed after each test"""
         pass
 
-    '''
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
-    def test_post_location_auth(self):#payload required
+    '''
+    def test_post_location_auth(self):
         res = self.client().post('/locations/add', 
-            #json=self.new_location, 
-            json={
-                'name': 'test name A',
-                'type': 'test type A'
-            },
+            json=self.new_location, 
+            #json={
+                #'name': 'test name A',
+                #'type': 'test type A'
+            #},
             headers=get_headers(OWNER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
         self.assertTrue(data['created'])
         self.assertTrue(data['total_locations'])
     
-    def test_403_permission_not_found_post_location #payload required, unauth user
+    def test_403_permission_not_found_post_location(self):
         res = self.client().post('/locations/add', 
-            #json=self.new_location_2, 
-            headers=get_headers(USER),
-            json={
-                'name': 'test name NAuth3',
-                'type': 'test type NAuth3'
-            })
+            json=self.new_location_2, 
+            headers=get_headers(USER))
+            #json={
+                #'name': 'test name NAuth3',
+                #'type': 'test type NAuth3'
+            #})
 
         #data = json.loads(res.data)
         data = json.loads(res.data.decode('utf-8'))
@@ -117,7 +117,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertFalse(data['success'], False)
         self.assertTrue(data['message'], 'Permission not found')
-    
+ 
     def test_get_location(self): #OK; payload not required to retrieve
         res = self.client().get('/locations')
         data = json.loads(res.data)
@@ -126,6 +126,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['locations'])
         self.assertTrue(data['total_locations'])
+
 
     def test_get_locations_when_none(self):
         res = self.client().get('/locations')
@@ -137,9 +138,9 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['total_locations'])
 
     
-    def test_update_location_authorized(self): #Permission required and granted
+    def test_update_location_authorized(self): 
         res = self.client().patch('/locations/1', 
-        json={'type': 'upshelf type blank no more'},
+        json={'type': 'shelf'},
         headers=get_headers(OWNER))
 
         data = json.loads(res.data.decode('utf-8'))
@@ -149,7 +150,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(data['success'], True)
         self.assertTrue(data['location.id'])
 
-    def test_403_permission_not_found #update_location; Permission required not granted
+    
+    def test_403_permission_not_found_update_location(self):
         res = self.client().patch('locations/1',
         json={'name': 'upshelf5'},
         headers=get_headers(USER))
@@ -161,6 +163,8 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Permission not found')
 
+    '''
+    #** Need multiple entries in db or insert before each def
     def test_delete_location_authorized(self):
         res = self.client().delete('locations/11',
         headers=get_headers(OWNER))
@@ -173,7 +177,7 @@ class StuffTestCase(unittest.TestCase):
         #self.assertEqual(data['success'], True) #TypeError: list indices must be integers or slices, not str
         self.assertEqual(location, None)
 
-    def test_403_delete_location_not_auth(self):#works
+    def test_403_delete_location_not_auth(self):
         res = self.client().delete('locations/1',
         headers=get_headers(USER))
 
