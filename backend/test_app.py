@@ -163,15 +163,14 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Permission not found')
 
-    '''
     #** Need multiple entries in db or insert before each def
     def test_delete_location_authorized(self):
-        res = self.client().delete('locations/11',
+        res = self.client().delete('locations/4',
         headers=get_headers(OWNER))
 
         data = json.loads(res.data.decode('utf-8'))
         
-        location = Location.query.filter(Location.id==11).one_or_none()
+        location = Location.query.filter(Location.id==4).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         #self.assertEqual(data['success'], True) #TypeError: list indices must be integers or slices, not str
