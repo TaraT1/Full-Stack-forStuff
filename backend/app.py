@@ -23,13 +23,7 @@ def paginate(request, selection):
   
   return current_items
 '''
-''' from trivia
 def create_app(test_config=None):
-  # create and configure the app
-  app = Flask(__name__)
-  setup_db(app)
-  '''
-def create_app(test_config=None):#trivia and coffee
     #create and configure
     app = Flask(__name__)
     setup_db(app)
