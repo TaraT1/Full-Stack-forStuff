@@ -83,6 +83,7 @@ class StuffTestCase(unittest.TestCase):
         pass
 
     #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
+    
     '''
     def test_post_location_auth(self):
         res = self.client().post('/locations/add', 
