@@ -15,7 +15,7 @@ load_dotenv() #loads environment variables
 OWNER = os.environ.get('owner_jwt')
 USER = os.environ.get('user_jwt')
 
-def get_headers(token):#unauth testing shows 200 - add content-type
+def get_headers(token):
     return {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}'
@@ -82,9 +82,6 @@ class StuffTestCase(unittest.TestCase):
         """Executed after each test"""
         pass
 
-    #LOCATION TESTS cf https://knowledge.udacity.com/questions/200723
-    
-    '''
     def test_post_location_auth(self):
         res = self.client().post('/locations/add', 
             json=self.new_location, 
@@ -164,7 +161,6 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Permission not found')
 
-    #** Need multiple entries in db or insert before each def
     def test_delete_location_authorized(self):
         res = self.client().delete('locations/4',
         headers=get_headers(OWNER))
@@ -198,16 +194,13 @@ class StuffTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-    '''
-
     
     #BOOK TESTS
-    '''
-    def test_post_book_auth(self): #works 
+    def test_post_book_auth(self): 
         res = self.client().post('/books/add',
             json={
-                'title': 'Test Book 2',
-                'author': 'great author 2',
+                'title': 'Test Book 3',
+                'author': 'great author 3',
                 'form': 'ebook',
                 'location_id': 12
             },
@@ -220,7 +213,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertTrue(['created'])
         self.assertTrue(['total_books'])
     
-    def test_403_permission_not_found_post_book_not_auth(self): #works
+    def test_403_permission_not_found_post_book_not_auth(self): 
         res = self.client().post('/books/add', 
         headers=get_headers(USER),
             json={
@@ -230,12 +223,11 @@ class StuffTestCase(unittest.TestCase):
                 'location_id': 1
             })
 
-
         data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 403)
         self.assertFalse(data['success'], False)
-        self.assertTrue(data['message'], 'Permission not found')
+        #self.assertTrue(data['message'], 'Permission not found')
 
     def test_get_books(self): #works
         res = self.client().get('/books')
@@ -324,7 +316,7 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], Unauthorized)
-    '''
+
 # Make the tests executable
 if __name__ == "__main__":
     unittest.main()

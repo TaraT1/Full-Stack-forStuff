@@ -261,7 +261,7 @@ def create_app(test_config=None):
 
       except Exception as e:
         print("Delete Book Exception >> ", e)
-        abort(404)
+        abort(403)
 
     # Error Handlers for expected errors 
     @app.errorhandler(404)
