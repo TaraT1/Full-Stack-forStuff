@@ -86,8 +86,8 @@ class StuffTestCase(unittest.TestCase):
         res = self.client().post('/locations/add', 
             json=self.new_location, 
             #json={
-                #'name': 'test name A',
-                #'type': 'test type A'
+                #'name': 'test name AddAuth',
+                #'type': 'test type AddAuth'
             #},
             headers=get_headers(OWNER))
 
@@ -103,20 +103,17 @@ class StuffTestCase(unittest.TestCase):
             json=self.new_location_2, 
             headers=get_headers(USER))
             #json={
-                #'name': 'test name NAuth3',
-                #'type': 'test type NAuth3'
+                #'name': 'test name AddNAuth4',
+                #'type': 'test type AddNAuth4'
             #})
 
-        #data = json.loads(res.data)
         data = json.loads(res.data.decode('utf-8'))
 
-        print(data)
-        print(res)
         self.assertEqual(res.status_code, 403)
         self.assertFalse(data['success'], False)
         self.assertTrue(data['message'], 'Permission not found')
  
-    def test_get_location(self): #OK; payload not required to retrieve
+    def test_get_location(self): 
         res = self.client().get('/locations')
         data = json.loads(res.data)
 
@@ -177,7 +174,7 @@ class StuffTestCase(unittest.TestCase):
         res = self.client().delete('locations/1',
         headers=get_headers(USER))
 
-        data = json.loads(res.data)
+        data = json.loads(res.data.decode9('uft-8'))
 
         location = Location.query.filter(Location.id==1).one_or_none()
 
@@ -257,7 +254,7 @@ class StuffTestCase(unittest.TestCase):
         headers=get_headers(OWNER))
 
         data = json.loads(res.data.decode('utf-8'))
-        book = Book.query.filter(Book.id == 2).one_or_none()
+        book = Book.query.filter(Book.id==2).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
@@ -285,7 +282,7 @@ class StuffTestCase(unittest.TestCase):
         headers=get_headers(USER))
     
         data = json.loads(res.data.decode('utf-8'))
-        book = Book.query.filter(Book.id == 1).one_or_none()
+        book = Book.query.filter(Book.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
@@ -298,7 +295,7 @@ class StuffTestCase(unittest.TestCase):
 
         data = json.loads(res.data.decode('utf-8'))
 
-        book = Book.query.filter(Book.id == 1).one_or_none()
+        book = Book.query.filter(Book.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'], True)
@@ -311,11 +308,10 @@ class StuffTestCase(unittest.TestCase):
 
         data = json.loads(res.data.decode('utf-8'))
 
-        book = Book.query.filter(Book.id == 1).one_or_none()
+        book = Book.query.filter(Book.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], Unauthorized)
 
 # Make the tests executable
 if __name__ == "__main__":
