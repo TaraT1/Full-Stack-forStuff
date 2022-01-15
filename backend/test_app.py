@@ -159,12 +159,12 @@ class StuffTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Permission not found')
 
     def test_delete_location_authorized(self):
-        res = self.client().delete('locations/4',
+        res = self.client().delete('locations/7',
         headers=get_headers(OWNER))
 
         data = json.loads(res.data.decode('utf-8'))
         
-        location = Location.query.filter(Location.id==4).one_or_none()
+        location = Location.query.filter(Location.id==7).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         #self.assertEqual(data['success'], True) #TypeError: list indices must be integers or slices, not str
@@ -174,7 +174,7 @@ class StuffTestCase(unittest.TestCase):
         res = self.client().delete('locations/1',
         headers=get_headers(USER))
 
-        data = json.loads(res.data.decode9('uft-8'))
+        data = json.loads(res.data.decode('utf-8'))
 
         location = Location.query.filter(Location.id==1).one_or_none()
 
