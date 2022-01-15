@@ -3,7 +3,7 @@ A place to record the location of stuff
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
-Github: https://github.com/TaraT1/Full-Stack-Capstone/tree/main/starter
+Github: https://github.com/TaraT1/Full-Stack-Capstone
 
 #### Connect Postgres Database
 After the first install and each time you restart your machine you will have to also restart the postgres service, or else you will get an operational error. (Is the server running?)
@@ -46,20 +46,18 @@ flask run
 ### Identity Access Management
 #### Roles
 - Owner 
-	- can get, create, patch, delete locations
-	- can get, create, patch, delete books
-- User
-	- books
-		- get books
 	- locations
-		- can get locations
-	
-**future features: 
-- Owner role can create new categories of things
-- Admin role creates users and assigns privileges
-- Helper role changes location
+		- get, create, patch, delete
 
-### Getting Setup (from Coffee FE Readme)
+	- books
+		- get, create, patch, delete
+- User
+	- locations
+		- get 
+	- books
+		- get 
+	
+### Getting Setup 
 
 > _tip_: this frontend is designed to work with [Flask-based Backend](../backend). It is recommended you stand up the backend first, test using Postman, and then the frontend should integrate smoothly.
 
