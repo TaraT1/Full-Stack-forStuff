@@ -6,18 +6,12 @@ from sqlalchemy import Column, String, Integer, create_engine
 #from flask_migrate import Migrate
 import json
 
-'''#changing for coffee setup
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/stuff'
-db = SQLAlchemy()
-'''
-#database_name = 'stuff.db'
-database_name = 'stuff_test.db'#for test
+database_name = 'stuff.db'
+#database_name = 'stuff_test.db'#for test
 project_dir = os.path.dirname(os.path.abspath(__file__))
 #database_path = 'postgres:///{}'.format(os.path.join(project_dir, database_name))
-#database_path = 'postgresql://postgres:postgres@localhost:5432/stuff'
-database_path = 'postgresql://postgres:postgres@localhost:5432/stuff_test'#for unittest
-
+database_path = 'postgresql://postgres:postgres@localhost:5432/stuff'
+#database_path = 'postgresql://postgres:postgres@localhost:5432/stuff_test'#for unittest
 
 db = SQLAlchemy()
 
