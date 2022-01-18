@@ -8,3 +8,43 @@ authorization
     - user@stuff.com (pw: passwoid123!)
 
     
+**future features: 
+- Owner role can create new categories of things
+- Admin role creates users and assigns privileges
+- Helper role changes location
+
+'''
+class Video(db.Model):
+    __tablename__ = 'Video'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    subject = Column(String)
+    genre = Column(String)
+    description = Column(String)
+    notes = Column(String)
+    form = Column(String)
+    location = Column(String)
+
+class Audio(db.Model):
+    __tablename__ = 'Audio'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    subject = Column(String)
+    genre = Column(String)
+    description = Column(String)
+    notes = Column(String)
+    form = Column(String)
+    location = Column(String)
+
+class Object(db.Model):
+    __tablename__ = 'Object'
+
+    id = Column(Integer, primary_key = True)
+    name = Column(String)
+    description = Column(String)
+    notes = Column(String)
+    form = Column(String)
+    location = Column(Integer)
+'''
