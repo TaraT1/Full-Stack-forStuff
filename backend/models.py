@@ -1,4 +1,3 @@
-#ref trivia. Integrated models into app.py, changed dir structure
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
