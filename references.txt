@@ -23,3 +23,39 @@ Build & Deploy A Python Web App | Flask, Postgres & Heroku
 https://www.youtube.com/watch?v=w25ea_I89iM
 
 https://devcenter.heroku.com/articles/getting-started-with-python - django
+
+https://www.geeksforgeeks.org/deploy-python-flask-app-on-heroku/ - uses python3.7
+
+https://knowledge.udacity.com/questions/200723
+
+https://docs.python.org/3/library/unittest.html#unittest.TestCase.setUp
+
+https://towardsdev.com/create-a-rest-api-in-python-with-flask-and-sqlalchemy-e4839cd61ddd
+
+https://2.python-requests.org/en/master/api/#requests.get
+
+Unittest
+https://www.youtube.com/watch?v=1Lfv5tUGsn8
+https://www.youtube.com/watch?v=
+https://www.youtube.com/watch?v=6tNS--WetLI
+
+https://knowledge.udacity.com/questions/212807
+
+psycopg2 
+https://knowledge.udacity.com/questions/15878
+
+https://stackoverflow.com/questions/7695962/postgresql-password-authentication-failed-for-user-postgres
+
+patch
+https://knowledge.udacity.com/questions/396206
+
+jsondecodeerror 
+(https://stackoverflow.com/questions/16573332/jsondecodeerror-expecting-value-line-1-column-1-char-0)
+https://knowledge.udacity.com/questions/97212
+
+
+database path https://knowledge.udacity.com/questions/457289
+
+https://knowledge.udacity.com/questions/167117
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
