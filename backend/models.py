@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, create_engine
-#from flask_migrate import Migrate
 import json
 
 database_name = 'stuff.db'

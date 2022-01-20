@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, Response, redirect, url_for, 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_cors import CORS
-from flask_migrate import Migrate
+#from flask_migrate import Migrate
 from models import setup_db, Location, Book
 from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
