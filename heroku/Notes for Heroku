@@ -42,6 +42,8 @@ Notes for Obsidian
     python manage.py db init
     python manage.py db migrate
     python manage.py db upgrade
+    python manage.py db stamp head - makes current same
+
     ```
     For example project file structure is:
     >__pycache__
