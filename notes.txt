@@ -6,8 +6,9 @@ authorization
 - setup .env
     - owner@stuff.com (pw: passwoid123!)
     - user@stuff.com (pw: passwoid123!)
-
     
+if location_id is None: Location does not exist. Please correct or create new location
+
 **future features: 
 - Owner role can create new categories of things
 - Admin role creates users and assigns privileges
