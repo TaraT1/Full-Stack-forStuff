@@ -168,7 +168,7 @@ def create_app(test_config=None):
           )
         
         book.insert()
-        #return redirect(url_for('index.html')) #not sure of format for redirect
+        #return redirect(url_for('index.html')) 
         
         return jsonify({
           'success': True,
@@ -223,7 +223,6 @@ def create_app(test_config=None):
           book.form = data['form']
         if 'location_id' in data:
           book.location_id = data['location_id']
-          #if location_id is None: Location does not exist. Please correct or create new location
 
         book.update()
 
@@ -232,14 +231,6 @@ def create_app(test_config=None):
           'book.id': book_id
         }), 200
 
-        '''
-        return jsonify({
-          'success': True,
-          'book.id': book_id,
-          'book.location_id': location_id
-        }), 200
-        
-        '''
       except Exception as e:
         print ("Patch Book Exception >> ", e)
         abort(404)
