@@ -97,7 +97,7 @@ curl -X DELETE http://127.0.0.1:5000/books/5
 ```
 
 ### Authentication
-#### Owner
+#### Owner Role
 Owner has all permissions.
 
 ##### Permissions
@@ -110,8 +110,8 @@ delete:locations	delete:locations
 email: owner@stuff.com
 password: passwoid123!
 
-#### User
-User has retrieve permissions
+#### User Role
+The user role has retrieve permission only
 
 ##### Permissions
 get:locations		get:books
