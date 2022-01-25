@@ -96,5 +96,29 @@ curl -X DELETE http://127.0.0.1:5000/books/5
 -H "Accept: aplication/json"
 ```
 
+### Authentication
+#### Owner
+Owner has all permissions.
+
+##### Permissions
+post:locations		post:books
+get:locations		get:books
+patch:locations		patch:books
+delete:locations	delete:locations
+
+##### Login details:
+email: owner@stuff.com
+password: passwoid123!
+
+#### User
+User has retrieve permissions
+
+##### Permissions
+get:locations		get:books
+
+##### Login details:
+email: user@stuff.com
+password: passwoid123!
+
 ### Pagination
 - based on generic items (goal specific to Locations, Books, & other items as added)
