@@ -42,26 +42,31 @@ export FLASK_APP=app.py
 export FLASK_ENV=development
 flask run
 ```
+### Authentication
+#### Owner Role
+Owner has all permissions.
 
-### Identity Access Management
-#### Roles
-- Owner 
-	- locations
-		- get, create, patch, delete
+##### Permissions
+post:locations		post:books
+get:locations		get:books
+patch:locations		patch:books
+delete:locations	delete:locations
 
-	- books
-		- get, create, patch, delete
-- User
-	- locations
-		- get 
-	- books
-		- get 
-	
-### Getting Setup 
+##### Login details:
+email: owner@stuff.com
+password: passwoid123!
 
-> _tip_: this frontend is designed to work with [Flask-based Backend](../backend). It is recommended you stand up the backend first, test using Postman, and then the frontend should integrate smoothly.
+#### User Role
+The user role has retrieve permission only
 
-### API documentation
+##### Permissions
+get:locations		get:books
+
+##### Login details:
+email: user@stuff.com
+password: passwoid123!
+
+## API documentation
 #### CURL 
 ##### Create
 Location
@@ -96,29 +101,6 @@ curl -X DELETE http://127.0.0.1:5000/books/5
 -H "Accept: aplication/json"
 ```
 
-### Authentication
-#### Owner Role
-Owner has all permissions.
-
-##### Permissions
-post:locations		post:books
-get:locations		get:books
-patch:locations		patch:books
-delete:locations	delete:locations
-
-##### Login details:
-email: owner@stuff.com
-password: passwoid123!
-
-#### User Role
-The user role has retrieve permission only
-
-##### Permissions
-get:locations		get:books
-
-##### Login details:
-email: user@stuff.com
-password: passwoid123!
 
 ### Pagination
 - based on generic items (goal specific to Locations, Books, & other items as added)
