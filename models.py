@@ -8,8 +8,7 @@ database_name = 'stuff.db'
 #database_name = 'stuff_test.db'#for test
 project_dir = os.path.dirname(os.path.abspath(__file__))
 #prod db path
-database_path = postgres://lxtlwapsjbowhv:6372fe82588181a8ef112e47d4ba6d9314de19adc2b84b
-7c100293f7db19884d@ec2-3-212-143-188.compute-1.amazonaws.com:5432/dccncietn4ce9t
+database_path = 'postgres://lxtlwapsjbowhv:6372fe82588181a8ef112e47d4ba6d9314de19adc2b84b7c100293f7db19884d@ec2-3-212-143-188.compute-1.amazonaws.com:5432/dccncietn4ce9t'
 #database_path = 'postgres:///{}'.format(os.path.join(project_dir, database_name))
 #database_path = 'postgresql://postgres:postgres@localhost:5432/stuff' #local
 #database_path = 'postgresql://postgres:postgres@localhost:5432/stuff_test'#for unittest
