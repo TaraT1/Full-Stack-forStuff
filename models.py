@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, create_engine
 import json
 
+'''
 database_name = 'stuff.db'
 #database_name = 'stuff_test.db'#for test
 project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +13,16 @@ database_path = os.environ.get('database_path')
 #database_path = 'postgres:///{}'.format(os.path.join(project_dir, database_name))
 #database_path = 'postgresql://postgres:postgres@localhost:5432/stuff' #local
 #database_path = 'postgresql://postgres:postgres@localhost:5432/stuff_test'#for unittest
+'''
+
+ENV = 'dev'
+
+if ENV == 'dev':
+    database_path = 'postgresql://postgres:postgres@localhost:5432/stuff'
+if ENV == 'prod':
+    database_path = os.environ.get('database_path')
+if ENV == 'test':
+    database_path = 'postgresql://postgres:postgres@localhost:5432/stuff_test' #for unittest
 
 db = SQLAlchemy()
 
