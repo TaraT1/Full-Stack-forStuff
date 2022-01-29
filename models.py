@@ -3,9 +3,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, create_engine
 import json
-from dotenv import load_dotenv
-
-load_dotenv()
 
 database_name = 'stuff.db'
 #database_name = 'stuff_test.db'#for test
