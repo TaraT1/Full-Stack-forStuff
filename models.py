@@ -15,7 +15,7 @@ database_path = os.environ.get('database_path')
 #database_path = 'postgresql://postgres:postgres@localhost:5432/stuff_test'#for unittest
 '''
 
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev':
     database_path = 'postgresql://postgres:postgres@localhost:5432/stuff'
