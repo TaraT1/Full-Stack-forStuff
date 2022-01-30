@@ -1,5 +1,6 @@
 import os
 import json
+from shutil import register_unpack_format
 from flask import Flask, render_template, request, Response, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
@@ -10,19 +11,6 @@ from sqlalchemy.ext.declarative.api import declarative_base
 from werkzeug.exceptions import Unauthorized
 from auth import AuthError, requires_auth 
 
-ITEMS_PER_PAGE = 10
-
-'''
-def paginate(request, selection):
-  page = request.arts.get('page', 1, type=int)
-  start = (page - 1) * ITEMS_PER_PAGE
-  end = start + ITEMS_PER_PAGE
-
-  items = [items.format() for book in selection] #specify items. Books, Locations, etc inclusive
-  current_items = items[start:end]
-  
-  return current_items
-'''
 def create_app(test_config=None):
     #create and configure
     app = Flask(__name__)

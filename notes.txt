@@ -9,6 +9,36 @@ authorization
     
 if location_id is None: Location does not exist. Please correct or create new location
 
+''' Pagination works. 
+ITEMS_PER_PAGE = 5
+
+def paginate(request, selection, type):
+  page = request.args.get('page', 1, type=int)
+  start = (page - 1) * ITEMS_PER_PAGE
+  end = start + ITEMS_PER_PAGE
+
+  if type == 'Location':
+    locations = [location.format() for location in selection]
+    return locations[start:end
+
+  if type == 'Book':
+    books = [book.format() for book in selection]
+    return books[start:end]
+ 
+ 
+  Get Locations: 
+  try: 
+    locations = ...
+    get_locations = paginate(request, locations, 'Location')
+
+
+  Get books:
+  try:
+    books = ...
+    get_books = paginate(request, books, 'Book')
+
+''' 
+
 **future features: 
 - Owner role can create new categories of things
 - Admin role creates users and assigns privileges
