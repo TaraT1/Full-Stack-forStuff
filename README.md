@@ -66,8 +66,8 @@ get:locations		get:books
 email: user@stuff.com
 password: passwoid123!
 
-## API documentation
-#### CURL 
+## API documentation 
+#### CURL (local)
 ##### Create
 Location
 ```curl
@@ -100,7 +100,3 @@ curl http://127.0.0.1:5000/books/1 -X PATCH -H "Content-Type: application/json" 
 curl -X DELETE http://127.0.0.1:5000/books/5
 -H "Accept: aplication/json"
 ```
-
-
-### Pagination
-- based on generic items (goal specific to Locations, Books, & other items as added)

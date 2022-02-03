@@ -9,6 +9,10 @@ authorization
     
 if location_id is None: Location does not exist. Please correct or create new location
 
+For README.md for pagination
+### Pagination
+- based on generic items (goal specific to Locations, Books, & other items as added)
+
 ''' Pagination works. 
 ITEMS_PER_PAGE = 5
 
