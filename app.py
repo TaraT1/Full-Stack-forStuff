@@ -293,7 +293,7 @@ def create_app(test_config=None):
       
     return app
 
-app = create_app()#Think I've been missing this
+app = create_app()
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
