@@ -81,7 +81,7 @@ name_of_application
 Fix configurations in Heroku dashboard
 -settings\config vars: add required env vars
 
-```git push heroku master ```
+```git push heroku main```
 
 ##Run migrations once app is deployed
 ```heroku run python manage.py db upgrade --app name_of_application
