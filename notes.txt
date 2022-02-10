@@ -9,11 +9,13 @@ authorization
     
 if location_id is None: Location does not exist. Please correct or create new location
 
+prod and dev branch. prod for heroku deploy
+
 For README.md for pagination
 ### Pagination
 - based on generic items (goal specific to Locations, Books, & other items as added)
 
-''' Pagination works. 
+''' Pagination works. Shows page 1, not sure how to see advance
 ITEMS_PER_PAGE = 5
 
 def paginate(request, selection, type):
