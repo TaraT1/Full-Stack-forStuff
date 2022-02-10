@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, create_engine
 import json
 
-database_path = os.environ.get('DATABASE_URL')
+database_path = os.getenv('DATABASE_URL')
 
 db = SQLAlchemy()
 
