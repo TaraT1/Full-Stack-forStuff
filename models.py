@@ -4,19 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, create_engine
 import json
 
-ENV = 'prod'
-
-if ENV == 'dev':
-    database_path = 'postgresql://postgres:postgres@localhost:5432/stuff'
-if ENV == 'prod':
-    database_path = os.environ.get('database_path')
-if ENV == 'test':
-    database_path = 'postgresql://postgres:postgres@localhost:5432/stuff_test' #for unittest
+database_path = os.environ.get('DATABASE_URL')
 
 db = SQLAlchemy()
 
 def setup_db(app, database_path=database_path):
-    app.config['SQLALCHEMY_DATABASE_URI'] = database_path #changed .config for stuff_test
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
