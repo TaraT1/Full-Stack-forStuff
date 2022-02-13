@@ -3,7 +3,12 @@ A place to record the location of stuff
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
+Deployed at https://forstuff.herokuapp.com/
+
+Heroku git https://git.heroku.com/forstuff.git
+
 Github: https://github.com/TaraT1/Full-Stack-Capstone
+
 
 #### Connect Postgres Database
 After the first install and each time you restart your machine you will have to also restart the postgres service, or else you will get an operational error. (Is the server running?)
@@ -67,36 +72,67 @@ email: user@stuff.com
 password: passwoid123!
 
 ## API documentation 
-#### CURL (local)
-##### Create
-Location
-```curl
+### CURL COMMANDS
+#### Create
+#####Location
+
+```Heroku curl
+curl -d '{
+	"name": "curltst1Na",
+	"type": "curltst1Ty",
+	"book": "curltstBo"
+}-X POST https://forstuff.herokuapp.com/locations/add
+```
+
+```Local curl
 curl -d '{
 	"name": "curltst1Na",
 	"type": "curltst1Ty",
 	"book": "curltstBo"
 }'-H "Content-Type: application/json" 
 -X POST http://127.0.0.1:5000/locations/add
+
+#####Book
+```Heroku curl
+curl -d '{
+	"title": "Ctitle", 
+	"author": "Cauthor", 
+	"form": "Cform"
+	}' -H "Content-Type: application/json" 
+	-X POST https://forstuff.herokuapp.com/books/add
 ```
-Book
-```curl
+
+```Local curl
 curl -d '{
 	"title": "Ctitle", 
 	"author": "Cauthor", 
 	"form": "Cform"
 	}' -H "Content-Type: application/json" 
 	-X POST http://127.0.0.1:5000/books/add
-
 ```
-##### Retrieve
+#### Retrieve
+```Heroku curl
+curl -X GET 'https://forstuff.herokuapp.com/locations'
+```
+
+```Local curl
 curl -X GET 'http://127.0.0.1:5000/locations'
+```
 
-##### Patch
+#### Patch
+```Heroku curl
+curl https://forstuff.herokuapp.com/books/1 -X PATCH -H "Content-Type: application/json" -d '{"title": "PC2title"}'
+```
+```Local curl
 curl http://127.0.0.1:5000/books/1 -X PATCH -H "Content-Type: application/json" -d '{"title": "PC2title"}' 
+```
 
-
-##### Delete
-```curl
+#### Delete
+```Heroku curl
+curl -X DELETE https://forstuff.herokuapp.com/books/5
+-H "Accept: aplication/json"
+```
+```Local curl
 curl -X DELETE http://127.0.0.1:5000/books/5
 -H "Accept: aplication/json"
 ```
