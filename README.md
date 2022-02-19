@@ -81,7 +81,7 @@ curl -d '{
 	"name": "curltst1Na",
 	"type": "curltst1Ty",
 	"book": "curltstBo"
-}-X POST https://forstuff.herokuapp.com/locations/add
+}' -H "Content-Type: application/json" -X POST https://forstuff.herokuapp.com/locations/add
 ```
 
 ```Local curl

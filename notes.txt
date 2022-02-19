@@ -1,6 +1,9 @@
-Changing dir structure in efforts to cleanup
-- Eliminate starter dir
-- heroku specific
+ curl -X POST https://forstu
+ff.herokuapp.com/locations/add -H 'Content-Type: application/json' -d '{"name": "location1", "t
+ype": "shelf"}' -H 'Authorization: Bearer
+
+
+curl -X POST https://forstuff.herokuapp.com -H 'Authorization: Bearer ...' -H 'Content-Type: application/json'
 
 authorization
 - setup .env
