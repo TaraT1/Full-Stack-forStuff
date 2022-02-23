@@ -17,8 +17,6 @@ def create_app(test_config=None):
     
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-    #db.create_all() - using migrate to sync, so no db.create_all() 
-
     #Access-Control-Allow
     @app.after_request
     def after_request(response):
