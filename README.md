@@ -48,6 +48,8 @@ export FLASK_ENV=development
 flask run
 ```
 ### Authentication
+jwt URL: https://fs-cap.us.auth0.com/authorize?audience=stuff&response_type=token&client_id=MihahCAfPHgMqflvzrtWBBULAi40i9eb&redirect_uri=http://localhost:8080/login
+
 #### Owner Role
 Owner has all permissions.
 
