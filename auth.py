@@ -30,7 +30,7 @@ def get_token_auth_header():
             'description': 'Expected Authorization header'
         }, 401)
 
-    # validate authn format of bearer +token
+    # validate format of bearer +token
     header_parts = auth_header.split(' ')
 
     if not len(header_parts) ==2:
@@ -64,7 +64,7 @@ def check_permissions(permission, payload):
 
     return True
 
-# Verify JWT token
+# Verify JWT token    !!NOTE urlopen has a common certificate error described here: https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
 #get jwt from Auth0
 def verify_decode_jwt(token):
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
