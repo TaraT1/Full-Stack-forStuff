@@ -3,6 +3,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, create_engine
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 database_path = os.getenv('DATABASE_URL')
 
