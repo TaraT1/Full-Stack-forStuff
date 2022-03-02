@@ -71,7 +71,6 @@ def check_permissions(permission, payload):
 #get jwt from Auth0
 def verify_decode_jwt(token):
     jsonurl = urlopen(f'https://fs-cap.us.auth0.com/.well-known/jwks.json')
-    print(f'{AUTH0_DOMAIN}')
     #jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
 
