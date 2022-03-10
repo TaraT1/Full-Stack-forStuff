@@ -1,5 +1,5 @@
 ## Where's My Stuff?
-A place to record the location of stuff
+A place to record the location of stuff.
 
 This app is written in Python with Flask and SQLAlchemy as part of Udacity's Full Stack Web Developer Nanodegree program. It uses a PostgreSQL database.
 
@@ -41,10 +41,16 @@ python 3.7
 * `deactivate` - de-activates the virtual environment
 
 
-#### Invoke app from CLI:
+#### Invoke app from Linux CLI:
 ```python 
 export FLASK_APP=app.py
 export FLASK_ENV=development
+flask run
+```
+#### Invoke app from Windows CLI:
+```python 
+set FLASK_APP=app.py
+set FLASK_ENV=development
 flask run
 ```
 ### Authentication
