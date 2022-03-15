@@ -72,6 +72,8 @@ def create_app(test_config=None):
           'total_locations': len(locations)
         }), 200
 
+        #return render_template('templates/locations.html')
+
       except Exception as e:
         print('GetLoc Exception >> ', e)
         abort(422)
