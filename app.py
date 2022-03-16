@@ -25,6 +25,10 @@ def create_app(test_config=None):
       return response
       
     #Controllers
+    @app.route('/')
+    def index():
+      return render_template('index.html')
+
     #LOCATIONS
     @app.route('/locations/add', methods=['POST'])
     @requires_auth('post:location')
