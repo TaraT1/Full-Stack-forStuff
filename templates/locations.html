@@ -1,41 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta rel="stylesheet" href="css/style.css"
-        <meta rel="stylesheet" href="css/normalize.css"
-        <title>Stuff</title>
-    </head>
-    <body>
-        <!--Location -->
-        <form id="form" method="POST" action="/locations/create" >
-            <input type="text" id="name" name="name" />
-            <input type="text" id="type" name="type" />
-            <input type="submit" value="Create" />
-        </form>
-
-        <ul id="locations">
-            {% for d in data %}
-            <li> {{ d.locations}} </li>
-            {% endfor %}
-        </ul>
-        
-        <!--
-       <form id="form" method="POST" action="/books/create">
-            <input type="text" id="title" name="title" />
-            <input type="text" id="author" name="author" />
-            <input type="text" id="form" name="form" />
-            <input type="text" id="location" name="location" />
-            <input type="submit" value="Create" />
-        </form>
-        
-        <ul id="books">
-            {% for d in data %}
-            <li> {{ d.books }} </li>
-            {% endfor %}
-        </ul>
-        -->
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locations</title>
+</head>
+<body>
+    <!--data for get_locations (from fyuur /artists)-->
+    {% for location in locations %}
+    <ul>
+        <li>
+            <a href="/locations/{{ location.id }}">
+                <h5>{{ location.name }}</h5>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
 </html>

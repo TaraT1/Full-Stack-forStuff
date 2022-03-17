@@ -26,6 +26,19 @@ body {
      text-align: center;
 }
 
+form {
+     display: table;
+}
+#form {
+     display: table-row;
+}
+
+input {
+     display: table-cell;
+     margin-bottom: 10px;
+}
+
+
 
 /******************************************
 /* LAYOUT

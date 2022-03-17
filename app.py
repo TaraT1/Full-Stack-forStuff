@@ -70,17 +70,28 @@ def create_app(test_config=None):
         if locations is None:
           abort(404) #resource not found
 
+        '''
         return jsonify({
           'success': True,
           'locations': get_locations,
           'total_locations': len(locations)
         }), 200
+        '''
+        data = []
+        for location in get_locations:
+          location_detail = {
+          "location.id": location.id,
+          "location.name": location.name,
+          "location.type": location.type
+          }
 
-        #return render_template('templates/locations.html')
+          data.append(location_detail)
 
       except Exception as e:
         print('GetLoc Exception >> ', e)
         abort(422)
+
+      return render_template('templates/locations.html')
 
     ##Update specific location
     @app.route('/locations/<int:location_id>', methods=['PATCH'])
