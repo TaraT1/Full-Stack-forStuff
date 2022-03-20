@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta rel="stylesheet" href="css/style.css"
+        <meta rel="stylesheet" href="css/normalize.css"
+        <title>forStuff</title>
+    </head>
+    <body>
+       
+        <!-- Book -->
+       <form method="POST" action="/books/create">
+            <input type="text" id="title" name="title" placeholder="Book Title"/><br>
+            
+            <input type="text" id="author" name="author" placeholder="Author"/><br>
+            
+            <input type="text" id="form" name="form" placeholder="Form"/><br>
+            
+            <input type="text" id="location" name="location" placeholder="Location"/><br>
+            
+            <input type="submit" value="Create" />
+        </form>
+        
+        <ul id="books">
+            {% for d in data %}
+            <li> {{ d.books }} </li>
+            {% endfor %}
+        </ul>
+
+    </body>
+</html>
