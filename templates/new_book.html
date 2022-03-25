@@ -4,30 +4,44 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta rel="stylesheet" href="css/style.css"
-        <meta rel="stylesheet" href="css/normalize.css"
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="../static/css/normalize.css">
+        <!--for flask
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/style.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/normalize.css')}}">
+        -->
         <title>forStuff</title>
     </head>
     <body>
        
         <!-- Book -->
+       <h2>Create a new book record</h2>
        <form method="POST" action="/books/create">
-            <input type="text" id="title" name="title" placeholder="Book Title"/><br>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title"><br>
             
-            <input type="text" id="author" name="author" placeholder="Author"/><br>
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author"><br>
             
-            <input type="text" id="form" name="form" placeholder="Form"/><br>
+            <label for="form">Form</label>
+            <input type="text" id="form" name="form"><br>
             
-            <input type="text" id="location" name="location" placeholder="Location"/><br>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location"><br>
             
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create" >
         </form>
         
+        <!--
         <ul id="books">
             {% for d in data %}
             <li> {{ d.books }} </li>
             {% endfor %}
         </ul>
+    -->
 
     </body>
 </html>
