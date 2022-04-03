@@ -1,28 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="static/css/normalize.css">
-    <!--for flask
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
-    -->
-    <title>Books</title>
-</head>
-<body>
-    <!--data for get_locations (from fyuur /artists)-->
-    {% for book in books %}
-    <ul>
-        <li>
-            <a href="/books/{{ book.id }}">
-                <h5>{{ book.title }}</h5>
-                <h5>{{ book.author }}</h5>
-            </a>
-        </li>
+{% extends "layouts/main.html" %}
+
+{% block title %}Books{% endblock %}
+
+<!--data for get_locations (from fyuur /artists)-->
+{% block main %}
+    <div>
+        <h2>List of Books</h2>
+        {% for book in books %}
+        <ul>
+            <li>
+                <a href="/books/{{ book.id }}">
+                    <h5>{{ book.title }}</h5>
+                    <h5>{{ book.author }}</h5>
+                </a>
+            </li>
+        </ul>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </div>
+
+{% endblock %}

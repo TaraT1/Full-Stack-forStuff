@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="static/css/normalize.css">
-    <!--for flask
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
-    -->
-    <title>Locations</title>
-</head>
-<body>
+{% extends "layouts/main.html" %}
+   
+{% block title %}Locations{% endblock %}
+
+{% block main %}
+<div>
     <!--data for get_locations (from fyuur /artists)-->
     <h2>List of locations</h2>
     {% for location in locations %}
@@ -22,7 +13,7 @@
                 <h5>{{ location.name }}</h5>
             </a>
         </li>
-        {% endfor %}
     </ul>
-</body>
-</html>
+    {% endfor %}
+
+{% endblock %}
