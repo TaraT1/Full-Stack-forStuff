@@ -80,9 +80,9 @@ def create_app(test_config=None):
         data = []
         for location in get_locations:
           location_detail = {
-          "location.id": location.id,
-          "location.name": location.name,
-          "location.type": location.type
+          "location.id": Location.id,
+          "location.name": Location.name,
+          "location.type": Location.type
           }
 
           data.append(location_detail)
@@ -91,7 +91,7 @@ def create_app(test_config=None):
         print('GetLoc Exception >> ', e)
         abort(422)
 
-      return render_template('templates/locations.html')
+      return render_template('locations.html', locations=data)
 
     ##Update specific location
     @app.route('/locations/<int:location_id>', methods=['PATCH'])
@@ -192,15 +192,32 @@ def create_app(test_config=None):
         if books is None:
           abort(404) #resource not found
 
+        '''
         return jsonify({
           'success': True,
           'books': get_books,
           'total_books': len(books)
         }), 200
+        '''
+
+        #ToDo: Add location
+        data = []
+        for book in get_books:
+          book_detail = {
+            "book.id": Book.id,
+            "book.title": Book.title,
+            "book.author": Book.author,
+            "book.form": Book.form
+          }
+
+          data.append(book_detail)
 
       except Exception as e:
         print("Get Exception >> ", e)
         abort(422)
+        
+      return render_template('books.html', books=data)
+
 
     @app.route('/books/<int:book_id>', methods=['PATCH'])
     @requires_auth('patch:book')
