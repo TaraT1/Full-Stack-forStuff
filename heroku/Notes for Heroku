@@ -3,7 +3,7 @@ Notes for Obsidian
 - Create and update requirements.txt (for dependendencies)
     ```pip freeze > requirements.txt```
     - takes snapshot of versions of packages in virtual env
-- set up environment variables in setup.sh
+- set up environment variables in config vars and setup.sh. ***Note: will implement from config vars. Eliminate ' '
 - run app using Procfile, gunicorn
     ```pip install gunicorn```
     ```touch Procfile``` creates file

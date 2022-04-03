@@ -1,0 +1,21 @@
+{% extends "layouts/main.html" %}
+
+{% block title %}Books{% endblock %}
+
+<!--data for get_locations (from fyuur /artists)-->
+{% block main %}
+    <div>
+        <h2>List of Books</h2>
+        {% for book in books %}
+        <ul>
+            <li>
+                <a href="/books/{{ book.id }}">
+                    <h5>{{ book.title }}</h5>
+                    <h5>{{ book.author }}</h5>
+                </a>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+
+{% endblock %}

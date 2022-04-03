@@ -1,35 +1,25 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Stuff</title>
-    </head>
-    <body>
-        <!--Location -->
-        <form id="form" method="POST" action="/locations/create" >
-            <input type="text" id="name" name="name" />
-            <input type="text" id="type" name="type" />
-            <input type="submit" value="Create" />
-        </form>
+{% extends "layouts/main.html" %}
 
-        <ul id="locations">
-            {% for d in data %}
-            <li> {{ d.locations}} </li>
-            {% endfor %}
-        </ul>
         
-        <!-- Book -->
-       <form id="form" method="POST" action="/books/create">
-            <input type="text" id="title" name="title" />
-            <input type="text" id="author" name="author" />
-            <input type="text" id="form" name="form" />
-            <input type="text" id="location" name="location" />
-            <input type="submit" value="Create" />
-        </form>
+{% block title %}forStuff{% endblock %}
         
-        <ul id="books">
-            {% for d in data %}
-            <li> {{ d.books }} </li>
-            {% endfor %}
-        </ul>
-    </body>
-</html>
+{% block main %} 
+    <div>
+        <h1>forStuff</h1>
+        <h3>A place to keep track of stuff</h3>
+
+        <p>Currently catalogs books and locations. More categories and functionality to come.</p>
+    </div>
+
+    <nav>
+        <h2><a href="/locations">Locations</a></h2>
+        <h2><a href="/books">Books</a></h2>
+    </nav>
+
+
+{% endblock %}
+        
+
+    <!--instructions for using app-->
+    <!--books & locations forms in separate html-->
+    <!--auth-->

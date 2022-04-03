@@ -5,12 +5,13 @@ from flask import request, _request_ctx_stack, abort
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
+from dotenv import load_dotenv
 
-AUTH0_DOMAIN = 'fs-cap.us.auth0.com'  
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'stuff'
-#API_AUDIENCE = 'http://localhost:5000'
+load_dotenv()
 
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
+ALGORITHMS = os.getenv('ALGORITHMS')
+API_AUDIENCE = os.getenv('API_AUDIENCE')
 
 ## AuthError Exception
 # Standardized method to communicate failure modes
@@ -32,7 +33,7 @@ def get_token_auth_header():
             'description': 'Expected Authorization header'
         }, 401)
 
-    # validate authn format of bearer +token
+    # validate format of bearer +token
     header_parts = auth_header.split(' ')
 
     if not len(header_parts) ==2:
@@ -66,10 +67,11 @@ def check_permissions(permission, payload):
 
     return True
 
-# Verify JWT token
+# Verify JWT token    !!NOTE urlopen has a common certificate error described here: https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
 #get jwt from Auth0
 def verify_decode_jwt(token):
-    jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
+    jsonurl = urlopen(f'https://fs-cap.us.auth0.com/.well-known/jwks.json')
+    #jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
 
     #get data in header

@@ -59,3 +59,15 @@ database path https://knowledge.udacity.com/questions/457289
 https://knowledge.udacity.com/questions/167117
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
+
+auth0
+https://www.brainsorting.com/posts/environment-variable-flask-heroku/
+https://pypi.org/project/python-dotenv/
+https://swavedigest.com/2022/03/01/pythons-urllib-request-for-http-requests-real-python/
+
+https://auth0.com/docs/quickstart/backend/python/01-authorization
+
+https://knowledge.udacity.com/questions/697228
+https://knowledge.udacity.com/questions/753876
+https://knowledge.udacity.com/questions/257778
+https://knowledge.udacity.com/questions/522993

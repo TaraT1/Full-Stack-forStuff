@@ -1,0 +1,19 @@
+{% extends "layouts/main.html" %}
+   
+{% block title %}Locations{% endblock %}
+
+{% block main %}
+<div>
+    <!--data for get_locations (from fyuur /artists)-->
+    <h2>List of locations</h2>
+    {% for location in locations %}
+    <ul>
+        <li>
+            <a href="/locations/{{ location.id }}">
+                <h5>{{ location.name }}</h5>
+            </a>
+        </li>
+    </ul>
+    {% endfor %}
+
+{% endblock %}
