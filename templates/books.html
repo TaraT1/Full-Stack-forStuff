@@ -6,16 +6,16 @@
 {% block main %}
     <div>
         <h2>List of Books</h2>
-        {% for book in books %}
         <ul>
+            {% for book in books %}
             <li>
                 <a href="/books/{{ book.id }}">
                     <h5>{{ book.title }}</h5>
                     <h5>{{ book.author }}</h5>
                 </a>
             </li>
+            {% endfor %}
         </ul>
-        {% endfor %}
     </div>
 
 {% endblock %}

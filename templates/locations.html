@@ -2,18 +2,19 @@
    
 {% block title %}Locations{% endblock %}
 
+<!--data for get_locations (from fyuur /artists)-->
 {% block main %}
-<div>
-    <!--data for get_locations (from fyuur /artists)-->
-    <h2>List of locations</h2>
-    {% for location in locations %}
-    <ul>
-        <li>
-            <a href="/locations/{{ location.id }}">
-                <h5>{{ location.name }}</h5>
-            </a>
-        </li>
-    </ul>
-    {% endfor %}
+    <div>
+        <h2>List of locations</h2>
+        <ul>
+            {% for location in locations %}
+            <li>
+                <a href="/locations/{{ location.id }}">
+                    <h5>{{ location.name }}</h5>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 
 {% endblock %}
