@@ -22,6 +22,8 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = '' 
 '''
 
+ reference js file <script src="{{url_for('js', filename etc)}}
+
  jwt URL: https://fs-cap.us.auth0.com/authorize?audience=stuff&response_type=token&client_id=MihahCAfPHgMqflvzrtWBBULAi40i9eb&redirect_uri=http://localhost:8080/login
  
  curl -X POST https://forstu
