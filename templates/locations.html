@@ -6,15 +6,10 @@
 {% block main %}
     <div>
         <h2>List of locations</h2>
-        <ul>
             {% for location in locations %}
-            <li>
-                <a href="/locations/{{ location.id }}">
-                    <h5>{{ location.name }}</h5>
-                </a>
-            </li>
+                <h5>{{ location.id }}</h5>
+                <h3>{{ location.name }}</h3>
             {% endfor %}
-        </ul>
     </div>
 
 {% endblock %}
