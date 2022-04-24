@@ -91,7 +91,8 @@ def create_app(test_config=None):
         print('GetLoc Exception >> ', e)
         abort(422)
 
-      return render_template('locations.html', locations=data)
+      #return render_template('locations.html', locations=data)
+      return render_template('locations.html', data=locations) #testing form
 
     ##Update specific location
     @app.route('/locations/<int:location_id>', methods=['PATCH'])
