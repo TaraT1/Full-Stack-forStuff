@@ -91,8 +91,7 @@ def create_app(test_config=None):
         print('GetLoc Exception >> ', e)
         abort(422)
 
-      #return render_template('locations.html', locations=data)
-      return render_template('locations.html', data=locations) #testing form
+      return render_template('locations.html', locations=get_locations)
 
     ##Update specific location
     @app.route('/locations/<int:location_id>', methods=['PATCH'])
@@ -217,7 +216,7 @@ def create_app(test_config=None):
         print("Get Exception >> ", e)
         abort(422)
         
-      return render_template('books.html', books=data)
+      return render_template('books.html', books=get_books)
 
 
     @app.route('/books/<int:book_id>', methods=['PATCH'])
