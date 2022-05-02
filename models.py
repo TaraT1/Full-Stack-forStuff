@@ -5,11 +5,18 @@ from sqlalchemy import Column, String, Integer, create_engine
 import json
 from dotenv import load_dotenv
 
-#For local development
+#'dev' for local development, 'prod' for production
 ENV = 'dev'
 
 if ENV == 'dev':
+    #Set development environment
     database_path = 'postgresql://postgres:postgres@localhost:5432/stuff'
+else: 
+    #Set production environment
+    load_dotenv()
+    database_path = os.getenv('DATABASE_URL')
+
+
 
 '''
 #For production
