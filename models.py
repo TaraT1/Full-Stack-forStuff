@@ -6,7 +6,7 @@ import json
 from dotenv import load_dotenv
 
 #'dev' for local development, 'prod' for production
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev':
     #Set development environment
@@ -17,13 +17,6 @@ else:
     database_path = os.getenv('DATABASE_URL')
 
 
-
-'''
-#For production
-load_dotenv()
-
-database_path = os.getenv('DATABASE_URL')
-'''
 db = SQLAlchemy()
 
 def setup_db(app, database_path=database_path):
