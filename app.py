@@ -25,6 +25,10 @@ def create_app(test_config=None):
       return response
       
     #Controllers
+    @app.route('/')
+    def index():
+      return render_template('index.html')
+
     #LOCATIONS
     @app.route('/locations/add', methods=['POST'])
     @requires_auth('post:location')
@@ -66,17 +70,28 @@ def create_app(test_config=None):
         if locations is None:
           abort(404) #resource not found
 
+        '''
         return jsonify({
           'success': True,
           'locations': get_locations,
           'total_locations': len(locations)
         }), 200
+        '''
+        data = []
+        for location in get_locations:
+          location_detail = {
+          "location.id": Location.id,
+          "location.name": Location.name,
+          "location.type": Location.type
+          }
 
-        #return render_template('templates/locations.html')
+          data.append(location_detail)
 
       except Exception as e:
         print('GetLoc Exception >> ', e)
         abort(422)
+
+      return render_template('locations.html', locations=get_locations)
 
     ##Update specific location
     @app.route('/locations/<int:location_id>', methods=['PATCH'])
@@ -177,15 +192,32 @@ def create_app(test_config=None):
         if books is None:
           abort(404) #resource not found
 
+        '''
         return jsonify({
           'success': True,
           'books': get_books,
           'total_books': len(books)
         }), 200
+        '''
+
+        #ToDo: Add location
+        data = []
+        for book in get_books:
+          book_detail = {
+            "book.id": Book.id,
+            "book.title": Book.title,
+            "book.author": Book.author,
+            "book.form": Book.form
+          }
+
+          data.append(book_detail)
 
       except Exception as e:
         print("Get Exception >> ", e)
         abort(422)
+        
+      return render_template('books.html', books=get_books)
+
 
     @app.route('/books/<int:book_id>', methods=['PATCH'])
     @requires_auth('patch:book')

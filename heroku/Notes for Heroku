@@ -1,4 +1,4 @@
-Notes for Obsidian
+Notes for/in Obsidian/Dendron
 ##Configure App for Heroku
 - Create and update requirements.txt (for dependendencies)
     ```pip freeze > requirements.txt```
@@ -94,6 +94,12 @@ Fix configurations in Heroku dashboard
     [Getting Started with Python](https://devcenter.heroku.com/articles/getting-started-with-python)
    
 
+## Useful Heroku CLI Commands
+- heroku login
+## Github
+- heroku deploys from main branch
+- git push heroku main
+- [Setup heroku staging environment](https://devcenter.heroku.com/articles/multiple-environments)
 
 
 

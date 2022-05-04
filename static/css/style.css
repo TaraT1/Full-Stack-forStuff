@@ -20,10 +20,21 @@
 /******************************************
 /* BASE STYLES
 /*******************************************/
+html {
+     font-size: 62%.5;
+}
 
 body {
-
+     font-family: 'Noto Sans', sans-serif;
+     text-align: center;
+     
 }
+
+input {
+     border-radius: 5px;
+     margin-bottom: 20px;
+}
+
 
 
 /******************************************

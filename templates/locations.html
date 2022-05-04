@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta rel="stylesheet" href="css/style.css"
-        <meta rel="stylesheet" href="css/normalize.css"
-        <title>Stuff</title>
-    </head>
-    <body>
-        <!--Location -->
-        <form id="form" method="POST" action="/locations/create" >
-            <input type="text" id="name" name="name" />
-            <input type="text" id="type" name="type" />
-            <input type="submit" value="Create" />
-        </form>
+{% extends "layouts/main.html" %}
+   
+{% block title %}Locations{% endblock %}
 
-        <ul id="locations">
-            {% for d in data %}
-            <li> {{ d.locations}} </li>
+<!--data for get_locations (from fyuur /artists)-->
+{% block main %}
+    <div>
+        <h2>List of locations</h2>
+            {% for location in locations %}
+                <h5>{{ location.id }}</h5>
+                <h3>{{ location.name }}</h3>
             {% endfor %}
-        </ul>
-        
-    </body>
-</html>
+    </div>
+
+    <div>
+
+
+
+
+    </div>
+
+{% endblock %}

@@ -1,3 +1,29 @@
+#For local development
+ENV = 'dev'
+
+if ENV == 'dev':
+    database_path = 'postgresql://postgres:postgres@localhost:5432/stuff'
+
+'''
+#For production
+load_dotenv()
+
+database_path = os.getenv('DATABASE_URL')
+'''
+'''
+db development
+ENV = 'dev'
+
+if ENV == 'dev':
+    app.debug = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+else:
+    app.debug = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = '' 
+'''
+
+ reference js file <script src="{{url_for('js', filename etc)}}
+
  jwt URL: https://fs-cap.us.auth0.com/authorize?audience=stuff&response_type=token&client_id=MihahCAfPHgMqflvzrtWBBULAi40i9eb&redirect_uri=http://localhost:8080/login
  
  curl -X POST https://forstu
@@ -14,11 +40,13 @@ authorization
     
 if location_id is None: Location does not exist. Please correct or create new location
 
+prod and dev branch. prod for heroku deploy
+
 For README.md for pagination
 ### Pagination
 - based on generic items (goal specific to Locations, Books, & other items as added)
 
-''' Pagination works. 
+''' Pagination works. Shows page 1, not sure how to see advance
 ITEMS_PER_PAGE = 5
 
 def paginate(request, selection, type):
